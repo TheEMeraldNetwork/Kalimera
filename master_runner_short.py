@@ -308,11 +308,33 @@ def main():
         logger.info("✅ Successfully synced latest dashboard to GitHub")
         logger.info("🌐 Dashboard available at: https://theemeraldnetwork.github.io/Kalimera/")
     
-    # Step 5: Email Report - DISABLED AS REQUESTED
-    logger.info("📧 Email service disabled - skipping email report...")
-    # TODO: Re-enable email service when requested
-    # Email functionality has been temporarily disabled per user request
-    logger.info("✅ Email service successfully disabled")
+    # Step 5: Email Report - RE-ENABLED
+    logger.info("📧 Sending email report...")
+    try:
+        from utils.email.report_sender import SentimentEmailSender
+        import pandas as pd
+        
+        # Load latest sentiment data from current directory
+        current_dir = Path(__file__).parent
+        sentiment_file = current_dir / 'results' / 'sentiment_summary_latest.csv'
+        if sentiment_file.exists():
+            df = pd.read_csv(sentiment_file)
+            logger.info(f"📊 Loaded sentiment data for {len(df)} stocks")
+            
+            email_sender = SentimentEmailSender()
+            success = email_sender.send_email(df, test_mode=False)
+            
+            if success:
+                logger.info("✅ Email report sent successfully")
+            else:
+                logger.error("🚨 Email report failed to send")
+        else:
+            logger.error("🚨 No sentiment data file found for email")
+            
+    except Exception as e:
+        logger.error(f"🚨 Email error: {e}")
+        import traceback
+        logger.error(f"🚨 Email traceback: {traceback.format_exc()}")
     
     # Step 6: Cleanup
     logger.info("🧹 Cleaning up old log files...")
