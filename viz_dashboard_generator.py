@@ -1068,7 +1068,7 @@ class DashboardGenerator:
                                 className: 'number',
                                 render: function(data, type, row) {
                                     if (type === 'sort') {
-                                        let match = data.match(/([-+]?[0-9]*\.?[0-9]+)/);
+                                        let match = data.match(/([-+]?[0-9]*\\.?[0-9]+)/);
                                         return match ? parseFloat(match[0]) : -999999;
                                     }
                                     return data;
