@@ -246,8 +246,9 @@ def main():
         python_path = sys.executable
     logger.info(f"🐍 Python executable: {python_path}")
     
-    sentiment_script = Path('automated_sentiment_daily_analysis/sent_collect_data.py')
-    dashboard_script = Path('automated_sentiment_daily_analysis/viz_dashboard_generator.py')
+    # Scripts are in the current directory now
+    sentiment_script = Path('sent_collect_data.py')
+    dashboard_script = Path('viz_dashboard_generator.py')
     
     if not sentiment_script.exists():
         logger.error(f"🚨 Missing sentiment script: {sentiment_script}")
@@ -262,7 +263,7 @@ def main():
     # Step 1: Sentiment Analysis
     logger.info("📊 Starting sentiment analysis...")
     if not run_command_with_logging(
-        [python_path, 'automated_sentiment_daily_analysis/sent_collect_data.py'],
+        [python_path, 'sent_collect_data.py'],
         "sentiment analysis",
         logger
     ):
@@ -273,7 +274,7 @@ def main():
     # Step 2: Dashboard Generation
     logger.info("📈 Generating dashboard...")
     if not run_command_with_logging(
-        [python_path, 'automated_sentiment_daily_analysis/viz_dashboard_generator.py'],
+        [python_path, 'viz_dashboard_generator.py'],
         "dashboard generation",
         logger
     ):
@@ -281,20 +282,13 @@ def main():
         return False
     logger.info("✅ Dashboard generation completed successfully")
     
-    # Step 3: Copy to docs
-    logger.info("📋 Copying results to docs directory...")
-    if copy_to_docs(logger):
-        logger.info("✅ All files copied to docs directory")
-    else:
-        logger.warning("⚠️ Some files may not have been copied to docs")
-    
-    # Step 4: Git operations - SYNC LATEST DATA ONLY
-    logger.info("🚀 Syncing latest data to GitHub...")
+    # Step 3: Git operations - Push index.html directly
+    logger.info("🚀 Syncing dashboard to GitHub Pages...")
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    # Git add only docs directory (latest data)
-    if not run_command_with_logging(['git', 'add', 'docs/'], "git add docs", logger, max_retries=2):
-        logger.error("🚨 Git add docs failed!")
+    # Git add only index.html (the dashboard)
+    if not run_command_with_logging(['git', 'add', 'index.html'], "git add index.html", logger, max_retries=2):
+        logger.error("🚨 Git add index.html failed!")
         return False
     
     # Git commit with descriptive message
@@ -304,7 +298,7 @@ def main():
         logger,
         max_retries=2
     ):
-        logger.warning("⚠️ Git commit failed - possibly no changes to docs")
+        logger.warning("⚠️ Git commit failed - possibly no changes to dashboard")
     
     # Git push to gh-pages branch for GitHub Pages
     if not run_command_with_logging(['git', 'push', 'origin', 'gh-pages'], "git push", logger, max_retries=1):
@@ -312,7 +306,7 @@ def main():
         # Don't return False here - the local process still succeeded
     else:
         logger.info("✅ Successfully synced latest dashboard to GitHub")
-        logger.info("🌐 Dashboard link in email will now work!")
+        logger.info("🌐 Dashboard available at: https://theemeraldnetwork.github.io/Kalimera/")
     
     # Step 5: Email Report - DISABLED AS REQUESTED
     logger.info("📧 Email service disabled - skipping email report...")
@@ -332,8 +326,8 @@ def main():
     logger.info("=" * 60)
     logger.info("🎉 DAILY AUTOMATION COMPLETED SUCCESSFULLY")
     logger.info(f"⏱️  Total Duration: {duration}")
-            logger.info(f"📊 Dashboard: https://theemeraldnetwork.github.io/Kalimera/")
-    logger.info(f"📧 Email Report: Sent to configured recipient")
+    logger.info(f"📊 Dashboard: https://theemeraldnetwork.github.io/Kalimera/")
+    logger.info(f"📧 Email Report: Disabled as requested")
     logger.info("=" * 60)
     
     return True
