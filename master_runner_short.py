@@ -349,7 +349,7 @@ def main():
     logger.info("🎉 DAILY AUTOMATION COMPLETED SUCCESSFULLY")
     logger.info(f"⏱️  Total Duration: {duration}")
     logger.info(f"📊 Dashboard: https://theemeraldnetwork.github.io/Kalimera/")
-    logger.info(f"📧 Email Report: Disabled as requested")
+    logger.info(f"📧 Email Report: Sent to davideconsiglio1978@gmail.com")
     logger.info("=" * 60)
     
     return True
