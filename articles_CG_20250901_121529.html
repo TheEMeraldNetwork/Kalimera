@@ -1,0 +1,664 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Centerra Gold Inc. (CG) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Centerra Gold Inc. (CG)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">25</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">13</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">2</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.28</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d5393af2b8d1e7b51cdc10f82175fc5c956d6b1ca67feae06b17d74bb382511e" target="_blank" rel="noopener noreferrer">Bloomberg 500 (B500) Index Adds Sixteen Securities Following Semi-Annual Reconstitution</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Bloomberg Indices announced the following changes to the Bloomberg 500 (B500) Index effective prior to the open of trading on Thursday, September 11, to coincide with the semi-annual reconstitution of...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=eec9714608c85d08eb0c0e4cbc75e887547cf32ab913d8d72532aa790ae71957" target="_blank" rel="noopener noreferrer">Carlyle to Acquire intelliflo from Invesco</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">Global investment firm Carlyle (NASDAQ: CG) and Invesco (NYSE: IVZ), a leading global asset management firm, announced today an agreement for Carlyle to acquire intelliflo from Invesco. intelliflo is ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=03ab553d138e2ce45bcd02c38e2629ec12bebc9f0dd4bfdfc864e18bb1a42457" target="_blank" rel="noopener noreferrer">Private Equity Is Headed for Your 401(k). The Industry Is Celebrating. Should You?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Trump administration is taking the handcuffs off the private-market industry. The outcome for retirement savers will be complicated....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e489e0e49b2d71984930c9e17c87ac8c78457a9812c215aea103f3a986e667d6" target="_blank" rel="noopener noreferrer">Private Equity Will Never Be the Same. 401(k)s Are the Golden Goose.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Gaining even a sliver of the $12 trillion pool of retirement funds could drive private equity growth for years....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8c791679053e9402c1c59028a7053a2940fe37bd916ebe4d3a67e29bcea42868" target="_blank" rel="noopener noreferrer">Columbia Acorn Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">Columbia Threadneedleâs Q2 2025 report highlights strong defense and AI-driven picks in a volatile market. See how the Acorn Fund is positioning for growth.
+...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=12abdc81739c06110a2f8b09103d445f1ad49eeaf4f56a1591cf4292b0b57f3b" target="_blank" rel="noopener noreferrer">Vulcan Value Partners Q2 2025 Letter</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-16</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Vulcan Value Partners navigated Q2 volatility with disciplined repositioning into discounted, stable-value stocks. Explore their strategy and portfolio moves now....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d98c33e4efec3dd89b5c22f26db06f0f6f2a173e14aaab83740f11e6cd2272e3" target="_blank" rel="noopener noreferrer">Surge In Positive Sentiment For Private Equity's Big Four In Q2 2025 Earnings</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.84
+                                </span>
+                            </div>
+                            <div class="article-summary">The average net positivity score for the Big Four was higher in the second quarter than it has been in at least a year. Click here to read more....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=aab5db06ec497b64c595caa795fd11e2d61ad8c796466f35cec71958ef199959" target="_blank" rel="noopener noreferrer">Lenders to seize control of Barclay family’s troubled online shopping site</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.82
+                                </span>
+                            </div>
+                            <div class="article-summary">Lenders are preparing to seize control of the Barclay family’s debt-laden online shopping site Very after a series of increasingly desperate attempts to keep major creditors at bay....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a950330f03eb388933942eb190707a23bffbdeafc960d3a6581fb22cea6929c7" target="_blank" rel="noopener noreferrer">Carlyle Group Second Quarter 2025 Earnings: EPS: US$0.89 (vs US$0.41 in 2Q 2024)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.16
+                                </span>
+                            </div>
+                            <div class="article-summary">NasdaqGS:CG 1 Year Share Price vs Fair Value Explore Carlyle Group's Fair Values from the Community and select yours......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=db712ba488a066309f17e9b4ed570b85841bafc8ed6d34809d8cb991bdb8eed0" target="_blank" rel="noopener noreferrer">Everything’s Expensive. There’s Nowhere to Hide: Credit Weekly</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">(Bloomberg) -- Credit market bargain shoppers are having the hardest time finding deals in at least a generation.Most Read from BloombergNew York Warns of $34 Billion Budget Hole, Biggest Since 2009 C...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9cc048acfe4fcc36511e06eb07b5a821a14f2d0af2c6ff4b77057d713b3648dd" target="_blank" rel="noopener noreferrer">Carlyle Group: Strong Fundamentals Reflected In Valuation (Rating Downgrade)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Carlyle Group's Q2 results shine with strong asset inflows, growing AUM, and solid management fees. See here for more on CG stock....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bd819920d43892d08c57376a3ceeadc022ec94a6e4df9d580d5cce3ad8d00604" target="_blank" rel="noopener noreferrer">Carlyle Touches 52-Week High: How to Approach the Stock Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">CG hits a 52-week high as strong Q2 results, rising AUM, and strategic deals fuel investor optimism....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=138e64a90f551b8eb98f7f27286f25d2503a48fd183e50fdd4899eafb2568396" target="_blank" rel="noopener noreferrer">Apollo Global Q2: Record High Earnings, Strong Momentum</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Apollo Global Management posts record Q2 results and leverages retirement and alternative growth, with a pullback offering opportunity. See why APO stock is a buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=63c51c5609805bacfe6a5703dfd781927b894e030feb588fea07214caf8c0d4e" target="_blank" rel="noopener noreferrer">Carlyle Shares Gain 4.7% as Q2 Earnings Meet Estimates, AUM Rises Y/Y</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">CG rises 4.7% as Q2 earnings meet estimates, with fee revenues and AUM showing solid year-over-year growth....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=844a70dff546f5b71c6a775d3978dd84662b38bfce2fd0ca3deddd0aca497338" target="_blank" rel="noopener noreferrer">Carlyle Group’s Profit, Revenue Jump</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.43
+                                </span>
+                            </div>
+                            <div class="article-summary">The private-equity group on Wednesday posted net income of $319.7 million, or 87 cents a share, compared with $148.2 million, or 40 cents a share, a year earlier....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9f6d15895d98ab80e6622f3752de022d591a147f838d8f283d9e1061ea12fe93" target="_blank" rel="noopener noreferrer">Compared to Estimates, Carlyle (CG) Q2 Earnings: A Look at Key Metrics</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Although the revenue and EPS for Carlyle (CG) give a sense of how its business performed in the quarter ended June 2025, it might be worth considering how some key metrics compare with Wall Street est...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a7af676c251553948fa018eb007743643494c4c8d154da468fab5625a1e22061" target="_blank" rel="noopener noreferrer">The Carlyle Group, Inc. (CG) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Carlyle Group, Inc. (NASDAQ:CG) Q2 2025 Earnings Conference Call August 6, 2025 8:30 AM ETCompany ParticipantsDaniel F....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6f2ab74279bac224ed2510b2ed0e522fec1f27181f3f08957cb0c61e31e2d044" target="_blank" rel="noopener noreferrer">Sector Update: Financial Stocks Advance Wednesday Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Financial stocks were higher in Wednesday afternoon trading, with the NYSE Financial Index rising 0....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=45d3a6b230f258f7bd1d71b070a8bc6c6b90c345af58c05fd03ff7a6b1d0b617" target="_blank" rel="noopener noreferrer">Exits Lift Carlyle in Second Quarter as Firm Sees Better Market Conditions</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">The private-equity firm’s profit rose amid what its executives called the best environment for selling assets in years....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=09814184b4bfe9a09f0bcc08da023927acefb66d9139e821fdd94be84f19c169" target="_blank" rel="noopener noreferrer">Sector Update: Financial Stocks Rise Late Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.80
+                                </span>
+                            </div>
+                            <div class="article-summary">Financial stocks advanced in late Wednesday afternoon trading with the NYSE Financial Index and the...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5306c5981fe84d0369189934165a1d378ba02b80318cfa9e2d728984c18d3726" target="_blank" rel="noopener noreferrer">Unveiling Carlyle (CG) Q2 Outlook: Wall Street Estimates for Key Metrics</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Get a deeper insight into the potential performance of Carlyle (CG) for the quarter ended June 2025 by going beyond Wall Street's top-and-bottom-line estimates and examining the estimates for some of ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ef140e5da5359b9e4648d833c46a9a7045333012a8d4632cb2253dd839e13201" target="_blank" rel="noopener noreferrer">Carlyle Secured Lending, Inc. Announces Financial Results For Second Quarter Ended June 30, 2025, Declares Third Quarter 2025 Dividend of $0.40 Per Common Share</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.50
+                                </span>
+                            </div>
+                            <div class="article-summary">NEW YORK, Aug. 05, 2025 (GLOBE NEWSWIRE) -- Carlyle Secured Lending, Inc. (together with its consolidated subsidiaries, “we,” “us,” “our,” “CGBD” or the “Company”) (NASDAQ: CGBD) today announced its f...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e4d3417f317a85bc65aaf492441f90ef845e4b40144109a8fef3bbc3928e10e2" target="_blank" rel="noopener noreferrer">CommScope to Sell its Connectivity and Cable Solutions Segment to Amphenol Corporation for $10.5 billion</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.46
+                                </span>
+                            </div>
+                            <div class="article-summary">CLAREMONT, N.C., August 04, 2025--CommScope (NASDAQ: COMM) has entered into a definitive agreement to sell Connectivity and Cable Solutions segment to Amphenol Corporation (NYSE: APH)....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fefdd890cc960012a59a57b20ab90fe0f03fb8e4460def04cfda1c894e309fb4" target="_blank" rel="noopener noreferrer">Starbucks Shortlists Dozen Firms Including Tencent for China Investment</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">(Bloomberg) -- Starbucks Corp. has shortlisted about a dozen parties including private equity firms and technology companies into the second round of a process to invest in its China business, people ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b6b3463b28b878c1907498a9dd7d41692573901a64c914406694c9e5ff11a8f8" target="_blank" rel="noopener noreferrer">2025 U.S. Insurance Investments Market Report: The Power Of The Private Markets</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-07-31</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

@@ -1,0 +1,1255 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Zoetis Inc. (ZTS) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Zoetis Inc. (ZTS)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">62</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">26</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">9</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.14</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cc24c1a194b4992e5d5c11c6fa6ee40178a544443cb965c9151d0f3c380d0c92" target="_blank" rel="noopener noreferrer">Dividend Champion, Contender, And Challenger Highlights: Week Of August 31</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-30</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">See here for weekly updates on Dividend Champions, Contenders, and Challengers. Stay informed on dividend changes, ex-dividend and pay dates....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cc00f476b770ab27ea7f6bdeb6bae58631954f5e1181a50203abab141ec9727a" target="_blank" rel="noopener noreferrer">If You Invested $1000 in Zoetis a Decade Ago, This is How Much It'd Be Worth Now</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Why investing for the long run, especially if you buy certain popular stocks, could reap huge rewards....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f087a6c6a6d6cfcabdcfb810056bf11ae98ef58c69a306cd2f63c8e75ef7e9b4" target="_blank" rel="noopener noreferrer">Tracking Terry Smith's Fundsmith 13F Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Read here for an in-depth analysis and insights on Fundsmith's $23.02B portfolio shift: new stakes, exits, and top positions like Meta and Microsoft....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=39622d58ad2ff03cee22ec6e6cafa4dbfa3d3ad596b723e91cb72963c3143e4c" target="_blank" rel="noopener noreferrer">Zoetis to Participate in the Morgan Stanley 23rd Annual Global Healthcare Conference</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">PARSIPPANY, N.J., August 27, 2025--Zoetis Inc. (NYSE:ZTS) today announced that a representative from the company will participate in the Morgan Stanley 23rd Annual Global Healthcare Conference on Mond...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7682d18d4b4349bba793f3d953664be34b484e40bb91ca754f502e124e4a5043" target="_blank" rel="noopener noreferrer">SDZNY or ZTS: Which Is the Better Value Stock Right Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">SDZNY vs. ZTS: Which Stock Is the Better Value Option?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5ef5bfa317082084be99504402bde890939487b3c835c9cec259c0e9eba64002" target="_blank" rel="noopener noreferrer">Zoetis: Why I Decided To Invest In The Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=509b382d9fdd30c8599bc4ca4560579ed5c7abd0af3185e455dbcd034528c304" target="_blank" rel="noopener noreferrer">2 Reasons to Watch ZTS and 1 to Stay Cautious</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Over the past six months, Zoetis’s shares (currently trading at $156.80) have posted a disappointing 7% loss, well below the S&P 500’s 8.6% gain. This might have investors contemplating their next mov...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=62e5bc1db1f9b55577d9547b4c422e661463f39103d3e3d0972012afda4ad367" target="_blank" rel="noopener noreferrer">Does Zoetis Offer Value for Investors After Its Recent Rebound in 2025?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">If you’re on the fence about Zoetis stock, you’re definitely not alone. As the global leader in animal health, Zoetis is often on radar screens of investors searching for a slice of growth and stabili...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c3907d374789a13bcc0a4f263b16cfc191ed507efec252bde9661f419a70bf5a" target="_blank" rel="noopener noreferrer">Pharmaceuticals Industry Analysis:  Eli Lilly Tops My Tier Two</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">Tier-two pharma picks show solid fundamentals, but Eli Lilly (LLY) stock stands out for its growth potential. Read here for an analysis....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bf46fad3ecf3c23bdd59ce21342c4369f48913ccb08cd47dea00748f5b7646f1" target="_blank" rel="noopener noreferrer">Artisan Global Opportunities Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.30
+                                </span>
+                            </div>
+                            <div class="article-summary">Global markets turned in an impressive but volatile Q2, swinging from double-digit declines to double-digit gains. Click here to read more....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a6d19560dcedf9b4843a0a896fa8ca66c96304984428564e0b5140b514c53360" target="_blank" rel="noopener noreferrer">Zoetis Inc. stock outperforms competitors on strong trading day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis Inc. stock outperforms competitors on strong trading day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7d7b9b189ea5fd5f8eb69c90d3f0da23275d00fc6c83e58799a0865a8a0ad613" target="_blank" rel="noopener noreferrer">Winners And Losers Of Q2: Zoetis (NYSE:ZTS) Vs The Rest Of The Branded Pharmaceuticals Stocks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The end of the earnings season is always a good time to take a step back and see who shined (and who not so much). Let’s take a look at how branded pharmaceuticals stocks fared in Q2, starting with Zo...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e49677a8fe2b43539bbf0aecc7afedfe9a20bb884f60b87bf071c2b8cd1f0a07" target="_blank" rel="noopener noreferrer">Zoetis Inc. stock underperforms Monday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis Inc. stock underperforms Monday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a340273a1e599d997adbf188f88b287337f353eda0478fa9db82fa96390cf1ec" target="_blank" rel="noopener noreferrer">5 Revealing Analyst Questions From Zoetis’s Q2 Earnings Call</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis’ second quarter saw revenue and adjusted earnings surpass Wall Street expectations, but the market responded negatively, reflecting skepticism over the company’s performance trajectory. Managem...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4eb62bf4dfebdc2410cb6f58a52dc3e19aec796f189174152a5995dd8834a316" target="_blank" rel="noopener noreferrer">ZTS Q2 Deep Dive: Market Questions Librela Outlook Amid Double-Digit Growth in Core Franchises</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.21
+                                </span>
+                            </div>
+                            <div class="article-summary">Animal health company Zoetis (NYSE:ZTS) beat Wall Street’s revenue expectations in Q2 CY2025, with sales up 4.2% year on year to $2.46 billion. The company expects the full year’s revenue to be around...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=472881e308433ac1b91e9ea145a32c818f74d99a0aabc6b98d5551a27e1b53ae" target="_blank" rel="noopener noreferrer">[Latest] Global Canine Orthopedics Market Size/Share Worth USD 945.2 Million by 2034 at a 8.6% CAGR: Custom Market Insights (Analysis, Outlook, Leaders, Report, Trends, Forecast, Segmentation, Growth Rate, Value, SWOT Analysis)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">[220+ Pages Latest Report] According to a market research study published by Custom Market Insights, the demand analysis of Global Canine Orthopedics Market size & share revenue was valued at approxim...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5f06e2f59465effd3697025cbc60f2829d16f5828908d77363b7e918a5c2d84e" target="_blank" rel="noopener noreferrer">Zoetis Inc. stock underperforms Wednesday when compared to competitors despite daily gains</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.87
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis Inc. stock underperforms Wednesday when compared to competitors despite daily gains...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=248321875377c5e39ab3bd952e5165ab11970d095b62f683b43776a827a639bf" target="_blank" rel="noopener noreferrer">Zoetis Announces Pricing of $1.85 Billion of Senior Notes</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">PARSIPPANY, N.J., August 11, 2025--Zoetis Inc. (NYSE:ZTS) today announced that it has agreed to sell $1.850 billion of senior notes, consisting of $850.0 million aggregate principal amount of 4.150% s...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b86dc93ca4f6795d156f846afa9f3419ba64214e505aa0822e0e058a9dcc3c2c" target="_blank" rel="noopener noreferrer">Got $1,000? 3 Dividend Stocks to Buy and Hold Forever</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">Dip into a beaten-down market sector for deals on some proven winners....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e9e328fe17a8903fc2a42fcde3f2b6d08165ca9a072309ad1fd72a8127c4cdd8" target="_blank" rel="noopener noreferrer">Global Veterinary Regenerative Medicine Market Size/Share Worth USD 1395.44 Million by 2034 at a 13.23% CAGR: Custom Market Insights (Analysis, Outlook, Leaders, Report, Trends, Forecast, Segmentation, Growth Rate, Value, SWOT Analysis)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">[220+ Pages Latest Report] According to a market research study published by Custom Market Insights, the demand analysis of Global Veterinary Regenerative Medicine Market size & share revenue was valu...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3bd29594efe0593d1b7bdd00bbbac74c702a5703c86405f6013336c296fa727b" target="_blank" rel="noopener noreferrer">Are Wall Street Analysts Predicting Zoetis Stock Will Climb or Sink?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.12
+                                </span>
+                            </div>
+                            <div class="article-summary">Despite Zoetis' underperformance relative to the broader market over the past year, Wall Street analysts maintain a bullish outlook on the stock’s prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ac385599170de3a53d074361d7f8840c64495ed75ea6aaf9d98a8d0f6bbc7e20" target="_blank" rel="noopener noreferrer">SDZNY vs. ZTS: Which Stock Is the Better Value Option?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">SDZNY vs. ZTS: Which Stock Is the Better Value Option?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=11eb8e58135eb68ba4aedc6b6cd2e077cb857c8ff2edb62f72447496271085ce" target="_blank" rel="noopener noreferrer">If You'd Invested $1,000 in Zoetis (ZTS) Stock 10 Years Ago, Here's How Much You'd Have Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.43
+                                </span>
+                            </div>
+                            <div class="article-summary">The short-term picture has been less rosy than the longer-term one....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1bdece107f60a0614a30df0226651d0fcff64115762c14686360ad72455fb656" target="_blank" rel="noopener noreferrer">BofA Kept $200 Target on Zoetis (ZTS) as Competitive Threat Seen Modest</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-10</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.49
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis Inc. (NYSE:ZTS) is one of the best defensive stocks to invest in according to analysts. On July 10, Bank of America analyst Michael Ryskin reaffirmed a Buy rating on Zoetis with an unchanged pr...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9a16d69ee0e505438ff48b7e168f3b5091531a73d8fc093cef203cd40484c699" target="_blank" rel="noopener noreferrer">2 Stocks to Buy With $5,000 and Hold for a Decade</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-10</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">These two stocks come from completely different industries, but each could boost a long-term investor's returns....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a1e7e046b32270ca43b9c62a87b37d73c2d7d186d2792795e8c7eda867893444" target="_blank" rel="noopener noreferrer">Ave Maria Rising Dividend Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">For the three months ended June 30, 2025, the total return on the Ave Maria Rising Dividend Fund was -0.12. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1754d73427c560d8956c245a1c22e7b3e8f68fbc1880680312ee279b234956f0" target="_blank" rel="noopener noreferrer">Ave Maria Growth Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Fundâs goal is to purchase shares of exceptional companies at attractive prices with the expectation of earning favorable returns over the long run. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=365f326f0ff81fc0f55d240f7a0af7226fb4b2ce75bd37e51da3d2f5497aea33" target="_blank" rel="noopener noreferrer">Zoetis Inc. Just Recorded A 5.8% EPS Beat: Here's What Analysts Are Forecasting Next</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">NYSE:ZTS 1 Year Share Price vs Fair Value Explore Zoetis's Fair Values from the Community and select yours Zoetis Inc......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b243262df79d3d8b0ec09bfad50fad37b0a6f7b88fed304dc5e66f2ea386f16e" target="_blank" rel="noopener noreferrer">Elanco Animal Health Q2: Rising Innovation Revenue, Initiate At Buy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover why Elanco Animal Health Incorporated is a Buy at $20 fair value, driven by innovation, strategic growth, and strong Q2 results. Click for more on ELAN....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cb616f1ef6b600f8834bcf920e96d1634dc4495a23724ab92e69fd07bf96abaf" target="_blank" rel="noopener noreferrer">Tracking William Von Mueffling's Cantillon Capital Management Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.41
+                                </span>
+                            </div>
+                            <div class="article-summary">William von Muefflingâs Cantillon Capital grew to $17.34B by smartly balancing high-conviction stocks, trimming gains, and maintaining focus. See more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0f2b197bd42ff70f58a12c008358ad3352486b27942932257b51b6972fdbc4c0" target="_blank" rel="noopener noreferrer">Top 50 High-Quality Dividend Stocks For August 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.40
+                                </span>
+                            </div>
+                            <div class="article-summary">My investable universe of 50 high-quality dividend growth stocks aims to identify attractive opportunities based on valuation and future return potential....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4f3a4c744d7d840e27ca592b28942369d8e6c776772a471498811a2b5f23c37c" target="_blank" rel="noopener noreferrer">Why Zoetis (ZTS) is a Top Growth Stock for the Long-Term</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.24
+                                </span>
+                            </div>
+                            <div class="article-summary">Wondering how to pick strong, market-beating stocks for your investment portfolio? Look no further than the Zacks Style Scores....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=46df4155b98e5c9cf4fa4c3fba9477430adbe20838109c73d2f4ae00f2440567" target="_blank" rel="noopener noreferrer">S&P 500 Futures Climb in Premarket Trading; Vertex Pharmaceuticals, Gartner Lag</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.76
+                                </span>
+                            </div>
+                            <div class="article-summary">S&P 500 Futures Climb in Premarket Trading; Vertex Pharmaceuticals, Gartner Lag...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d698f4ce822bc17e47b732ec6b11c5b90e16e53bdfec1cd75daa5771aead606d" target="_blank" rel="noopener noreferrer">Janus Henderson Growth And Income Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Fund returned 14.81%, and the S&P 500Â® Index returned 10.94%....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=859a82cdbbba826926f47d894386fce558c16d1226820d759175d39814513e2e" target="_blank" rel="noopener noreferrer">Zoetis Announces Second Quarter 2025 Results, Raises Full Year 2025 Outlook</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">PARSIPPANY, N.J., August 05, 2025--Zoetis Inc. (NYSE:ZTS) today reported its financial results for the second quarter of 2025 and raised its full year 2025 guidance....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=28b95ea24f61d87abd30a1769031a7c18b613e42dce07fc4ae89b708c7873a24" target="_blank" rel="noopener noreferrer">Zoetis: Q2 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">The Parsippany, New Jersey-based company said it had profit of $1.61 per share. Earnings, adjusted for non-recurring costs, came to $1.76 per share. The results beat Wall Street expectations....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a3a6d3076bc76f630e7da38719471913e28e94a9639ea7ff136704dcb6ab0a4d" target="_blank" rel="noopener noreferrer">Janus Henderson Growth And Income Managed Account Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Portfolio returned 14.92% (gross) and the S&P 500Â® Index returned 10.94%....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5f6b310f197144f16b541c25311c9879b275729e28b907dabcfa3c7ee6203432" target="_blank" rel="noopener noreferrer">1 Top Dividend Growth Stock to Buy and Hold Forever</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">The demand for this company's products will continue increasing....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=675db2343164bf3f5167c5f53af26b3a78e0c72ac1021e5b81d1c23adfd942fa" target="_blank" rel="noopener noreferrer">Zoetis (NYSE:ZTS) Posts Better-Than-Expected Sales In Q2, Stock Soars</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Animal health company Zoetis (NYSE:ZTS) reported revenue ahead of Wall Street’s expectations in Q2 CY2025, with sales up 4.2% year on year to $2.46 billion. The company expects the full year’s revenue...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d4764930d708b0229b77ebe87354e9da8c0c6ef965886fcefb2860dce90b4d33" target="_blank" rel="noopener noreferrer">Zoetis (ZTS) Q2 Earnings and Revenues Surpass Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis (ZTS) delivered earnings and revenue surprises of +8.64% and +2.44%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=32c31de2dbaca9fef6915c102b42827a5fe3ea5b4f7f0e5e33413919514d3b86" target="_blank" rel="noopener noreferrer">Zoetis Inc. (ZTS) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis Inc. (NYSE:ZTS) Q2 2025 Earnings Conference Call August 5, 2025 8:30 AM ETCompany ParticipantsKristin C....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2b98da46aa6a92bfecb7ef6d510d38a3afff04b46d1d6a2d3b0acafd2ad10d61" target="_blank" rel="noopener noreferrer">Zoetis Inc. 2025 Q2 - Results - Earnings Call Presentation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The following slide deck was published by Zoetis Inc....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=16460c1ad3d7b2209279cd06afbd74365e6524e606a3f8e7cf2cbb2bca65d701" target="_blank" rel="noopener noreferrer">Animal healthcare firm Zoetis raises annual forecast on strong pet product demand</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis raised annual forecast and beat second-quarter estimates on Tuesday, driven by strong demand for its medicines and vaccines for pets, sending the animal healthcare company's shares surging abou...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2397c9959247cd3f87a1bfa4df26049c7961ddcbf9c3f14c55697ce16a6576fa" target="_blank" rel="noopener noreferrer">Zoetis Surges After Crushing Expectations And Raising Its Outlook</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis stock surged early Tuesday after the animal-health company beat quarterly forecasts, leading to a guidance hike....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b48db85d823489498bdb3bec567f813c297ae7ff57c06f9abf724ae606bb7fad" target="_blank" rel="noopener noreferrer">Zoetis (ZTS) Q2 Earnings: How Key Metrics Compare to Wall Street Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The headline numbers for Zoetis (ZTS) give insight into how the company performed in the quarter ended June 2025, but it may be worthwhile to compare some of its key metrics to Wall Street estimates a...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a9d281e3b80f3e33180613ef2e96fe1ecb77140033ef9c6f16a67bb2d0afc822" target="_blank" rel="noopener noreferrer">Stocks See Support from Strong Earnings and Rate Cut Speculation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">The S&P 500 Index ($SPX ) (SPY ) today is up +0.11%, the Dow Jones Industrials Index ($DOWI ) (DIA ) is up +0.24%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) is up +0.20%. September E-mini S&P futures (...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=662737b4b829d26df906b7efbe91d5d88a0864a455ab1618b31ca7ba24e5b7a9" target="_blank" rel="noopener noreferrer">Zoetis Lifts Outlook As Companion Animal Portfolio Offsets Librela Decline</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Animal health firm Zoetis Inc. (NYSE:ZTS) on Tuesday reported a second-quarter 2025 adjusted earnings per share of $1.76, up from $1.56 a year ago, beating the consensus of $1.61. The company reported...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a7a30590451c2f3b74b749221a177e6cab16bc1b75706e4909bbf0abaaf92132" target="_blank" rel="noopener noreferrer">ZTS Q2 Earnings & Revenues Beat Estimates, '25 Outlook Raised</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis posts better-than-expected Q2 results with rising sales of pet medicines, boosting its 2025 outlook....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7d7ede196c8cdde3c244b94eb2ef689e3f14d8446a1a48deb447628ddf07c57d" target="_blank" rel="noopener noreferrer">Zoetis Reverses And Dives As Its Arthritis Setback Continues</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>DowJones</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis Reverses And Dives As Its Arthritis Setback Continues...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=355b0826e0e75e84c55ce00d37598250d436978926e864f7c2a2bc5619b20009" target="_blank" rel="noopener noreferrer">Zoetis Inc. stock underperforms Tuesday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis Inc. stock underperforms Tuesday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d8c89af22dbdc1369e5820b80aef6dd6926cf5866f304edf65c4aeae5a8862ef" target="_blank" rel="noopener noreferrer">Zoetis Inc. (ZTS): A Bull Case Theory</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">We came across a bullish thesis on Zoetis Inc. on Bob’s Payment Stock Substack by Bob Hammel. In this article, we will summarize the bulls’ thesis on ZTS. Zoetis Inc.’s share was trading at $151.81 as...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=20cd6c0ed9665510eefafcd5b2f0017f294021bf24b3cb1cf633ff20a4f1bc72" target="_blank" rel="noopener noreferrer">Zoetis CFO talks Q2 beat & education's role in pet med adoption</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis (ZTS) stock is in focus after reporting earnings. Zoetis CFO Wetteny Joseph joins Market Catalysts to discuss the earnings print, the company's outlook and opportunity, and macro factors like t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=da721a93ff37ecb13d55132b77cc4b4639091b9528928bb5d386e209c61dba93" target="_blank" rel="noopener noreferrer">Zoetis (ZTS) Reports Earnings Tomorrow: What To Expect</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Animal health company Zoetis (NYSE:ZTS) will be announcing earnings results this Tuesday morning. Here’s what to expect....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8efe188e58e612b84732efa4ab722bd5407ea9280b676f4dc38e35a3ccba9ef8" target="_blank" rel="noopener noreferrer">BioCryst Pharmaceuticals (BCRX) Surpasses Q2 Earnings and Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">BioCryst (BCRX) delivered earnings and revenue surprises of +400.00% and +9.74%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=37dba5c59b51f6138ef916eaed3be2eea296fce2d72a89ab3427d648d7bf14e0" target="_blank" rel="noopener noreferrer">Recursion Pharmaceuticals to Report Q2 Earnings: What's in the Cards?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">RXRX eyes Q2 earnings beat despite past misses, with a refocused pipeline and new data updates on key drug candidates....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6652e78474b5c4bf59d987303e5ca8a2962d636cb97dc23ed02e63a29b4bd9b4" target="_blank" rel="noopener noreferrer">Acadia Pharmaceuticals Appoints Scott Cenci as Chief Information and Data Officer</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">SAN DIEGO, August 04, 2025--Acadia Pharmaceuticals Inc. (Nasdaq: ACAD) today announced the appointment of Scott Cenci as Senior Vice President, Chief Information and Data Officer. In this role, Scott ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0f771f698acc0bafc608beafd20f16e6d2da1ddd52164592ca69651ac8c6bb5e" target="_blank" rel="noopener noreferrer">Top 15 High-Growth Dividend Stocks For August 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-02</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.30
+                                </span>
+                            </div>
+                            <div class="article-summary">My Top 15 High-Growth Dividend Stocks returned 8.75% YTD despite July losses, focusing on value and growth. Read why this watchlist targets long-term outperformance....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2804287326986b4f8969d32f11a0cdaa566dd7c9d9de5c8dae83f52732822d1d" target="_blank" rel="noopener noreferrer">Zoetis Gears Up to Report Q2 Earnings: Here's What to Expect</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">ZTS eyes an earnings beat as companion animal drugs like Simparica Trio and Apoquel are expected to drive Q2 revenue gains....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8f6d19339cc79d3a0f38348d569e04f911548737030e6518d7b7f19b9bc82e26" target="_blank" rel="noopener noreferrer">Stocks to watch next week: BP, Diageo, Disney, Uber and WPP</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Earnings preview of key companies reporting next week and what to look out for....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e1959f9db087dd31171135e196a0724ec6f933fa8f18f0613147cbc1b9dd40a4" target="_blank" rel="noopener noreferrer">Zoetis Inc. stock underperforms Friday when compared to competitors despite daily gains</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.83
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis Inc. stock underperforms Friday when compared to competitors despite daily gains...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8ac223cc118f6a4cc8bd65c61ccde4c86b04b7633a940c2660c85e034778abc0" target="_blank" rel="noopener noreferrer">Countdown to Zoetis (ZTS) Q2 Earnings: A Look at Estimates Beyond Revenue and EPS</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-07-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Besides Wall Street's top-and-bottom-line estimates for Zoetis (ZTS), review projections for some of its key metrics to gain a deeper understanding of how the company might have fared during the quart...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f899019ec38ba746011bedb67aa147b663d5a7a8d677ae0d77bc29638a69cd5b" target="_blank" rel="noopener noreferrer">Zoetis Inc. stock outperforms competitors despite losses on the day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-07-31</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Zoetis Inc. stock outperforms competitors despite losses on the day...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

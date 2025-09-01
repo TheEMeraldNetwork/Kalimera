@@ -1,0 +1,551 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Amentum Holdings Inc. (AMTM) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Amentum Holdings Inc. (AMTM)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">18</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.20</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d5393af2b8d1e7b51cdc10f82175fc5c956d6b1ca67feae06b17d74bb382511e" target="_blank" rel="noopener noreferrer">Bloomberg 500 (B500) Index Adds Sixteen Securities Following Semi-Annual Reconstitution</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Bloomberg Indices announced the following changes to the Bloomberg 500 (B500) Index effective prior to the open of trading on Thursday, September 11, to coincide with the semi-annual reconstitution of...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a7f4bfd3b3f8a899ffcff21f485cdff1d63fcfea1e21150e82acd325ce9b3734" target="_blank" rel="noopener noreferrer">Will Defense Microelectronics Expansion and Space Force Contract Momentum Change Amentum Holdings' (AMTM) Narrative?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">Amentum, in collaboration with the Naval Surface Warfare Center, Crane Division, recently broke ground on a unique Radiation Combined Environment Test Facility in Odon, Indiana to advance microelectro...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f50ef5f8fd6e052935dc55ebc0e4402c0e6ad3bcf3bdf26fc633687f30252f7d" target="_blank" rel="noopener noreferrer">Amentum Breaks Ground on Radiation Combined Environment Test Facility at WestGate@Crane</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.76
+                                </span>
+                            </div>
+                            <div class="article-summary">CHANTILLY, Va., August 21, 2025--Amentum (NYSE: AMTM), in partnership with Naval Surface Warfare Center, Crane Division (NSWC Crane), broke ground today on a one-of-a-kind Radiation Combined Environme...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1f4c656728e305ce33cec68d4a78740852225ee22a554110da230d67630b1791" target="_blank" rel="noopener noreferrer">Amentum’s Jacobs Technology Inc. Selected for $4B Space Force Range Contract</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.83
+                                </span>
+                            </div>
+                            <div class="article-summary">CHANTILLY, Va., August 18, 2025--Amentum (NYSE: AMTM), through its wholly-owned subsidiary Jacobs Technology Inc., has been awarded the Space Force Range Contract (SFRC) by the United States Space For...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2b1f9d5f020757819c028347af37d8b7d0ceb81f398f33788de37d1027767df9" target="_blank" rel="noopener noreferrer">Why Amentum (AMTM) Stock Is Trading Up Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of government engineering solutions provider Amentum Holdings (NYSE:AMTM) jumped 3% in the morning session after its subsidiary, Jacobs Technology Inc., was awarded a contract by the United Sta...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a268a9ce3468a75ccac79b7501c6d91071387472d356fa2d114b71e2a4007951" target="_blank" rel="noopener noreferrer">Shareholders Will Be Pleased With The Quality of Amentum Holdings' (NYSE:AMTM) Earnings</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.01
+                                </span>
+                            </div>
+                            <div class="article-summary">The subdued stock price reaction suggests that Amentum Holdings, Inc.'s ( NYSE:AMTM ) strong earnings didn't offer any......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=02911de40509d522107e8a4bae599ec97d6782b143fc9eb8dc0fd6c174d63768" target="_blank" rel="noopener noreferrer">Why Amentum (AMTM) Stock Is Up Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of government engineering solutions provider Amentum Holdings (NYSE:AMTM) jumped 3.2% in the morning session after the company received price target upgrades from multiple Wall Street analysts,...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3cb3d2010197055b35e3f205366602d8afe14e95dd7793c7a9e570118343ce91" target="_blank" rel="noopener noreferrer">5 Must-Read Analyst Questions From Amentum’s Q2 Earnings Call</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Amentum’s Q2 results were met with a positive market reaction, as management credited the quarter’s performance to robust demand for its mission-focused engineering services and the successful executi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8a913da62550ed5476f4cba5cbc8fae08bc9fa0cbe8c2843957228074a4b7471" target="_blank" rel="noopener noreferrer">Stocks making big moves this week: AMD, Tesla, Amentum, Sprout Social, and 8x8</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Check out the companies making headlines this week:...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=acb5fb206f8204c92ee3953d36c1abb54038bea8d861a086ac0d2be7d4cf7bab" target="_blank" rel="noopener noreferrer">Amentum Holdings, Inc. (AMTM) Q3 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Amentum Holdings, Inc. (NYSE:AMTM) Q3 2025 Earnings Conference Call August 6, 2025 8:30 AM ETCompany ParticipantsJohn E....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=10c2a9013d1b0618259ad1e4eab2fe068ed5f92a86e2fa46878ab02b11bf2e25" target="_blank" rel="noopener noreferrer">Amentum Holdings, Inc. 2025 Q3 - Results - Earnings Call Presentation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The following slide deck was published by Amentum Holdings, Inc....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e8a478f3b887673a9ba6e5edc696111f229945314a541c5579d523bd3de0ab2d" target="_blank" rel="noopener noreferrer">Do Its Financials Have Any Role To Play In Driving Amentum Holdings, Inc.'s (NYSE:AMTM) Stock Up Recently?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.43
+                                </span>
+                            </div>
+                            <div class="article-summary">NYSE:AMTM 1 Year Share Price vs Fair Value Explore Amentum Holdings's Fair Values from the Community and select yours......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5dc87c717502fb01e42735437d3f32580a8874ec4a160f6670edb08271c63717" target="_blank" rel="noopener noreferrer">Amentum: Fiscal Q3 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">CHANTILLY, Va. AP) — Amentum Holdings Inc. AMTM) on Tuesday reported fiscal third-quarter earnings of $10 million....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2c560748312e8cedc85de16a337b3d05befc46f571223e202ce2578dffcfaa83" target="_blank" rel="noopener noreferrer">Why Amentum (AMTM) Stock Is Trading Lower Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of government engineering solutions provider Amentum Holdings (NYSE:AMTM) fell 3.3% in the afternoon session after the company reported third-quarter financial results that included a significa...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bbe6078cded8e5f0c25fbaac844dc64648b814ca6aa76e48958a850d2e6cdb47" target="_blank" rel="noopener noreferrer">Jacobs Reports Strong Fiscal Third Quarter 2025 Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Jacobs Solutions Inc. (NYSE: J) today announced its financial results for the fiscal third quarter ended June 27, 2025....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1a7e4692037365637cce398fe86caa35e50a993e7bb6f275d3ff7bb458ca04c5" target="_blank" rel="noopener noreferrer">Amentum Reports Third Quarter Fiscal Year 2025 Results and Raises Full Year Organic Guidance</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.35
+                                </span>
+                            </div>
+                            <div class="article-summary">CHANTILLY, Va., August 05, 2025--Amentum Holdings, Inc. ("Amentum" or the "Company") (NYSE: AMTM), a leading advanced engineering and technology company, today announced results for the third quarter ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0c5e39e6d2f48cf224158f50ffe5f34c1713fc93254246de2362adb5ce15cfa2" target="_blank" rel="noopener noreferrer">Amentum (NYSE:AMTM) Surprises With Q2 Sales</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Government engineering solutions provider Amentum Holdings (NYSE:AMTM) announced better-than-expected revenue in Q2 CY2025, with sales up 2% year on year to $3.56 billion. The company expects the full...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d5c0379f7e1e6207dd089c192d645e48d890dcc9a43a7104e0316f7fd62b5885" target="_blank" rel="noopener noreferrer">GEO Group, Super Micro, IonQ, Amentum, and Flex Stocks Trade Down, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks fell in the morning session after a surprisingly weak U.S. jobs report was released, fueling concerns about a slowing economy....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

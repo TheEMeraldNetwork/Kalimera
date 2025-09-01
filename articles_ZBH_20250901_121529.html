@@ -1,0 +1,1128 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Zimmer Biomet Holdings Inc. (ZBH) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Zimmer Biomet Holdings Inc. (ZBH)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">54</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">29</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">9</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.22</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=27f1cdfd87c4390abed26754ca8c741c81a651aea200ade8596409cdcee65707" target="_blank" rel="noopener noreferrer">How Key Advisor Hires at Zimmer Biomet (ZBH) Have Changed Its Investment Story</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-30</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet Holdings recently announced the appointments of Dr. Jonathan M. Vigdorchik as Chief Medical Technology Advisor for Adult Reconstruction and Hip Implants, and Dr. Anand M. Murthi as Chief...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=72562fdf79c14fbf358b6b840a2d7ddc74109f882f9175bd78f8d5a3723280e3" target="_blank" rel="noopener noreferrer">Here's Why Zimmer Biomet (ZBH) is a Strong Value Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Zacks Style Scores offers investors a way to easily find top-rated stocks based on their investing style. Here's why you should take advantage....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e572203c917cdda138c4506de9486d8c94c7b78f2f9b7be80b676676ce3c7a85" target="_blank" rel="noopener noreferrer">Zimmer Biomet Announces New Chief Medical Advisors to Help Improve Standard of Musculoskeletal Care</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.26
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet Holdings, Inc. (NYSE and SIX: ZBH), a global medical technology leader, today announced the appointments of Jonathan M. Vigdorchik, MD, as Chief Medical Technology Advisor focused on Adu...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=552ffe695884ab4f0944550643895908ac2630f80da91972ebc1aa23c2499205" target="_blank" rel="noopener noreferrer">Should You Add Zimmer Biomet Stock to Your Portfolio Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">ZBH rides on knee innovation and robotics growth, but debt and macro pressures challenge its upside potential....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d55c77cf1218631e23f28a06cadcf5547f38519b55adbcd625b13838ca84b812" target="_blank" rel="noopener noreferrer">Zimmer Biomet Announces Quarterly Dividend for Third Quarter of 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet Holdings, Inc. (NYSE and SIX: ZBH), a global medical technology leader, today announced that its Board of Directors has approved the payment of a quarterly cash dividend to stockholders ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3becc5c0399b0cd578fc5de49784d5a07fa5c42d9e63ac4c1dd2f15a1ca05be2" target="_blank" rel="noopener noreferrer">ZBH vs. ESLOY: Which Stock Is the Better Value Option?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ZBH vs. ESLOY: Which Stock Is the Better Value Option?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=30b8f7f6b5351fa007019d5a069c83bae62c29ac1bbaa72fdb9c7235195cd4d0" target="_blank" rel="noopener noreferrer">Zimmer Biomet to Present at the Annual Morgan Stanley Healthcare Conference</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet Holdings, Inc. (NYSE and SIX: ZBH) today announced that members of the Zimmer Biomet management team will be presenting at the Annual Morgan Stanley Healthcare Conference on Monday, Sept...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bc55357da4cfba3aa413cd58059542d202f6f8e62a4e6ac3b6089934acbdb8a9" target="_blank" rel="noopener noreferrer">Stryker's Robotics and Global Gains Offset by Macro Concerns</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.69
+                                </span>
+                            </div>
+                            <div class="article-summary">SYK posted strong Q2 growth driven by Mako robotics and global demand, but inflation, FX and competitive pressures temper near-term upside....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c6e35a27d6bb25a490fbe390a1baea98e2b9f2bee4a008c11ed3f96d221d09e8" target="_blank" rel="noopener noreferrer">Zimmer Biomet Holdings Inc. stock outperforms competitors on strong trading day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet Holdings Inc. stock outperforms competitors on strong trading day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b15fab3b780d20e576c1bf02d89144ae4a5c5fd570a0241badc8b228f7f67b1a" target="_blank" rel="noopener noreferrer">Zimmer Biomet Holdings Inc. stock underperforms Thursday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet Holdings Inc. stock underperforms Thursday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=902b221009b4c64e2ac64f4c9de205d63f7f81064ed7c2b62a268fea32c78432" target="_blank" rel="noopener noreferrer">Stryker may be able to displace Zimmer in US knee reconstruction market</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.88
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer has maintained the largest market share since 2015, despite a higher average selling price than Stryker....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=decb67703cc995e9e0df48acbbc74a25d0a291bfd08765daaf6f1fd0b8934898" target="_blank" rel="noopener noreferrer">Stryker: Strong Multi-Faceted Growth Continuing To Support The Shares</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Stryker continues to outperform peers with strong revenue growth, margin expansion, and successful product innovation. Learn more on SYK stock here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fd902a8cb004c3f9190959a93d2b93a40cd1be2be9858dbf2e1076cd5a2ec86a" target="_blank" rel="noopener noreferrer">Top Analyst Reports for Netflix, Mastercard & Shell</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Netflix's ad tier drives over 55% of new sign-ups as its content slate and global strategy fuel a bold revenue growth target for 2030....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c8c911a4b4e9d55f2dccc5140ccce5a97d10a46f510e9c35c57b38e703520dae" target="_blank" rel="noopener noreferrer">Columbia Balanced Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">Columbia Threadneedle reports strong Q2 gains for its Balanced Fund, beating benchmarks with tech-driven equity picks. See how your portfolio could benefit....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=27d015e1e16bf9caf6fe4355b3526da1bde89baa7cd20334aba71ee14a583dcd" target="_blank" rel="noopener noreferrer">Columbia Contrarian Core Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Columbia Threadneedleâs Contrarian Core Fund beat its benchmark in Q2 2025 amid AI-fueled tech gains. Explore what drove performance and whatâs next.
+...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=72a797088ed988fa17c6bb1d774b5369eb4c754b95217d58a48875aa128e7b95" target="_blank" rel="noopener noreferrer">North America Pectus Bar Market Forecast Report to 2031, with Leading Player Profiles for KLS Martin Group, Biotech, Zimmer Biomet Holdings, Ventura Medical Technologies, and MedXpert</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.73
+                                </span>
+                            </div>
+                            <div class="article-summary">North America's pectus bar market, valued at $22.88M in 2023, is projected to reach $29.82M by 2031, growing at a 3.4% CAGR. Demand for biocompatible materials like PLA and PLGA, which avoid allergic ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=00d558d3884133970acbf0fd89ff21964c189fde6be9f2c9e0b0905b607b1273" target="_blank" rel="noopener noreferrer">Here's Why Zimmer Biomet (ZBH) is a Strong Momentum Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Zacks Style Scores offers investors a way to easily find top-rated stocks based on their investing style. Here's why you should take advantage....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e1ecfb1f69b3be6f02f9885745daf7dadc1c1c9daaf5315f0b13015b9a06504c" target="_blank" rel="noopener noreferrer">Do Wall Street Analysts Like Zimmer Biomet Stock?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.53
+                                </span>
+                            </div>
+                            <div class="article-summary">While Zimmer Biomet has lagged behind the broader market over the past year, Wall Street analysts maintain a moderately optimistic outlook about the stock’s prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7d9937cbc0838d274d54810e43d3ada13c11938e429e6be60bab6be1d5832c53" target="_blank" rel="noopener noreferrer">Zimmer Biomet Holdings' (NYSE:ZBH) Soft Earnings Don't Show The Whole Picture</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.43
+                                </span>
+                            </div>
+                            <div class="article-summary">NYSE:ZBH 1 Year Share Price vs Fair Value Explore Zimmer Biomet Holdings's Fair Values from the Community and select......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d0114bab759e756be8f70aacfa93b07ee810e9d4086747f2ebabda72c3d6e86b" target="_blank" rel="noopener noreferrer">Zimmer Biomet’s Q2 Earnings Call: Our Top 5 Analyst Questions</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet’s second quarter results were met with a positive market response, reflecting successful execution on new product launches and meaningful contributions from recent M&A activity. Manageme...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3ec85e96e200ecbbba3dbd179310c7b5c19397795361430c5b5ae7355d889b53" target="_blank" rel="noopener noreferrer">Orthopedic Devices Company Evaluation Report 2024-2025 | Stryker, Zimmer Biomet, and Johnson & Johnson MedTech Lead Across Joint Replacement, Trauma, and Surgical Solutions</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">The Orthopedic Devices Companies Quadrant provides in-depth analysis of the global orthopedic devices market, spotlighting key players and industry trends. According to MarketsandMarkets 360 Quadrants...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=58642e5d5f2eb2355517f490c685b0e66e1b70e6316599356805b0d8851e217c" target="_blank" rel="noopener noreferrer">Why Zimmer Biomet (ZBH) is a Top Value Stock for the Long-Term</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Wondering how to pick strong, market-beating stocks for your investment portfolio? Look no further than the Zacks Style Scores....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7f5795a17a9b56612780dac05e825630bef18cbbd3bd386d7728eb4ed1ac79c9" target="_blank" rel="noopener noreferrer">ZBH Q2 Deep Dive: New Product Launches and M&A Drive Guidance Upgrades</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Medical device company Zimmer Biomet (NYSE:ZBH) announced better-than-expected revenue in Q2 CY2025, with sales up 7% year on year to $2.08 billion. Its non-GAAP profit of $2.07 per share was 4.8% abo...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=442ef3ca875d1f1990dd60d091392176d881425a55d66b2414abd7d887b9ce74" target="_blank" rel="noopener noreferrer">ISRG's Post-Earnings Slide: Margin Worries Overshadow Growth Story</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Intuitive Surgical's Q2 revenues and procedure gains look good, but tariffs, cost inflation, and margin pressure spur a post-earnings selloff....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a269e5b7f16985b70a349ccc666411abafe6c64f4cb5713ef6132c40d403b822" target="_blank" rel="noopener noreferrer">Zimmer (ZBH) Builds Robotics Growth Pipeline, but BofA Sees Limited Near-Term Upside</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-10</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.21
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet Holdings Inc. (NYSE:ZBH) is one of the best defensive stocks to invest in according to analysts. With a decline of around 14%, Zimmer’s YTD share price performance has been weak. Its man...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3dca07cbce3cba8a19bfcef5cba48bc40d507b14e2c335cef0a535d89b9b8027" target="_blank" rel="noopener noreferrer">Zimmer Biomet Holdings, Inc.'s (NYSE:ZBH) Stock On An Uptrend: Could Fundamentals Be Driving The Momentum?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.29
+                                </span>
+                            </div>
+                            <div class="article-summary">Most readers would already be aware that Zimmer Biomet Holdings' (NYSE:ZBH) stock increased significantly by 7.4% over......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8eb86921bf037627d977955a6d9f226c4116d1e01ba3cf806c9be75a12f98e06" target="_blank" rel="noopener noreferrer">Zimmer Biomet raises 2025 outlook amid strong portfolio growth</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer’s shares on the New York Stock Exchange were up 8.2% in pre-trading on 8 August to $84.26 per share....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=eb34030cb47e2caa728b6fe4fa3b812777259a32dfcca1c9c55ef4b253a6ec4a" target="_blank" rel="noopener noreferrer">Zimmer Biomet Raises Outlook After Earlier Reduction, 2Q Sales Beat Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.73
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet Raises Outlook After Earlier Reduction, 2Q Sales Beat Estimates...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ac7ae51d9754fe466864676970d7c7c2e4a65ca5bf5eafdf2ff092d4e3c6088b" target="_blank" rel="noopener noreferrer">Zimmer Biomet Announces Second Quarter 2025 Financial Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet Holdings, Inc. (NYSE and SIX: ZBH) today reported financial results for the quarter ended June 30, 2025. The Company reported second quarter net sales of $2.077 billion, an increase of 7...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=dc890bbdd0c54d006a3d38f06326b19c80e52f73dde627f410e67599b8580d0b" target="_blank" rel="noopener noreferrer">Zimmer: Q2 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ZBH) on Thursday reported second-quarter net income of $152.8 million. The Warsaw, Indiana-based company said it had net income of 77 cents per share. Earnings, adjusted for amortization costs and non...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=010bfa1bf6990ec03f645df3ae60acfa2c1952b3b1a637f561f12d8bd6aa14a2" target="_blank" rel="noopener noreferrer">Zimmer is latest medtech firm to lower expected tariff hit</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">CFO Suketu Upadhyay said the company now expects a charge in 2025 of about $40 million, compared with a range of $60 million to $80 million....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=70b8cbab64158873014182b0073e6a990212f4cafe542ebb703edaad461d64df" target="_blank" rel="noopener noreferrer">Zimmer Biomet (ZBH) Beats Q2 Earnings and Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer (ZBH) delivered earnings and revenue surprises of +4.55% and +1.59%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3919f92e2799a127cf58133036ec8ceafc9e056ef984afea46ca9be743992e5b" target="_blank" rel="noopener noreferrer">Zimmer Biomet raises annual profit forecast on strong demand for medical devices</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet Holdings raised its full-year adjusted profit forecast and beat second-quarter earnings expectations on Thursday, bolstered by accelerating demand for its hip and knee implants. Medical ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f66ffbb2af5680057ce90018e22bc98425ca55c314301159186a13694562f683" target="_blank" rel="noopener noreferrer">Zimmer (ZBH) Reports Q2 Earnings: What Key Metrics Have to Say</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Although the revenue and EPS for Zimmer (ZBH) give a sense of how its business performed in the quarter ended June 2025, it might be worth considering how some key metrics compare with Wall Street est...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=23b56a3af716a013268ab4246e0c4499d03ba2e2848f5dcd57b20a11ad8be5c2" target="_blank" rel="noopener noreferrer">Stocks Rally on Positive Tariff News ad Rate Cut Hopes</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">The S&P 500 Index ($SPX ) (SPY ) today is up +0.48%, the Dow Jones Industrials Index ($DOWI ) (DIA ) is up +0.39%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) is up +0.71%. September E-mini S&P futures (...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=418cd27b92399ba251afb87a0c84482e1ff1df9e3c853a29cd40f0b282266828" target="_blank" rel="noopener noreferrer">ZBH Stock Gains On Q2 Earnings and Revenue Beat, '25 EPS View Up</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet gains as Q2 earnings and revenues top estimates; full-year EPS guidance raised on strong segment growth....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0e8ab63ef39fcbcbc1ee13b46c7b3cbe1c3be583f14fd90ddf23c2493edb3d32" target="_blank" rel="noopener noreferrer">Ariel Appreciation Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Ariel Appreciation Fund advanced +5.81% in the quarter outpacing the Russell Midcap Value Indexâs +5.35% gain and trailing the +8.53% return posted by the Russell Midcap Index....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9a87eb866edf9d81aa38f9ff11e4a9c4199a2f113c59d25189f5e04636404acc" target="_blank" rel="noopener noreferrer">Zimmer Biomet Holdings, Inc. (ZBH) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet Holdings, Inc. (NYSE:ZBH) Q2 2025 Earnings Conference Call August 7, 2025 8:30 AM ETCompany ParticipantsDavid M....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=01afcc3f56b5e3e4cd9fdf0601a20b170ce890d05f541d233b77c511870d7d0d" target="_blank" rel="noopener noreferrer">Ariel Global Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Arielâs non-consensus approach seeks to identify undervalued, out-of-favor, franchises that are misunderstood and therefore mispriced. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1e63328256ddacec3e587bb7c5560f0e0459ec54256f2f435f09ab4878b37bb0" target="_blank" rel="noopener noreferrer">Zimmer Biomet (NYSE:ZBH) Exceeds Q2 Expectations, Stock Soars</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Medical device company Zimmer Biomet (NYSE:ZBH) beat Wall Street’s revenue expectations in Q2 CY2025, with sales up 7% year on year to $2.08 billion. Its non-GAAP profit of $2.07 per share was 4.8% ab...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ea7bd435670b4ebfc3940005c48f0dfa6032858c7fadf54b57ad3c6c708d711b" target="_blank" rel="noopener noreferrer">Equity Markets Mixed Amid Speculation on Semiconductor Tariffs</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.04
+                                </span>
+                            </div>
+                            <div class="article-summary">US benchmark equity indexes are on track to close mixed on Thursday as investors parsed President Do...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c4f956479add9c5c946b600d9d0145fbab214efe4b223b350c2ea60505b30bec" target="_blank" rel="noopener noreferrer">Equity Markets Close Mixed Amid Trump's Semiconductors Tariffs, Jobless Claims Data</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">US benchmark equity indexes closed mixed on Thursday, after investors evaluated President Donald Tru...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5eb316df61c7c2a59a28625135d72335dd723b5b22d2845816f13fea595600f6" target="_blank" rel="noopener noreferrer">Solventum raises annual profit forecast on strength in surgical equipment</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">Medical device makers have benefited from a surge in demand as more people, particularly older Americans, seek health care services and surgical procedures.  Minnesota-based Solventum is one of the la...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=93c8069705b619910910891d87a9d565f295fefafa6589c5aee326ff82601e4c" target="_blank" rel="noopener noreferrer">S&P 500 Gains and Losses Today: Apple Stock Climbs; Eli Lilly Slumps After Disappointing Trial Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">The S&P 500 slid 0.1% on Thursday, Aug. 7, 2025, as new tariffs took effect, raising import duties on goods from numerous U.S. trading partners....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e696cbadde1e298bfdf941f1c5501a288fb1d59cc795c6a28487424514859e30" target="_blank" rel="noopener noreferrer">Zimmer Biomet (ZBH) Q2 Earnings: What To Expect</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Medical device company Zimmer Biomet (NYSE:ZBH) will be reporting earnings this Thursday before the bell. Here’s what you need to know....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=eadda7b84c914659d8a4bacbbdaaa3f292348896b4f845a356bbe7409ff8c4a3" target="_blank" rel="noopener noreferrer">Auxier Asset Management Summer 2025 Market Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Markets have been a rollercoaster for investors in 2025, with every major benchmark starting the year down in the first quarter to all being up for the second quarter and year-to-date....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4a61b9a1a110d9e777403569715c3ac110347bdfdd01c6f300cc14789f2afca1" target="_blank" rel="noopener noreferrer">ISRG's Ion Platform Sees Uptick in Utilization, Eyes Efficiency</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Intuitive Surgical's Ion platform posted 52% procedure growth in Q2, but rising system utilization and workflow efficiency now drive its profitability focus....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b81db8407b9ca9198e815bf4922699a11e1f2dc6193454bdcc56472bf19b7576" target="_blank" rel="noopener noreferrer">Exploring Analyst Estimates for Zimmer (ZBH) Q2 Earnings, Beyond Revenue and EPS</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Get a deeper insight into the potential performance of Zimmer (ZBH) for the quarter ended June 2025 by going beyond Wall Street's top-and-bottom-line estimates and examining the estimates for some of ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d2d4eed44b310f96f83f93ea823a17ca50e55eca1019cf95674731dc365d795b" target="_blank" rel="noopener noreferrer">Zimmer Biomet to Report Q2 Earnings: Here's What to Expect</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.43
+                                </span>
+                            </div>
+                            <div class="article-summary">ZBH's Q2 results may show strength in Hips, Knees, and S.E.T. despite a projected year-over-year earnings dip....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=83b2731149e50d58013be10bdd9c0cb9393416ac87652a5e435b1db78a44e369" target="_blank" rel="noopener noreferrer">Zimmer Biomet Holdings Inc. stock underperforms Monday when compared to competitors despite daily gains</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.81
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer Biomet Holdings Inc. stock underperforms Monday when compared to competitors despite daily gains...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=73079aa813916a97c3b99cfc61dd1081f0c17312855d213fa31b8639356c34bc" target="_blank" rel="noopener noreferrer">Zimmer Biomet Holdings, Inc. (ZBH): A Bull Case Theory</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">We came across a bullish thesis on Zimmer Biomet Holdings, Inc. on Valueinvesting subreddit by KnowledgePatient7813. In this article, we will summarize the bulls’ thesis on ZBH. Zimmer Biomet Holdings...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f36456f3e9f5eef42e21cdfc7201d6b5bc882051986bf407c9b704bace0e5821" target="_blank" rel="noopener noreferrer">Will Canopy Growth Corporation (CGC) Report Negative Earnings Next Week? What You Should Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.35
+                                </span>
+                            </div>
+                            <div class="article-summary">Canopy Growth (CGC) doesn't possess the right combination of the two key ingredients for a likely earnings beat in its upcoming report. Get prepared with the key expectations....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e81ecab89189f33c720305f3c2ff616bc8dd8d1f460f9db6d6caa5b0b5d5fb71" target="_blank" rel="noopener noreferrer">Analysts Estimate Zimmer Biomet (ZBH) to Report a Decline in Earnings: What to Look Out for</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-07-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Zimmer (ZBH) doesn't possess the right combination of the two key ingredients for a likely earnings beat in its upcoming report. Get prepared with the key expectations....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4244b9b506fa23d1eff43f96f955e15e1d11c14a8b8f83011de597514206b326" target="_blank" rel="noopener noreferrer">Monogram robot marks autonomy milestone; Stereotaxis catheter cleared</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-07-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.80
+                                </span>
+                            </div>
+                            <div class="article-summary">Monogram Technologies conducted its first fully autonomous robotic knee replacement surgery, while Stereotaxis won FDA clearance for a robotically navigated electrophysiology mapping catheter....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

@@ -1,0 +1,647 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Superior Plus Corp. (SPB) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Superior Plus Corp. (SPB)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">-0.13</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a14ee34ea55b59103fc517a998838c289d1e205c68e343c44bb475948ede88a5" target="_blank" rel="noopener noreferrer">1 Volatile Stock to Consider Right Now and 2 We Question</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.30
+                                </span>
+                            </div>
+                            <div class="article-summary">A highly volatile stock can deliver big gains - or just as easily wipe out a portfolio if things go south. While some investors embrace risk, mistakes can be costly for those who aren’t prepared....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=047bc75bb08f8d24d95753096e1d26a1325735b1d7312cbc004126f688630c7f" target="_blank" rel="noopener noreferrer">Spectrum Brands (SPB) Stock Trades Up, Here Is Why</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of household products company Spectrum Brands (NYSE:SPB) jumped 4.7% in the afternoon session after the head of the Federal Reserve hinted that interest rate cuts could be on the way....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4eac97be2fa4db0bb96b8aeb29d468726882746e0a193cde7efc378124c25579" target="_blank" rel="noopener noreferrer">Mountaingate Capital Partners with Podean and Commerce Canal to Form the Largest Independent Global Marketplace Focused Agency</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.81
+                                </span>
+                            </div>
+                            <div class="article-summary">DENVER, August 20, 2025--Mountaingate Capital ("Mountaingate") today announced that Mountaingate Fund III has made its first investment, partnering with Podean, a globally recognized marketplace agenc...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ac61e79d497000c39ccf11a82aecbf7be5a8e58d23727043b1f4814a582895e5" target="_blank" rel="noopener noreferrer">Spectrum Brands Holdings' (NYSE:SPB) Conservative Accounting Might Explain Soft Earnings</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Spectrum Brands Holdings, Inc.'s ( NYSE:SPB ) stock was strong despite it releasing a soft earnings report last week......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=321f7a17a61af10d2232c7efe19ee72ecfe49839895cb2988e5c13d808975f1f" target="_blank" rel="noopener noreferrer">5 Must-Read Analyst Questions From Spectrum Brands’s Q2 Earnings Call</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Spectrum Brands faced a volatile second quarter, missing Wall Street’s revenue targets as supply chain disruptions and tariff-driven actions significantly impacted performance. Management attributed t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4849d7e07cbe6bdc5245b2e496ebeee625cfd09b1f70e87e169ff02bdea7a1e1" target="_blank" rel="noopener noreferrer">Estée Lauder, Vita Coco, Spectrum Brands, and Celsius Stocks Trade Up, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks jumped in the afternoon session after markets continued to rally as a surprisingly subdued inflation report fueled hopes for an imminent interest rate cut from the U.S. Federal Rese...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0952c924901835d3eea29a9fc7e815d42f5875ddac559077ad97bc5e1d914fc9" target="_blank" rel="noopener noreferrer">SPB Q2 Deep Dive: Tariffs and Supply Disruptions Weigh, Signs of Normalization Emerge</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.24
+                                </span>
+                            </div>
+                            <div class="article-summary">Household products company Spectrum Brands (NYSE:SPB) missed Wall Street’s revenue expectations in Q2 CY2025, with sales falling 10.2% year on year to $699.6 million. Its non-GAAP profit of $1.24 per ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7402685df9a32619df1d64c6ceb770d2f3b22e79728414eba6a8ba43cb4909f4" target="_blank" rel="noopener noreferrer">Oppenheimer Slashes PT on Spectrum Brands Holdings (SPB) to $95 From $105</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Spectrum Brands Holdings, Inc. (NYSE:SPB) is one of the best undervalued defensive stocks to buy according to analysts. On August 8, Oppenheimer lowered the firm’s price target on Spectrum Brands Hold...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ae0c042c8919f29100b9be56675afb2ad6a9c89833d10be29cac53f1abb0d7cd" target="_blank" rel="noopener noreferrer">Spectrum Brands Holdings Reports Fiscal 2025 Third Quarter Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">MIDDLETON, Wis., August 07, 2025--Spectrum Brands Holdings, Inc. (NYSE: SPB; "Spectrum Brands" or the "Company"), a leading global branded consumer products and home essentials company focused on driv...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=47777ecc536c1d4885e9446f48cfc2db17458c04ddbcf29dea29cea389f5a153" target="_blank" rel="noopener noreferrer">Spectrum: Fiscal Q3 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.35
+                                </span>
+                            </div>
+                            <div class="article-summary">MIDDLETON, Wis. AP) — Spectrum Brands Holdings, Inc. SPB) on Thursday reported fiscal third-quarter profit of $19.9 million....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5a711362960d45123de0a53c1e1c4291c6aadd414cfaad7d4d023bb0999909d5" target="_blank" rel="noopener noreferrer">Spectrum Brands (SPB) Misses Q3 Earnings and Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Spectrum (SPB) delivered earnings and revenue surprises of -0.80% and -5.28%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=29866d78a11a537cbe88c5aa48bd56e71d22f672862d612cf2462c8b27c0efb2" target="_blank" rel="noopener noreferrer">Compared to Estimates, Spectrum (SPB) Q3 Earnings: A Look at Key Metrics</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">While the top- and bottom-line numbers for Spectrum (SPB) give a sense of how the business performed in the quarter ended June 2025, it could be worth looking at how some of its key metrics compare to...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ea568da74ecbcbab5eab34253a55f5b6f8b4c4e6cf4bdd89e1fd04ac577cf539" target="_blank" rel="noopener noreferrer">Central Garden & Pet Company: No Sales Growth In Sight</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Central Garden & Pet Company manufactures and distributes products related to garden and pet supplies. Click for more on CENTA stock prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=981c98b7010419ef86768777c0f796df71162540758958d4c26e9888fd05faca" target="_blank" rel="noopener noreferrer">Spectrum Brands Holdings, Inc. (SPB) Q3 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Spectrum Brands Holdings, Inc. (NYSE:SPB) Q3 2025 Earnings Conference Call August 7, 2025 9:00 AM ETCompany ParticipantsDavid M....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=dda5535c8b171590c6be4cf2b4a19134e501ce5466d17cb02454fb381c1f454f" target="_blank" rel="noopener noreferrer">Spectrum Brands Holdings, Inc. 2025 Q3 - Results - Earnings Call Presentation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The following slide deck was published by Spectrum Brands Holdings, Inc....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b28a07a1d4cbeb8c97480669679dd2c338749e6a89b847169a45491671c21e5b" target="_blank" rel="noopener noreferrer">Spectrum Brands Q3 Earnings & Sales Miss on Soft Segment Performance</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">SPB's Q3 earnings rise y/y but miss estimates as sales fall across segments, hit by tariffs, weak demand and shipment pauses amid pricing negotiations....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=732626adcc4ad7e40571c0dc2f4dbc111c8c916973a9e1f8c5f92d24e7277038" target="_blank" rel="noopener noreferrer">Spectrum Brands (NYSE:SPB) Misses Q2 Sales Targets, But Stock Soars 10.3%</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Household products company Spectrum Brands (NYSE:SPB) missed Wall Street’s revenue expectations in Q2 CY2025, with sales falling 10.2% year on year to $699.6 million. Its non-GAAP profit of $1.24 per ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cbed49ccf175c2c0db924f6b25172d7111c9b589ff8eae7c093d9985b4896cb4" target="_blank" rel="noopener noreferrer">Spectrum Brands (SPB) Reports Earnings Tomorrow: What To Expect</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Household products company Spectrum Brands (NYSE:SPB) will be reporting earnings this Thursday before the bell. Here’s what to expect....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bc7f493d5854e30795192516cbd3a4e1a2806781afb3ae86867a98affa82dc7b" target="_blank" rel="noopener noreferrer">[Latest] Global Lawn and Garden Consumables Market Size/Share Worth USD 38 Billion by 2034 at a 4.36% CAGR: Custom Market Insights (Analysis, Outlook, Leaders, Report, Trends, Forecast, Segmentation, Growth Rate, Value, SWOT Analysis)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">[220+ Pages Latest Report] According to a market research study published by Custom Market Insights, the demand analysis of Global Lawn and Garden Consumables Market size & share revenue was valued at...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=400f9c5f9a6ebc01e66353ff099096c49a6dfc0abc0808cf2293a7c13e24491c" target="_blank" rel="noopener noreferrer">Alto Ingredients (ALTO) Reports Q2 Loss, Beats Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">Alto Ingredients (ALTO) delivered earnings and revenue surprises of +16.67% and +0.10%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=13481feb4656ef23f812a63ed38ad42a9984781b078c64b16ceeaecc513f349e" target="_blank" rel="noopener noreferrer">Spectrum Brands Holdings Declares Quarterly Common Stock Dividend of $0.47 Per Share</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">MIDDLETON, Wis., August 05, 2025--Spectrum Brands Holdings, Inc. (NYSE: SPB) announced that its Board of Directors today declared a quarterly dividend of $0.47 per share on the Common Stock of the Com...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a73c5d98aa9d0bf62a1501a82bae40101d312402b27bf650cfb41bffe357f994" target="_blank" rel="noopener noreferrer">1 Consumer Stock for Long-Term Investors and 2 We Turn Down</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Consumer staples are considered safe havens in turbulent markets due to their inelastic demand profiles. On the other hand, they usually underperform during bull runs, and this paradigm has rung true ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=96b2dec66f592d05351478263e1d723deddd6822dbe8e3e8833d916e9fe28e64" target="_blank" rel="noopener noreferrer">Kellanova (K) Lags Q2 Earnings Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-07-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">Kellanova (K) delivered earnings and revenue surprises of -5.05% and +0.80%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=03443473b1a0111244f7544c2a3bfc1a1918b11e51a558ae4779bb2097593b35" target="_blank" rel="noopener noreferrer">Spectrum Brands (SPB) Earnings Expected to Grow: What to Know Ahead of Next Week's Release</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-07-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Spectrum (SPB) doesn't possess the right combination of the two key ingredients for a likely earnings beat in its upcoming report. Get prepared with the key expectations....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

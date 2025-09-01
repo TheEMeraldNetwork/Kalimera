@@ -1,0 +1,1175 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Constellation Brands Inc. (STZ) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Constellation Brands Inc. (STZ)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">57</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">14</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">-0.17</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e0627d545f0b10e9fae99f811b8c0ea527b950cb721ac56a1c66200d752100f1" target="_blank" rel="noopener noreferrer">Will Constellation Brands' (STZ) Portfolio Shift Reveal Strength or Uncertainty in Alcohol Demand Trends?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-30</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.34
+                                </span>
+                            </div>
+                            <div class="article-summary">In August 2025, Constellation Brands announced the sale of its Copper & Kings American Brandy Company to Bourdon Spirits Company, reflecting a continued effort to focus on its premium wine and spirits...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=10e5356db993df9e1f4d581ca819ae393d0a7e96934aaf1edef004b6e66e777e" target="_blank" rel="noopener noreferrer">Q2 Earnings Highs And Lows: Constellation Brands (NYSE:STZ) Vs The Rest Of The Beverages, Alcohol, and Tobacco Stocks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.67
+                                </span>
+                            </div>
+                            <div class="article-summary">Quarterly earnings results are a good time to check in on a company’s progress, especially compared to its peers in the same sector. Today we are looking at Constellation Brands (NYSE:STZ) and the bes...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=56253ced9eb41269e9b7f2990f4864b5919edab3f18374689db5868806c18b7c" target="_blank" rel="noopener noreferrer">The 2 Biggest Dividend Stock Bargains I See In The Berkshire Hathaway Portfolio</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover why Constellation Brands & UnitedHealth Group offer compelling value and recession resistance....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a0d021d0730317c9d3e0849af00d327e70fe46feafa7a7c5d88f9083a5eef372" target="_blank" rel="noopener noreferrer">Constellation Brands to Report Second Quarter 2026 Financial Results on October 1, 2025 After Market Close and Host Conference Call on October 2, 2025 at 10:30 am ET</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ROCHESTER, N.Y., Aug. 28, 2025 (GLOBE NEWSWIRE) -- Constellation Brands, Inc. (NYSE: STZ), a leading beverage alcohol company, announced today it will report financial results for its second quarter e...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b377f6151ecb559b72259f4e0d2ebe36e48a19169fab33857f0a09899e7abea4" target="_blank" rel="noopener noreferrer">Why Constellation Brands Stock Sank by More Than 3% Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Some professionals tracking the company feel its potential isn't immense just now....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=155948ff37862c26f398cd65e6fcea9a990deb5eb613098443e2f3cd8daab251" target="_blank" rel="noopener noreferrer">AMD upgraded, PDD downgraded: Wall Street’s top analyst calls</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.53
+                                </span>
+                            </div>
+                            <div class="article-summary">The most talked about and market moving research calls around Wall Street are now in one place. Here are today’s research calls that investors need to know, as compiled by The Fly. Top 5 Upgrades: Tru...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0577253189e4d6d2bc5e383c15780bc98c9c1bb9978b646c8b0c80b6550cb76e" target="_blank" rel="noopener noreferrer">There's Still Time to Raise a Glass for Pediatric Cancer Research</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">For the 14th consecutive year, Florida's largest family-owned wine and spirits retailer, ABC Fine Wine & Spirits (ABC) ,has partnered with the National Pediatric Cancer Foundation (NPCF), and Constell...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c5324235f515e7d5f2090da21a753b2e8ee0bee663f40e04297268b4e5af7253" target="_blank" rel="noopener noreferrer">Warren Buffett Just Bought 12 Dividend Stocks. Here's the Best of the Bunch for Income Investors.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Income investors should especially like one of the stocks Buffett bought in the second quarter....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3ffdd46d38fb0b41e397bee5d383b2c12a7e04ea6746ffb4df177ee0bf28c76a" target="_blank" rel="noopener noreferrer">Will Constellation Brands Recover After Canada's Alcohol Boycott Hits Shares?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.80
+                                </span>
+                            </div>
+                            <div class="article-summary">Thinking about what to do with Constellation Brands right now? You’re not alone. After all, this is a company that rarely fades from investor watchlists, but with the stock closing recently at $163.68...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b65d878c604cea0a118befa2c74e1598b4f4ace68b3e5efd1d31cf14eda09074" target="_blank" rel="noopener noreferrer">How is Wall Street Reacting To Constellation Brands’ (STZ) Divestment of Copper & Kings?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Constellation Brands, Inc. (NYSE:STZ) is one of the Most Undervalued US Stocks According to Wall Street Analysts. On August 5, Constellation Brands, Inc. (NYSE:STZ) announced the sale of its Copper & ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8ffe60cc544fd9ad28c0845cbf789bf7acd7d5c37513fd25bb87e1b644f32789" target="_blank" rel="noopener noreferrer">AMD upgraded, PDD downgraded: Wall Street's top analyst calls</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">AMD upgraded, PDD downgraded: Wall Street's top analyst calls...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=12c120cc9af02af5398df3bd727108d142ba9c1fcb4b27b0ae54ec281f92ba4e" target="_blank" rel="noopener noreferrer">BofA cuts Constellation Brands to Underperform on weak beer demand</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Investing.com -- Bank of America downgraded Constellation Brands to Underperform from Neutral and cut its price target to $150 from $182, saying beer consumption remains soft and the stock is still no...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d59d13ffcbe4898ce01cfd355666933473bd6d22d93df620f8673f331ee1024e" target="_blank" rel="noopener noreferrer">Are Wall Street Analysts Predicting Constellation Brands Stock Will Climb or Sink?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.86
+                                </span>
+                            </div>
+                            <div class="article-summary">While Constellation Brands has lagged behind the broader market, are Wall Street analysts still bullish about its prospects?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b0afcc53e0eba1c0807275e1598fa00cb9459ee9b8977bc12eb4e1572062a060" target="_blank" rel="noopener noreferrer">Top Stock Movers Now: Eli Lilly, EchoStar, Constellation Brands, and More</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.28
+                                </span>
+                            </div>
+                            <div class="article-summary">U.S. equities were little changed at midday as the market had little news that would move stocks very much either way....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5c97a94761644137ee70023dc1d9cc48f09407383018aa507a3b3ee3ec876660" target="_blank" rel="noopener noreferrer">Sector Update: Consumer Stocks Decline in Afternoon Trading</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Consumer stocks were lower Tuesday afternoon, with the Consumer Staples Select Sector SPDR Fund (XLP...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=276024b2eba9b4ed927a6374228244e169e5aa56f9110b27c4644ca8190b366f" target="_blank" rel="noopener noreferrer">Why Constellation Brands (STZ) Shares Are Sliding Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of beer, wine, and spirits company Constellation Brands (NYSE:STZ) fell 3% in the afternoon session after a downgrade from Bank of America Securities, which lowered its rating on the stock to U...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4161ee57dda7bab93957dca7a890882ad80a0e6ef0a42d02edcfe16f8196f5d9" target="_blank" rel="noopener noreferrer">Constellation Brands, Oklo, AMD: Trending Tickers</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Josh Lipton and Hennion & Walsh chief investment officer Kevin Mahn take a closer look at some of Tuesday's trending tickers ahead of the closing bell. Bank of America analysts downgraded Constellatio...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=34acae60c1a53eee5456c3e87cb10868b7f6c64a37ad763948d7583f4e0b035c" target="_blank" rel="noopener noreferrer">Sector Update: Consumer Stocks Mixed in Late Afternoon Trading</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Consumer stocks were mixed late Tuesday afternoon, with the Consumer Staples Select Sector SPDR Fund...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ae6f575ad049b269334b05223a6376ebc11164c17777f7099cad1b715a49b24d" target="_blank" rel="noopener noreferrer">Why Constellation Brands (STZ) Shares Are Trading Lower Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of beer, wine, and spirits company Constellation Brands (NYSE:STZ) fell 3.3% in the afternoon session after RBC Capital trimmed its price target on the stock to $230 from $233, though it mainta...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=083436e1e340b252735e6236c07272e42b87e3818a4f7f30730fbce60706dc63" target="_blank" rel="noopener noreferrer">Warren Buffett's Portfolio Includes 8 High-Yield Dividend Stocks -- Here's My Top Pick</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-24</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">Despite its challenges, Constellation Brands may be the greatest opportunity among Berkshire's high-yield dividend holdings....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c195cec5c971679e939b6322de40b4b1bdbb7380fc2e1e39b50c197f7bbe9f19" target="_blank" rel="noopener noreferrer">12 Cheap Consumer Stocks for a Rocky Market</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-23</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">The market is looking frothy, making it a good time to consider stocks that tend to hold up in a selloff....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=88fa18b796d6c14f733154c798f6f47d44474ac0bebc4ae0fbf5fffdbdedd9ba" target="_blank" rel="noopener noreferrer">Americans aren't drinking anymore. Alcohol giants are scrambling to manage the fallout.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-23</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Survey results show Americans are drinking less and less. As volumes drop off, alcohol giants are being forced to adapt....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0bd46e65fd742b9c67bc42a9650c237be3e256672ed3d84545b8ec4a5ca2598a" target="_blank" rel="noopener noreferrer">3 Reasons to Sell STZ and 1 Stock to Buy Instead</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Constellation Brands currently trades at $166.78 per share and has shown little upside over the past six months, posting a small loss of 3.3%. The stock also fell short of the S&P 500’s 5% gain during...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=56e50dc6bb91177330a8d4d8e2a20cba341d02eeeec3bd03088bcc169c148d2c" target="_blank" rel="noopener noreferrer">Warren Buffett’s Berkshire Hathaway Buys Over 5 Million Shares in UnitedHealth Group (UNH)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">UnitedHealth Group Incorporated (NYSE:UNH) is one of the most buzzing stocks to invest in right now. CNBC reported on August 14 that Warren Buffett’s Berkshire Hathaway bought more than 5 million shar...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=70cf95cb96037a8fd9c9bb5763cf38445e5a71e27bf280b7ef4268a1541e56f1" target="_blank" rel="noopener noreferrer">Invest Like Warren Buffett With These ETFs</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Buffett's Berkshire reshapes its portfolio with big bets on UnitedHealth and housing, while trimming Apple and Bank of America. The big bets put focus on ETFs like IHF and ITB....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d7a92971a5ea28fd75712f940e3e5fc84a04daf1c821b291826ff31d527a67d4" target="_blank" rel="noopener noreferrer">Constellation Brands Inc. Cl A stock underperforms Monday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Constellation Brands Inc. Cl A stock underperforms Monday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=034793eb9754f6b0dd0b70111d6ad48a5324bea5e0efdbd13abbeb756e1254be" target="_blank" rel="noopener noreferrer">Constellation Brands, Inc. (STZ)’s “A Terrible Stock,” Says Jim Cramer</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">We recently published 12 Latest Stocks Jim Cramer Discussed. Constellation Brands, Inc. (NYSE:STZ) is one of the stocks Jim Cramer recently discussed. Alcoholic beverage producer Constellation Brands,...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5d9bf8ebeea214a5858f2cc20a5d671817f751af16b4c9787883869e7e86b6d6" target="_blank" rel="noopener noreferrer">Berkshire Hathaway 13F Filing Reveals Warren Buffett's Secret Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Warren Buffett’s Berkshire Hathaway revealed a position in embattled healthcare giant UnitedHealth Group while showing smaller stakes in longtime holdings Apple and Bank of America, according to a reg...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=39130660744f0e7af9d640dd012fc51d967d70bee5b81b8b0f2a490716a92760" target="_blank" rel="noopener noreferrer">Tracking Warren Buffett's Berkshire Hathaway Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway's Q2 2025 portfolio sees changes with new stakes, position trims, and notable increases. Read here for more insights....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7f25e28d9b7d11d3d98514c8327da6d6cb04603967a4ff648d5756c3677b5f84" target="_blank" rel="noopener noreferrer">Warren Buffett’s Berkshire Further Pares Stake in Apple, Adds UnitedHealth Position</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>DowJones</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Warren Buffett’s Berkshire Further Pares Stake in Apple, Adds UnitedHealth Position...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=34f3280c5e9b78c4db76eff5619938fc2f32849a82405de5131c9a48819e2f48" target="_blank" rel="noopener noreferrer">Trending tickers: Intel, Amazon, Applied Materials, UnitedHealth and AB Foods</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The latest investor updates on stocks that are trending on Friday...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a889359c0209d48f2f21c7ebde8365b48ac1ebb393ac95faa347ab4c232722c0" target="_blank" rel="noopener noreferrer">Berkshire Hathaway buys $1.6B stake in UnitedHealth, stock jumps</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire’s bet on UnitedHealth lifted its shares around 11%, but it didn't lift its burdens — the insurer is still under federal scrutiny...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=81349ea70aa5d96261bae98fad898b511083a03bc8fa2a550f313a7762497f1f" target="_blank" rel="noopener noreferrer">5 Stocks Warren Buffett Has Bought So Far in 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Here are five stocks that Buffett recently invested in....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=521972bbd3308cfd1d6197616ab710700d2668cf3d099326cf72393ed474c8cf" target="_blank" rel="noopener noreferrer">Survey says U.S. alcohol consumption at record low, Reuters reports</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.74
+                                </span>
+                            </div>
+                            <div class="article-summary">A survey conducted by analytics firm Gallup found alcohol consumption among U.S. adults at the lowest level on record as most Americans, for the first time, view even moderate drinking as harmful, rep...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=91c18ceba11a6aa2e9a96df36ad04acc3e44db7875e02a0fe7be4314e7559da9" target="_blank" rel="noopener noreferrer">Here's Why Constellation Brands (NYSE:STZ) Can Manage Its Debt Responsibly</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">David Iben put it well when he said, 'Volatility is not a risk we care about. What we care about is avoiding the......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f34e5211a0741db9f96265c4bbf4a658253f6bb4e731a6398420a2ec50203d7c" target="_blank" rel="noopener noreferrer">Constellation Brands to Present at the 2025 Barclays Global Consumer Staples Conference on September 2, 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ROCHESTER, N.Y., Aug. 11, 2025 (GLOBE NEWSWIRE) -- Constellation Brands, Inc. (NYSE: STZ), a leading beverage alcohol company, announced today that Bill Newlands, President and Chief Executive Officer...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=feae7228f2c2b0180a4886d2d6fd7d429be4aa908fd84511f46640262c057923" target="_blank" rel="noopener noreferrer">Where Will Constellation Brands Stock Be in 1 Year?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">Constellation stock has experienced a painful hangover, but it has some potential catalysts that investors seem to have overlooked....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=40595b86c796b5a6f9d2e517427ba0ac42986ea9d75aa496fa22068b28d88b03" target="_blank" rel="noopener noreferrer">Constellation Brands Inc. Cl A stock underperforms Friday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Constellation Brands Inc. Cl A stock underperforms Friday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d3328f7322da5e3893bf572815a85939fa978cabae6f64d3ced8fdd259c3dc94" target="_blank" rel="noopener noreferrer">Dividend Champion, Contender, And Challenger Highlights: Week Of August 10</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">A weekly summary of dividend activity for Dividend Champions, Contenders, and Challengers. Read the full list for the week of August 10, 2025 -- here on Seeking Alpha....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a4c51f4ab7500f662c66ab11677f9274acfc9b38870afe9b243b96fc729fd48a" target="_blank" rel="noopener noreferrer">Texas Roadhouse: Beef Inflation Has Me Raising My Stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">Texas Roadhouse stock is dipping amid rising beef prices. Here's why TXRH could be a rare opportunity to invest in a resilient, customer-loved restaurant....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fddebabf577c83c55e31bd2a44287aaea27e7b57ebf5e4ba8a27151e23e93e81" target="_blank" rel="noopener noreferrer">Constellation Brands A Better Pick Than Kraft Heinz But Not A Compelling Buy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.35
+                                </span>
+                            </div>
+                            <div class="article-summary">Get insights on Berkshire Hathaway's investment in Constellation Brands, its risks, and why small investors might benefit more from small-cap opportunities....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3f485b95ce6e0488db8ad1c96bddeb8d92f909e354761855502cf2c21dc2cced" target="_blank" rel="noopener noreferrer">Bernstein Reiterates Outperform Rating on Constellation Brands, Keeps PT at $225</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.22
+                                </span>
+                            </div>
+                            <div class="article-summary">Constellation Brands, Inc. (NYSE:STZ) is one of the top stocks that Grok recommended. On July 29, Bernstein reiterated an Outperform rating on Constellation Brands, Inc. (NYSE:STZ) stock, keeping its ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2336683c0e89d9ac709f86e82fd9348ce048809b9572ca183e0b3dc15bc8de27" target="_blank" rel="noopener noreferrer">3 Consumer Stocks We Find Risky</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Regarded as defensive investments, consumer staples stocks are generally safe bets in choppy markets. But they’re also double-edged swords as they often lag in booming conditions, and this pattern has...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7707f59fd31f4c4c716db35a155e9f15a5533ce85b7c91e87bae58413580dce3" target="_blank" rel="noopener noreferrer">Constellation Brands Inc. Cl A stock outperforms competitors on strong trading day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Constellation Brands Inc. Cl A stock outperforms competitors on strong trading day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cb83a1bfe386dc2ae644bd820a02aa8e9d5a4134153f30f3c5cb9a9bd304aaaf" target="_blank" rel="noopener noreferrer">Constellation Brands sells Copper & Kings to Bourdon Spirits Company</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">Bourdon Spirits Company said the acquisition "deepens" its "investment in the future of American brandy"....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=76b1f71961f97794c06474ae88574a54347af4378383a2fb4c15683b93c8e528" target="_blank" rel="noopener noreferrer">Ambev: Healthy Brewing Leader With A Generous Dividend</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover why Ambev offers strong margins, high dividends, and growth potential despite Brazil's risks. Explore premium trends and why it's rated a Buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=df94ee5ae51a2cea5aa6e63d2dc1450d0a5744df744b3d1602b30edba26ed564" target="_blank" rel="noopener noreferrer">Buffett's 35 Berkshire July Dividend Dogs Note 6 To Watch For August</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway's Q1 2025 portfolio moves, top dividend picks, and safe stocks analyzed....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1f5747395678ca22eb4dc94148b6eb5566e13f6a6b138a8881fb752d54b7e488" target="_blank" rel="noopener noreferrer">Aluminum can maker Ball Corp lifts annual profit forecast buoyed by strong global demand</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Ball witnessed a 4.1% rise in global aluminum packaging shipments during the quarter, up from a 2.6% rise in the prior three months.  The company, serving clients like PepsiCo, Coca-Cola and Constella...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3c1c981ac6fa5271060c67ce81e6e69a8afc74210b7b90589de239cad9c9108e" target="_blank" rel="noopener noreferrer">Bourdon Spirits Company Acquires Copper & Kings from Constellation Brands</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">Bourdon Spirits Company, a family-owned spirits company based in Louisville, has announced its acquisition of Copper & Kings American Brandy Company from Constellation Brands. The move marks a key mil...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=37f897a77261a02144cd56e61ab6113914ae3d4baa1cdb22d8fac1d5404be93d" target="_blank" rel="noopener noreferrer">Corona’s parent is looking for more beer drinkers. Why Budweiser could be the buzzkill.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Corona’s parent is looking for more beer drinkers. Why Budweiser could be the buzzkill....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=527e5022e3d8e047c2bf7b638fa3b185d26b23c1f40cca0588a88350fc37ed61" target="_blank" rel="noopener noreferrer">Constellation Brands Inc. Cl A stock underperforms Monday when compared to competitors despite daily gains</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">Constellation Brands Inc. Cl A stock underperforms Monday when compared to competitors despite daily gains...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=96cd86ab6fc407328e620d7651050bc56574543633bcf0132657d5530748573f" target="_blank" rel="noopener noreferrer">Constellation Brands, Inc. (STZ): A Bull Case Theory</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">We came across a bullish thesis on Constellation Brands, Inc. on Valueinvesting subreddit by raytoei. In this article, we will summarize the bulls’ thesis on STZ. Constellation Brands, Inc.’s share wa...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f5735507a15ac9c29f25933a61b952d26acf3b29a91b08dbc5f6c9ea1fe5820a" target="_blank" rel="noopener noreferrer">Craft Spirits Market Forecast Report 2025-2030: Craft Spirits Market to Surge with 9.55% Growth, Driven by Premiumization and Cocktail Culture</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.86
+                                </span>
+                            </div>
+                            <div class="article-summary">The Global Craft Spirits Market is projected to rise from USD 32.919 billion in 2025 to USD 51.931 billion in 2030, at a CAGR of 9.55%. Driven by premiumization, cocktail culture, and rising disposabl...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ae6a4115ce704871a92852deaa67bb2c57380e681d6ad38f55900027f084c79d" target="_blank" rel="noopener noreferrer">Constellation Brands (NYSE:STZ shareholders incur further losses as stock declines 4.9% this week, taking one-year losses to 30%</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">Passive investing in an index fund is a good way to ensure your own returns roughly match the overall market. But if......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=14234049085d822eae2f41551cfe9aa89bcb6ec486d346680bd204d5c0fc50d7" target="_blank" rel="noopener noreferrer">UBS Raises PT on Constellation Brands, Inc. (STZ) Following Q1 2025 Earnings Release</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">Constellation Brands, Inc. (NYSE:STZ), with its low price-to-earnings multiple and significant presence in Warren Buffett’s investment portfolio, secures a spot on our list of the 12 Cheap Value Stock...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c58e4153898a473e51d67e3b4c33954887f9ab70da77ed7a00450d0f041f3e2d" target="_blank" rel="noopener noreferrer">Why Is Constellation Brands (STZ) Down 1.4% Since Last Earnings Report?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-07-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">Constellation Brands (STZ) reported earnings 30 days ago. What's next for the stock? We take a look at earnings estimates for some clues....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6e3f724af4fd95395d2b0c277be62630f02b4a6431979a2a10fa6e51b05ee4fc" target="_blank" rel="noopener noreferrer">Constellation Brands Inc. Cl A stock underperforms Thursday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-07-31</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Constellation Brands Inc. Cl A stock underperforms Thursday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

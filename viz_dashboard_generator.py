@@ -15,8 +15,8 @@ import shutil
 import json
 
 # Correct package imports
-from automated_sentiment_daily_analysis.utils.config.ticker_config import load_master_tickers
-from automated_sentiment_daily_analysis.utils.db.sentiment_history import SentimentHistoryDB
+from utils.config.ticker_config import load_master_tickers
+from utils.db.sentiment_history import SentimentHistoryDB
 
 class DashboardGenerator:
     def __init__(self):
@@ -39,7 +39,7 @@ class DashboardGenerator:
         """Load latest sentiment data"""
         try:
             # Load sentiment data
-            sentiment_path = self.output_dir / "sentiment_summary_latest.csv"
+            sentiment_path = self.output_dir / "results" / "sentiment_summary_latest.csv"
             if not sentiment_path.exists():
                 raise FileNotFoundError(f"Sentiment data not found at {sentiment_path}")
                 
@@ -48,7 +48,7 @@ class DashboardGenerator:
                 raise ValueError("Sentiment data file is empty")
             
             # Load detailed articles data
-            detailed_path = self.output_dir / "sentiment_detailed_latest.csv"
+            detailed_path = self.output_dir / "results" / "sentiment_detailed_latest.csv"
             if detailed_path.exists():
                 articles_df = pd.read_csv(detailed_path)
                 articles_df['date'] = pd.to_datetime(articles_df['date'])

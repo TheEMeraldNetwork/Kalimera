@@ -1,0 +1,599 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>MANNKIND CORPORATION (MNKD) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">MANNKIND CORPORATION (MNKD)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">21</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">13</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.32</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0e795b0005fb4ecbd2969d21cb908db0cb4653f0c69b3554032e013c006abe79" target="_blank" rel="noopener noreferrer">Why MannKind (MNKD) Is Up 11.7% After Expanding Technosphere Partnership With United Therapeutics</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-30</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">On August 24, 2025, United Therapeutics announced an amendment to its license and collaboration agreement with MannKind, expanding the deal to cover a new development product formulated using MannKind...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=794153fd8ef07fc98c7e8226f55ae795772839d04e221b5ad95b71caf9bc3a79" target="_blank" rel="noopener noreferrer">MannKind Corporation (MNKD) Seeks FDA Pediatric Approval for Afrezza</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.30
+                                </span>
+                            </div>
+                            <div class="article-summary">We recently published 10 Best Biotech Stocks to Buy Under $10. MannKind Corporation stands fifth among them. MannKind Corporation (NASDAQ:MNKD) is a biopharmaceutical company developing inhaled therap...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b7952d6c5c7e2959e8e3316ace1b6ed1d946ba54e4103af8bd9eb42de08cee64" target="_blank" rel="noopener noreferrer">Should the Expanded Technosphere Partnership With MannKind Shape United Therapeutics’ (UTHR) Investment Outlook?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">On August 24, 2025, MannKind Corporation announced an amendment to its global license and collaboration agreement with United Therapeutics, expanding the partnership to include an additional investiga...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ce54f17cd59d36ff86737a5c22faf76008fc0b20196a61f44f1a50ba9cf96dd0" target="_blank" rel="noopener noreferrer">Marvell downgraded, Dollar Tree upgraded: Wall Street's top analyst calls</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Marvell downgraded, Dollar Tree upgraded: Wall Street's top analyst calls...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=38ed1a80f4bd13fabebcbafda4157406e94de0b1a58722220e51d6a44cbcdec6" target="_blank" rel="noopener noreferrer">New Strong Sell Stocks for August 27th</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">CVGI, INBK and MNKD have been added to the Zacks Rank #5 (Strong Sell) List on August 27, 2025....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=476481d51056d573b9b5e3a3597e062c0ae95924135904239c0d996e5923d471" target="_blank" rel="noopener noreferrer">MannKind Announces Expansion of United Therapeutics Collaboration for Second Inhaled Therapy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.73
+                                </span>
+                            </div>
+                            <div class="article-summary">Initial collaboration led to Tyvaso DPI®, the first FDA-approved dry powder inhalation treatment for pulmonary hypertensionDANBURY, Conn. and BOSTON, Aug. 27, 2025 (GLOBE NEWSWIRE) -- MannKind Corpora...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=34ee1d105639c89725e99148b30afbee7e16dfad747b10f15cbd9ead0e63e8b0" target="_blank" rel="noopener noreferrer">MannKind to Present at Upcoming Investor Conferences</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">DANBURY, Conn. and WESTLAKE VILLAGE, Calif., Aug. 27, 2025 (GLOBE NEWSWIRE) -- MannKind Corporation (Nasdaq: MNKD), a company focused on the development and commercialization of innovative inhaled the...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1d5ae6eed302e3289e6f81c866194b491f6605b0f2f228f7607f8fd149bad9d9" target="_blank" rel="noopener noreferrer">Leerink Partners Reiterates a Buy Rating on MannKind Corporation (MNKD), Keeps the PT at $7</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">MannKind Corporation (NASDAQ:MNKD) is one of the top strong buy stocks under $5 to buy now. On August 8, Leerink Partners analyst Faisal Khurshid reiterated a Buy rating on MannKind Corporation (NASDA...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f1746a6d7fc87959b2a8df9bdccf5f27e90d630e5e3561d1c52ab3649cbf7ce9" target="_blank" rel="noopener noreferrer">MannKind to Acquire scPharmaceuticals, Accelerating Revenue Growth and Emerging as a Patient-Centric Leader in Cardiometabolic and Lung Diseases</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.91
+                                </span>
+                            </div>
+                            <div class="article-summary">Acquisition expected to diversify and accelerate double-digit revenue growth with FUROSCIX®, an innovative treatment for edema due to chronic heart failure and chronic kidney disease, addressing signi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=750dac81b74ec79b91b88fc059619364c70c82f5626ca640e253acd9a0a97e39" target="_blank" rel="noopener noreferrer">MannKind to Acquire scPharmaceuticals for Up to $360 Million</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.34
+                                </span>
+                            </div>
+                            <div class="article-summary">MannKind (MNKD) said Monday it has agreed to acquire scPharmaceuticals (SCPH) for a total deal value...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c76adeb0d387ef5c7bf34076b29bd425b46a06cecb0d524a0debed11105a98f4" target="_blank" rel="noopener noreferrer">Leerink Partners Reiterates a Buy on MannKind Corporation (MNKD), Keeps the PT</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-23</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">MannKind Corporation (NASDAQ:MNKD) is one of the Most Oversold Penny Stocks to Buy Now. On August 6, Faisal Khurshid from Leerink Partners reiterated a Buy rating on MannKind Corporation (NASDAQ:MNKD)...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=548a93949d9358e4602bf37650ee4d251876c7b87087ab42c2c32c9f4b3f7049" target="_blank" rel="noopener noreferrer">MannKind (MNKD) Secures $500M Financing to Advance Inhaled Therapies Pipeline</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.79
+                                </span>
+                            </div>
+                            <div class="article-summary">We recently published 12 Best Healthcare Stocks to Buy Under $30. MannKind Corporation (NASDAQ:MNKD) is one of the best healthcare stocks. MannKind Corporation (NASDAQ:MNKD)’s most recent milestone is...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=93240a21f77074826ed77d4ed31a01a202490b467f7e112279cdf94538b48de8" target="_blank" rel="noopener noreferrer">MannKind Second Quarter 2025 Earnings: EPS: US$0.002 (vs US$0.007 loss in 2Q 2024)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">MannKind ( NASDAQ:MNKD ) Second Quarter 2025 Results Key Financial Results Revenue: US$76.5m (up 5.7% from 2Q 2024......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=55a84df3a2d8d9b27029aea8b37bbe52b39fdbfc0a45a7d1ebf259cf6a4003c6" target="_blank" rel="noopener noreferrer">MannKind Corporation Reports  Second Quarter 2025 Financial Results And  Provides Business Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Conference call today at 9:00 am ET2Q 2025 revenues of $76.5M, +6% v. 2Q 2024YTD 2025 revenues of $154.9M, +12% v. YTD 2024Advanced pipeline: Submitted sBLA for Afrezza® in pediatric populationMNKD-10...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4acc5fd53768df375f9e44c910d32006f6bc2772574172ed7e46db9f0698ca90" target="_blank" rel="noopener noreferrer">MannKind and Blackstone Announce up to $500 Million Strategic Financing Agreement</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.47
+                                </span>
+                            </div>
+                            <div class="article-summary">Strengthens MannKind’s capital structure with flexible, long-term, non-dilutive fundingMannKind to receive $75 million in cash at closing DANBURY, Conn. and WESTLAKE VILLAGE, Calif. and NEW YORK, Aug....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bac61795e83ece35a4a649db0eb30cb3bdbea6ef118e17b075c8b3f88ded6a5f" target="_blank" rel="noopener noreferrer">MannKind (MNKD) Reports Break-Even Earnings for Q2</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.33
+                                </span>
+                            </div>
+                            <div class="article-summary">MannKind (MNKD) delivered earnings and revenue surprises of -100.00% and -2.58%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=405f680c5381b00fe6c0a2641238d12a39009751847cc409e127f221f8266e9b" target="_blank" rel="noopener noreferrer">MannKind (MNKD) Q2 Earnings: How Key Metrics Compare to Wall Street Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The headline numbers for MannKind (MNKD) give insight into how the company performed in the quarter ended June 2025, but it may be worthwhile to compare some of its key metrics to Wall Street estimate...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2ca07b51df158c03031dd98fbc9e773538968708c26523b161781aac21d121e1" target="_blank" rel="noopener noreferrer">MannKind Corporation: A Post-Q2 Assessment</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">MannKind saw decent growth from its two core products in Q2 and just signed a new non-dilutive financing agreement with Blackstone. Read the latest MNKD analysis here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=13c18dee6f38783a37fa760a1e1fe787996ee7a2870f4f9a4d4761e5c41be77d" target="_blank" rel="noopener noreferrer">MannKind Corporation (MNKD) Q2 2025 Earnings Conference Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">MannKind Corporation (NASDAQ:MNKD) Q2 2025 Earnings Call August 6, 2025 9:00 AM ETCompany ParticipantsChristopher B....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fe877211c77fb64684ea50b812cd286966054343a35b138ae73e7cb4bf812f8e" target="_blank" rel="noopener noreferrer">H.C. Wainwright Affirms MannKind Corp (MNKD)’s ‘Buy’ Rating Buoyed by Product Pipeline</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">MannKind Corporation (NASDAQ:MNKD) is one of the penny stocks that will skyrocket. On July 16, H.C. Wainwright assumed coverage of the stock with a ‘Buy’ rating and a $9 price target. The bullish stan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b0c13284fc4d239cd6284b43c5a02e17533aad9898add9d4be57da4bd845aa63" target="_blank" rel="noopener noreferrer">AbCellera Biologics Inc. (ABCL) Expected to Beat Earnings Estimates: Can the Stock Move Higher?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-07-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">ABCELLERA BIOLG (ABCL) possesses the right combination of the two key ingredients for a likely earnings beat in its upcoming report. Get prepared with the key expectations....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

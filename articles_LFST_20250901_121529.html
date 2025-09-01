@@ -1,0 +1,599 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>LIFESTANCE HEALTH GROUP (LFST) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">LIFESTANCE HEALTH GROUP (LFST)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">21</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">11</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.23</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f18938509c44a50ce63ca61011359684d970947c355b3477fc7b1781413ce01e" target="_blank" rel="noopener noreferrer">LifeStance to Present at the 23rd Annual Morgan Stanley Healthcare Conference</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">SCOTTSDALE, Ariz., Aug. 26, 2025 (GLOBE NEWSWIRE) -- LifeStance Health Group, Inc. (NASDAQ: LFST), one of the nation’s largest providers of outpatient mental health care, today announced that manageme...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fbddc4b958ebf82b971cd3095b88878925a1598f3d8e67e0217511383a535b10" target="_blank" rel="noopener noreferrer">Sarah Personette Appointed to LifeStance Board of Directors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">LifeStance Health (NASDAQ: LFST), one of the nation's largest providers of outpatient mental health care, today announced the appointment of Sarah Personette, an accomplished customer experience, medi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e78b900cd76a4a4aa82e290150416f0369a00e8c294804f4b6d784dc59868676" target="_blank" rel="noopener noreferrer">1 High-Flying Stock Worth Your Attention and 2 We Find Risky</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">Expensive stocks typically earn their valuations through superior growth rates that other companies simply can’t match. The flip side though is that these lofty expectations make them particularly sus...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e8b9ddfb3d5ee1f4711e97c478f50eee75fc7a5893f5d9873b3ef09c209cad5a" target="_blank" rel="noopener noreferrer">LifeStance Health (LFST) Accelerates Growth with AI-Enabled Operations and Clinician Expansion</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">We recently published 12 Best Healthcare Stocks to Buy Under $30. LifeStance Health Group, Inc. (NASDAQ:LFST) is one of the best healthcare stocks. LifeStance Health Group, Inc. (NASDAQ:LFST) stands f...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=23845613211895bf553a6471e63e5b7412223e60b1dd9b95bbdd6267848b46b8" target="_blank" rel="noopener noreferrer">LifeStance (LFST) Extends Rally to 5th Day on Strong Investor Confidence</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">We recently published 10 Stocks Crushing While Wall Street Naps. LifeStance Health Group, Inc. (NASDAQ:LFST) is one of the top performers on Thursday. LifeStance Health extended its winning streak to ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c7c19de0fd53c29c602fcb9bb850e3afe51d9bf90a6463d84ad2979226e54c5e" target="_blank" rel="noopener noreferrer">The 5 Most Interesting Analyst Questions From LifeStance Health Group’s Q2 Earnings Call</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">LifeStance Health’s second quarter results were met with a positive market response, reflecting management’s efforts to boost both clinician productivity and operational efficiency. The company attrib...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=01ab3a7654695726edde5d0a63f5c64e5812f37476ff7c0e2922ee7edf145081" target="_blank" rel="noopener noreferrer">LifeStance (LFST) Extends 4-Day Run on Strong Earnings</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">We recently published 10 Stocks With Whopping 11-97% Upside. LifeStance Health Group, Inc. (NASDAQ:LFST) is one of the best-performing stocks on Wednesday. LifeStance Health extended its winning strea...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=24cddbfb265c8e409e4ef0fe97e92b42d31680f9a58745ed9e40e990ebaa89e8" target="_blank" rel="noopener noreferrer">Azenta, LifeStance Health Group, BioMarin Pharmaceutical, AMN Healthcare Services, and ANI Pharmaceuticals Stocks Trade Up, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks jumped in the afternoon session after markets continued to rally amid growing speculation of an impending interest rate cut by the Federal Reserve. Following a favorable Consumer Pr...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fce1939e4f8340e4a24f6205bd1f0e598bd16c5f39d59ff043b3485dacf89d07" target="_blank" rel="noopener noreferrer">LFST Q2 Deep Dive: Productivity Initiatives and Technology Investments Drive Margin Expansion</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.90
+                                </span>
+                            </div>
+                            <div class="article-summary">Behavioral health company LifeStance Health (NASDAQ:LFST) met Wall Street’s revenue expectations in Q2 CY2025, with sales up 10.6% year on year to $345.3 million. On the other hand, next quarter’s rev...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4ec05ddc38b992efdd8749450b400ff224c2f89bd00d339048446231539cb42f" target="_blank" rel="noopener noreferrer">3 Penny Stocks With Market Caps Over $700M To Watch</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.45
+                                </span>
+                            </div>
+                            <div class="article-summary">As the Nasdaq closes at a record high, driven by a tech stock rally led by Apple, investors are witnessing solid weekly gains across major indexes. In such an optimistic market landscape, penny stocks...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ef7083b8f4503f92dcf20b9c3e33c6b38d737b314da99276baa07817f8eeb171" target="_blank" rel="noopener noreferrer">UBS Raised the Firm’s PT on LifeStance Health Group (LFST), Kept a Buy Rating</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.72
+                                </span>
+                            </div>
+                            <div class="article-summary">LifeStance Health Group, Inc. (NASDAQ:LFST) is one of the Best 52-Week Low Penny Stocks to Buy Now. On August 8, UBS raised the firm’s price target for LifeStance Health Group, Inc. (NASDAQ:LFST) from...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=847d22cd2e6874233af9e26aadf9463b2a32e84cc49ce0c1e9110a248e269017" target="_blank" rel="noopener noreferrer">LifeStance Health Group, Inc. (LFST) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">LifeStance Health Group, Inc. (NASDAQ:LFST) Q2 2025 Earnings Conference Call August 7, 2025 8:30 AM ETCompany ParticipantsDavid Patrick Bourdon - CEO &amp;......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2e9de6bb1415e68bd6959ffcdef05d9e77eb70b3a248e78d3a86f0177fea3a0c" target="_blank" rel="noopener noreferrer">Why LifeStance Health Group (LFST) Stock Is Up Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of behavioral health company LifeStance Health (NASDAQ:LFST) jumped 11% in the afternoon session after the company reported mixed second-quarter 2025 results, delivering an earnings beat and a ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=aed538a7ef05160747baefdbbc63fbb419f864940437dcc4d79587ec3e9f2e20" target="_blank" rel="noopener noreferrer">LifeStance Reports Second Quarter 2025 Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">SCOTTSDALE, Ariz., Aug. 07, 2025 (GLOBE NEWSWIRE) -- LifeStance Health Group, Inc. (Nasdaq: LFST), one of the nation’s largest providers of outpatient mental healthcare, today announced financial resu...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9955b31bc7fda9fcbf99a5142f4ee1ec782f28f812e36daa808a70275d50210c" target="_blank" rel="noopener noreferrer">LifeStance Health: Q2 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">The Scottsdale, Arizona-based company said it had a loss of 1 cent per share. The results exceeded Wall Street expectations. The average estimate of four analysts surveyed by Zacks Investment Research...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5b2b086bb4db48d431015d2ac569e4d404ad75161db8919ce2022f890ff093fc" target="_blank" rel="noopener noreferrer">LifeStance Health Group (LFST) Reports Q2 Loss, Tops Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">LifeStance Health (LFST) delivered earnings and revenue surprises of +66.67% and +0.02%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=204743d08e1e049b7772e91ded4fabe997bd7b733c95eb496e464079d195436a" target="_blank" rel="noopener noreferrer">LifeStance Health Group’s (NASDAQ:LFST) Q2 Earnings Results: Revenue In Line With Expectations But Quarterly Revenue Guidance Slightly Misses Expectations</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.65
+                                </span>
+                            </div>
+                            <div class="article-summary">Behavioral health company LifeStance Health (NASDAQ:LFST) met Wall Street’s revenue expectations in Q2 CY2025, with sales up 10.6% year on year to $345.3 million. On the other hand, next quarter’s rev...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e6bafebc8ed5c08f4276f29c3b6947122ee5094d1057ab03af97b80dfd14e72e" target="_blank" rel="noopener noreferrer">LifeStance Health Group (LFST) Reports Earnings Tomorrow: What To Expect</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Behavioral health company LifeStance Health (NASDAQ:LFST) will be reporting earnings this Thursday before the bell. Here’s what to expect....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bb114b9b8124d5ab83e53e9d8ca1ca7d7310428ac6c98f72e6061d2d18e3ba34" target="_blank" rel="noopener noreferrer">3 Small-Cap Stocks We Find Risky</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.40
+                                </span>
+                            </div>
+                            <div class="article-summary">Investors looking for hidden gems should keep an eye on small-cap stocks because they’re frequently overlooked by Wall Street. Many opportunities exist in this part of the market, but it is also a hig...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b145b5ad0b5d6c54f0793327abd4fa85e093bdf8a2c857bdc311287162ea8452" target="_blank" rel="noopener noreferrer">Lifestance Health Group (LFST) Rated as a Buy at BTIG amid Commercially Insured Patients Boost</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">LifeStance Health Group, Inc. (NASDAQ:LFST) is one of the penny stocks that will skyrocket. On July 25, BTIG initiated coverage of the stock with a “Buy” rating and an $8 price target. The bullish sta...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=40e76c15d8cc442d66ed433209675d269703e48e1e555b0257201c0bd8ead006" target="_blank" rel="noopener noreferrer">Top Growth Companies With Insider Stake In July 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-07-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.49
+                                </span>
+                            </div>
+                            <div class="article-summary">As the U.S. stock market continues to ride a wave of optimism with major indexes on track for their third consecutive month of gains, driven by strong corporate earnings and economic resilience, inves...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        
