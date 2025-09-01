@@ -1172,7 +1172,7 @@ class DashboardGenerator:
             html_path = self.generate_html()
             webbrowser.open(f'file://{html_path.absolute()}')
             self.logger.info(f"\nDashboard generated and opened: {html_path}")
-            self.logger.info(f"Archive directory: {self.archive_dir}")
+            self.logger.info(f"Dashboard generated successfully in: {self.output_dir}")
         except Exception as e:
             self.logger.error(f"Failed to generate dashboard: {e}")
             raise
