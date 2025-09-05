@@ -1,0 +1,2903 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>PepsiCo Inc. (PEP) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">PepsiCo Inc. (PEP)</h1>
+                    <a href="index.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">165</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">75</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">39</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.13</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=619b98c3e27270340a7f8e339a5b1bb646191065f4305b0ecce480598c53d761" target="_blank" rel="noopener noreferrer">PepsiCo (PEP): Buy, Sell, or Hold Post Q2 Earnings?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Since March 2025, PepsiCo has been in a holding pattern, posting a small loss of 4.5% while floating around $147.00. The stock also fell short of the S&P 500’s 11.3% gain during that period....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ac4480b8197b3f58756e7af51d023baecc77795503ac16e402383ae20fbec60c" target="_blank" rel="noopener noreferrer">1 Mega-Cap Stock on Our Watchlist and 2 We Turn Down</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">Megacap stocks are behemoths that set the tone for their industries, and their massive scale typically leads to wide moats. However, the downside is that most have already exploited their existing mar...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4a48a6e2bfca461d91af22b4780af05ae9c49b643fdcf3ee52ab704eccb7eae1" target="_blank" rel="noopener noreferrer">Rare Stock Picks In August 2025 - From 32 Discerning Analysts</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">In our monthly Rare Stock Picks series, we're highlighting August 2025 investment picks. Click here for the list of August 2025 Buy recommendations....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ff319daa2c9b4c23cec01197f6d527e905484739251f1cc16056b35ca0677645" target="_blank" rel="noopener noreferrer">Pepsi Has Lost Its Bubbles. Elliott Wants to Make It Pop Again.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo  has lost its fizz, and activist investor Elliott Investment Management sees an opening to push for a turnaround.  Elliott, a hedge fund with about $76 billion in assets, on Sept. 2 said it ha...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=76395a493370d2d88ad12415f1b9ce73d6918a01afba69e4a54b3d6e4b3d4d21" target="_blank" rel="noopener noreferrer">Celsius Has Energy. This Barron’s Stock Pick Has Doubled in One Year.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.52
+                                </span>
+                            </div>
+                            <div class="article-summary">Celsius Holdings  was a Barron’s stock pick one year ago, when shares were trading at $32.  At the time, the energy-drink company’s stock was slumping over signs of slowing growth.  Celsius  makes hea...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8a289e76df983392c9ff64d59b6b3a03660823f69759308a5f9cdc21e80508b6" target="_blank" rel="noopener noreferrer">Wall Street is falling in love with the corporate breakup. Here's why.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">2025 is turning out to be a big year for breakups. Whether by offloading a business unit, spinning out a corporate arm through an IPO, or carving up a Fortune 500 company, that means more fees for ban...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9ad47d03651137e4605432e2c0d76133c32f7dbdaa2c4e3a8c9ca242e0e897b0" target="_blank" rel="noopener noreferrer">This Underrated Consumer Goods Stock Could See Big Returns</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.69
+                                </span>
+                            </div>
+                            <div class="article-summary">This Dividend King consumer stock is starting to get a little credit on Wall Street, but it still has room to run....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ec90a1008ebe688e1c5399d1867367ea85248bc54428ad1d6de1b2bdb8e088b1" target="_blank" rel="noopener noreferrer">Zscaler, Inc. (ZS)’s A “Really Solid Stock,” Says Jim Cramer</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.87
+                                </span>
+                            </div>
+                            <div class="article-summary">We recently published 10 Latest Stocks on Jim Cramer’s Radar. Zscaler, Inc. (NASDAQ:ZS) is one of the stocks Jim Cramer recently discussed. Zscaler, Inc. (NASDAQ:ZS) is a software company that provide...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=774628b7ef5ec5303dc0b5374575ab88c059c562441417ae41f1ca73bb35314b" target="_blank" rel="noopener noreferrer">Celsius Holdings: PepsiCo Partnership And Major Acquisitions Fuel Good Upside</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.79
+                                </span>
+                            </div>
+                            <div class="article-summary">Celsius Holdings' shares surged after the announcement of strengthening the partnership with PepsiCo. See why I rate CELH stock a Buy now....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2621e8068aee5f09c15f9c40b7a204a8dab13e7fd023c680df28fe5886250d68" target="_blank" rel="noopener noreferrer">Zacks Industry Outlook Highlights Coca-Cola, PepsiCo, Monster Beverage, Keurig Dr Pepper and Zevia</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.40
+                                </span>
+                            </div>
+                            <div class="article-summary">Soft drink makers like Coca-Cola, PepsiCo, Monster, Keurig Dr Pepper, and Zevia are battling rising costs and tariffs while chasing growth through health-focused innovation and digital expansion....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0e8b78f8912ca401e3b340a23b06b5688773931b4cfa14ae42e1a0faa0813229" target="_blank" rel="noopener noreferrer">How the newest ISAC aims to help food and agriculture firms thwart cyberattacks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Food industry executives used to shrug off ransomware and cyber-espionage risks. A threat intel group is helping to change that, but its reach remains unclear....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4594314bd2238fce5fbb2df5eb58873b1334c9d47e65f1f39de87b5240425fcf" target="_blank" rel="noopener noreferrer">The Year So Far: Nothing Is Like It Seems</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Even though my focus is always on the long term, I like to check in on how specific names are performing mid-year....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0002dce6bcffb631a7a16468dafce96ad031d528ebd2faf1b42543939ef5bf24" target="_blank" rel="noopener noreferrer">The National Geographic Society and PepsiCo Launch New Food for Tomorrow Program Focused on Regenerative Agriculture</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Today, the National Geographic Society and PepsiCo announced their collaboration to harness the power of science, storytelling, and education to inspire positive change throughout the global food syst...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7c15f4975341fd059837ac7833e7da48ba5af70455f793163b72afa2eb80402b" target="_blank" rel="noopener noreferrer">Buy Top Stock CELH on the Dip in September for Big Gains</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Investors can buy Celsius stock down 36% from its all-time high as it looks to break out of a key technical range on the back of its soaring earnings growth outlook....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b5ac3e0ecb6d0c1b00acfe3819fcf322d94e90f94ec7d372b5841f38194325d6" target="_blank" rel="noopener noreferrer">Elliott Opts for 'Activist-Light' Approach to Get Pepsi on Road to Recovery, Analyst Says</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.26
+                                </span>
+                            </div>
+                            <div class="article-summary">Activist investor Elliott Investment Management built a $4 billion stake in PepsiCo (PEP) and sent a...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8c7ff76e21ca3d5792e90441d428a14c9a715784713d4203ac1774f7b0495114" target="_blank" rel="noopener noreferrer">Jim Cramer Discusses Elliot Management’s Stake in PepsiCo</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo, Inc. (NASDAQ:PEP) is one of the stocks that Jim Cramer put under a microscope. Discussing Elliott Management’s stake in the stock during the episode, Cramer said: “If you study Elliott, as I ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b22c1f43435274a040228a54b60eaa5986418b1561a0c563f3d54a8c5cbad95a" target="_blank" rel="noopener noreferrer">Corporate maneuverings alone can't solve the problem of shifting consumer tastes</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.25
+                                </span>
+                            </div>
+                            <div class="article-summary">Creating narrower, more thematically focused operations are one way to tackle the problem of shifting tastes....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3d72ce4cdd530da529f5e74d3fff950892a613e2088297fdef12d85b2b4306f7" target="_blank" rel="noopener noreferrer">Kraft Heinz Breaks Up, Bumming Out Billionaire Buffett</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.91
+                                </span>
+                            </div>
+                            <div class="article-summary">Warren Buffett may be on the way out, but his word still has weight; shares of Kraft Heinz fell 7% Tuesday....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2c8f7930278df9e125a2b370d9639dc65c4dd1c285d4466825b033a348b1bd95" target="_blank" rel="noopener noreferrer">Google Ruling Shows Antitrust Is Dead. But This New Threat Is Very Much Alive.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Global bond rout deepens, Trump tariffs are back in limbo, food giants are struggling, and more news to start your day....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9550e93020527a398f5c2bf9412c750a62255c4690a2d06e1b14d9184dcf9445" target="_blank" rel="noopener noreferrer">Celsius Holdings Appoints Michael Del Pozzo to the Company’s Board of Directors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">BOCA RATON, Fla., September 03, 2025--Celsius Holdings, Inc. today announced that on Thursday, Aug. 28, 2025, its Board appointed Michael Del Pozzo to the company's Board of Directors....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7474ada6267a55f68d96dff945b3fb8f31c1e73c89a284d4180a46d8b6de519a" target="_blank" rel="noopener noreferrer">Morning Movers: United Therapeutics surges after TETON-2 met primary endpoint</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.05
+                                </span>
+                            </div>
+                            <div class="article-summary">Markets reopened after the Labor Day break on softer footing, with futures tied to the major indexes pointing lower. Investors are balancing several pressures at once: gold prices have surged to fresh...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ed5ea5eff6493b345839fe243e84bd676737b0794a9a63433af27300b5ee4206" target="_blank" rel="noopener noreferrer">Update: PepsiCo Investor Elliott Demands Revamp of Beverage, Food Businesses</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">(Article updated to include PepsiCo's response in the eighth and ninth paragraphs.) PepsiCo's (PE...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f4959737d37ffcd756ba3ac4c59e337fbddbc3a62ba0625ad458b04d658768b6" target="_blank" rel="noopener noreferrer">PepsiCo Faces Tough Decisions, Earnings Dilution Amid Activist Involvement, RBC Says</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.83
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo's (PEP) poor performance has triggered activist involvement, which could drive tough correct...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=385aee0aa8c50dfef34f2e02690315db3543d54268c86707604ef21dbc73126a" target="_blank" rel="noopener noreferrer">Jim Cramer Points Out Mistakes PepsiCo, Inc. (PEP) Might Have Made</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">We recently published 10 Latest Stocks Jim Cramer Discussed Amidst Market Uncertainty. PepsiCo, Inc. (NASDAQ:PEP) is one of the stocks Jim Cramer recently discussed. Tuesday was a cracker of a day for...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f006cd56de5754dcb251f7a9400dcf856f36542d90684e04c64021e0a0eec788" target="_blank" rel="noopener noreferrer">Jefferies Maintains a Buy on Celsius Holdings (CELH)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Celsius Holdings, Inc. (NASDAQ:CELH) is one of the best hot large cap stocks to buy according to hedge funds. On August 29, Jefferies analyst Kaumil Gajrawala maintained a Buy rating on Celsius Holdin...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8c1d1e699857142af7025adab085c2b266be44651f30df0bcdc415df02fae03b" target="_blank" rel="noopener noreferrer">Elliott Pushes for PepsiCo Turnaround With $4 Billion Stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>DowJones</span>
+                                <span class="article-sentiment positive">
+                                    0.80
+                                </span>
+                            </div>
+                            <div class="article-summary">Elliott Pushes for PepsiCo Turnaround With $4 Billion Stake...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=32814bf22ab94d7f7e025c563962b054394251f20ca9481747ef553f7d994787" target="_blank" rel="noopener noreferrer">PepsiCo Stock Jumps. Why Elliott Investment Management Is Taking a $4 Billion Stake.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo Stock Jumps. Why Elliott Investment Management Is Taking a $4 Billion Stake....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3ee7f538e5bacf508340e563822ba06cf7e4436f8fb7ff7f2150860ddd58b754" target="_blank" rel="noopener noreferrer">Celsius Holdings: My Thoughts About The Pepsi And Rockstar Deal</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo increased its stake in Celsius to 11% and aligned interests, making Celsius its strategic energy lead in the U.S. market....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e2d80a421b5bca6929534b96e6c6fbe2ee07cac6f8531bf0f10db75cdeafe437" target="_blank" rel="noopener noreferrer">Wall Street Lunch: PepsiCo Gains On News Of Elliott Investment's $4B Stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of PepsiCo are gaining ground on the heels of reports that Elliott Investment Management has accumulated a substantial stake in the company....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ecda9b80666ad6813b032c5b89399c0d8ccc9b1b498bf0c38761ba954db2a5da" target="_blank" rel="noopener noreferrer">America Inc. Swaps Decades for Days in Rush to Commercial Paper</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">Coca-Cola Co., PepsiCo Inc., Philip Morris International Inc. and Honeywell International Inc. have all tapped the market in recent months, selling billions worth of the short-term IOUs, which typical...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=154ecf7704650ba7a97b61adeb5c537a3d44dd83394621cbf375a3df50bec926" target="_blank" rel="noopener noreferrer">Elliott Plans Major Activist Campaign at PepsiCo With $4 Billion Stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Activist investor Elliott Investment Management has built a roughly $4 billion stake in  PepsiCo  and plans to push the beverage and snacks giant to make changes to boost its sagging share price, acco...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=788e01e7b2a2464bb153482a281a7e8a14a0d62812d9ce94f0fbc1d19fe90590" target="_blank" rel="noopener noreferrer">Elliott takes aim at PepsiCo with $4 billion stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo should conduct an operational review and put into place oversight and structure around reviews, the activist investor said in a presentation to the company's board.  The company has been tackl...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1fb8e94c8faa1fbd225c6ad4e5dc633dda1052391d3cb256ebf4a00f48ee5fa4" target="_blank" rel="noopener noreferrer">PepsiCo stock jumps after Elliott builds $4 billion stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.75
+                                </span>
+                            </div>
+                            <div class="article-summary">Investing.com -- PepsiCo (NASDAQ:PEP) stock rose 4% following a Wall Street Journal report that activist investor Elliott Investment Management has acquired a roughly $4 billion stake in the beverage ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3cecb4f46e4761b33eb8d239b7babf5e27ad4955a054f79aef5c8e69b118a6a4" target="_blank" rel="noopener noreferrer">Elliott Sends Presentation to Board of Directors of PepsiCo Inc.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Elliott Investment Management L.P. ("Elliott"), which manages funds that together hold an investment of $4 billion in PepsiCo (NASDAQ: PEP) (the "Company" or "PepsiCo"), today sent a presentation and ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5bf7ed7955d0c9afd1f90eaf3353ad8104a3ad964f17d8f68ef3832432ac73f0" target="_blank" rel="noopener noreferrer">PepsiCo Eyes Efficiency Gains: Can It Protect Margins Amid Inflation?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.90
+                                </span>
+                            </div>
+                            <div class="article-summary">PEP posts a Q2 EPS beat and turns to AI, integration and global centers to drive efficiency and protect margins....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9f8621af82d33461975ce247d93665d52fce4a0c8eadf664bc722735b116761a" target="_blank" rel="noopener noreferrer">PepsiCo: Elliott's $4B Bet Promises A 50% Rerating -- But I'm Staying Hold</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Elliott Investment Management's $4B PepsiCo, Inc. stake pushes turnaround with 5 strategies. Click for more on PEP value creation, potential upside, and key risks....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1ce9d11d5890ea352de19d0268a822d216e569698337ffb162a8ad7339f34754" target="_blank" rel="noopener noreferrer">Top Stock Movers Now: Constellation Brands, Block, PepsiCo, and More</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">U.S. equities dropped at midday after a federal appeals court ruled against President Donald Trump's tariff policy, putting the future of the duties in question....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a09ab0061dbf887fe22e5992a45f44c018a568d6f90c306a721c9d30a9df80ea" target="_blank" rel="noopener noreferrer">Top Midday Stories: Kraft Heinz to Split Into 2 Public Companies; TSMC Has China Waiver Revoked by US Government</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">All three major US stock indexes were down in late-morning trading Tuesday after a federal appeals c...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=84d7bfe89f19561af20928ece4ac4e5a5b8acd756d8cc23a5c380a20d8af1a9b" target="_blank" rel="noopener noreferrer">PepsiCo's P/E Valuation Crosses Industry: A Buy Opportunity Knocking?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">PEP stock's rally has pushed its P/E above the soft drinks industry, fueled by international growth, PBNA recovery, and innovation momentum....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=304ded76314ef0aa92454b6b3251c4b69eb91f09555b98d071a1132f86c20981" target="_blank" rel="noopener noreferrer">The battle for Pepsi’s future has begun</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.34
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo is losing the soda wars to Coca-Cola. That’s nothing new. But after it fell into third place behind Dr Pepper, a heavyweight activist investor said Tuesday that the company needs a drastic sha...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=aa7fae4f2697b5213c41c8dffc0b5ec6a3b5ab52fe1e91df864720680e74cd3d" target="_blank" rel="noopener noreferrer">Why Shares of PepsiCo Are Rising Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.27
+                                </span>
+                            </div>
+                            <div class="article-summary">Elliott Management has acquired an activist stake....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cec8f81d9e515f9d3699b7216470964d2098619b962f7e4ebe162e73aad974d2" target="_blank" rel="noopener noreferrer">PepsiCo (PEP) Stock Trades Up, Here Is Why</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of food and beverage company PepsiCo (NASDAQ:PEP) jumped 2.2% in the afternoon session after activist investor Elliott Investment Management disclosed a substantial $4 billion stake in the comp...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d7333742c01d1abef3a04e387bf8871ef466ddfe3dcdc801f47716147f5f6080" target="_blank" rel="noopener noreferrer">Big Food company shake-ups: Is it time to invest?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Major food companies are getting shake-ups: Kraft Heinz (KHC) announced plans to split into two companies, activist investor Elliott Management is pushing for change at PepsiCo (PEP), and Nestlé (NESN...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e2edd749c718976c2b47b002d4d2a3ce6c1ab2c4f8c6d42067e9d4969bd73389" target="_blank" rel="noopener noreferrer">Activist investor pushes for PepsiCo turnaround with $4B stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.84
+                                </span>
+                            </div>
+                            <div class="article-summary">Elliott Investment Management said the food and beverage maker has become a “dramatic underperformer,” and there’s a “historic opportunity” to boost its stock price....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c8786d9bfbbbb358477c5070281bb8db7182d9f6b50bc102a3b272d4d37bb076" target="_blank" rel="noopener noreferrer">Nvidia extends declines, activist investor's $4B PepsiCo stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">As part of Tuesday's Market Minute, Yahoo Finance anchor Josh Lipton outlines some of the day's top stories: Stocks (^DJI, ^GSPC, ^IXIC) vs. Treasury yield (^FVX, ^TNX, ^TYX) performance, Nvidia (NVDA...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=02687fba96dc455dd3852dcb914286030c9583322c4733226757b504eb9f72b4" target="_blank" rel="noopener noreferrer">Elliott Calls For Turnaround Plan At PepsiCo (PEP) To Unlock Shareholder Value</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.91
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo (PEP) saw its shares rise 13% over the last quarter, highlighted by activist investor Elliott Investment Management's stake of $4 billion and proposals for growth enhancement. This influence w...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=345a66d9fcb422fbeccd93d887e89dbdd0bc41c64b2a97ed682cc0ad46cd3238" target="_blank" rel="noopener noreferrer">Equities Fall Intraday Amid Tariffs Uncertainty</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">US benchmark equity indexes fell intraday as markets assessed renewed uncertainty related to Preside...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ed69b277ef9ece5693d650f9de3f30877b7a85659d1be3b4133fa24ed57861fb" target="_blank" rel="noopener noreferrer">PepsiCo must review portfolio to boost growth, investment fund Elliott says</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.76
+                                </span>
+                            </div>
+                            <div class="article-summary">The activist investor, which manages funds with a $4bn stake in PepsiCo, said the US food and drinks giant is at “a critical inflection point”....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d7c104056e34839e0b3f64197e79bf26b628b907dfe9ed0759cf4ff9e755ccf5" target="_blank" rel="noopener noreferrer">Activist Elliott wants PepsiCo to emulate Coke’s playbook. This is why.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Activist Elliott wants PepsiCo to emulate Coke’s playbook. This is why....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9afe55462e118ce1165bd46013b169399024392cae912e9afc13df81a63fe595" target="_blank" rel="noopener noreferrer">Sector Update: Consumer Stocks Slide Late Tuesday Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Consumer stocks dropped late Tuesday afternoon with the Consumer Staples Select Sector SPDR Fund (XL...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=65bf131cb69eb2e33283dce2a74475e4b946a77f03d281a93e570fe77b07a173" target="_blank" rel="noopener noreferrer">These Stocks Moved the Most Today: Nvidia, PepsiCo, Tesla, Kraft Heinz, Constellation Brands, Cytokinetics, and More</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">Nvidia stock extends declines, and PepsiCo rises after an activist investor builds a $4 billion stake in the beverages and snacks company....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cf1cdce28e98074de18ba46f22f9a7b2dfc7920030ce229a64589456ec329834" target="_blank" rel="noopener noreferrer">Stock Market Today: Dow Loses 249 Points; Nvidia Extends A Streak As Palantir Does This (Live Coverage)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">The Dow Jones Industrial Average and other major indexes ended the day Tuesday with considerable losses, but improved from the day's lows.  The Dow was weighed down by Nvidia, although the majority of...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bd179b14c9e2e77baabd56e3525c137069cc48b868f8663a4da0e07737ddf9d5" target="_blank" rel="noopener noreferrer">Equity Markets Log Back-to-Back Daily Losses Amid Renewed Tariffs Uncertainty</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">US benchmark equity indexes fell for a second straight session Tuesday as Wall Street evaluated rene...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a252163d16f7b4eee573a937e6f44f3b05f91b8fe355da00647518dabb8a19d1" target="_blank" rel="noopener noreferrer">Stocks to Watch Recap: Alphabet, Nvidia, Comerica, Constellation Brands</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">↗️Alphabet (GOOGL): The Google parent's stock rose 8% postmarket after a federal judge issued remedies in a monopoly case that were initially viewed as manageable for the search giant. Apple (AAPL) sh...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=82e27aec9fcdaa5c710e100371b609fa13189598ff225b75dbd2de6739b9a04b" target="_blank" rel="noopener noreferrer">Top 10 High-Yield Dividend Stocks For September 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">My watchlist outperformed SPY and VYM since July 1st, offering higher yield and competitive total returns. Check out September's top picks here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1c046a7258d786c22490242969b058f09f7c9de604f2e29101add172cb380fa5" target="_blank" rel="noopener noreferrer">Dividend Income: Lanny's June 2025 Summary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.42
+                                </span>
+                            </div>
+                            <div class="article-summary">In June, we (my wife and I) received a dividend income total of $5,403.93. We had a booming 4 dividend increases this month...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=87f730a06e25aaac669bda4c61d1b5a9efecd62f219499c1373788e3a9774f88" target="_blank" rel="noopener noreferrer">How Is PepsiCo’s Stock Performance Compared to Other Food & Beverage Stocks?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo has underperformed other food and beverage stocks over the past year, and analysts are reasonably bullish about its future growth potential....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=395d757962ba3584264ce13f6632ef2fcd50ab2cfdfacb2fc9d13268eb6df201" target="_blank" rel="noopener noreferrer">How Much Would It Take To Earn $100 A Month From PepsiCo Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo Inc. (NASDAQ:PEP) is an American multinational food and beverage corporation, known for its extensive portfolio of popular brands like Pepsi, Lay’s, Doritos, Gatorade and Quaker Oats. It will ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3742577e80e7b0f4914dcfd7d69692d39019e9ed863a36008b6070c457532862" target="_blank" rel="noopener noreferrer">PepsiCo Boosts Stake in Celsius With $585 Million Deal</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-30</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.80
+                                </span>
+                            </div>
+                            <div class="article-summary">John Fieldly, Celsius CEO, says energy drinks are the fastest-growing category in the market and the deal with Pepsi's Rockstar maximizes the value of Celsius' portfolio. He tells Scarlet Fu and Baile...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cc24c1a194b4992e5d5c11c6fa6ee40178a544443cb965c9151d0f3c380d0c92" target="_blank" rel="noopener noreferrer">Dividend Champion, Contender, And Challenger Highlights: Week Of August 31</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-30</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">See here for weekly updates on Dividend Champions, Contenders, and Challengers. Stay informed on dividend changes, ex-dividend and pay dates....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=99b6ccbcda87772723e93b9a94cc27243102d95f7c4baf9533077fbec8f7ed97" target="_blank" rel="noopener noreferrer">Peak Humans: The Megatrend No One Is Talking About (Yet)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-30</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Read here for insights on how global population decline will impact the economy, and how to invest accordingly....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cf446d61c189628451c9d749ba568fb7ce005abe4eeb910c4f21de85658c1a6f" target="_blank" rel="noopener noreferrer">New Motley Fool Research Reveals the 10 Largest Consumer Staple Companies. Here's Which Dividend King Is Still Flying Under the Radar.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-30</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">Consumer staples makers are generally considered resilient businesses, but even Dividend Kings fall out of favor sometimes....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=72e5200f495ced7767fc64d28893a76fed386facb1a7fcbb022431e47a475eca" target="_blank" rel="noopener noreferrer">Monness Maintains Neutral Stance on Salesforce (CRM) Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Salesforce, Inc. (NYSE:CRM) is one of the Top Technology Stocks to Buy According to Hedge Funds. On August 25, Monness analyst Brian White maintained a “Neutral” stance on the company’s stock, providi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2e967ee56c0520115165de9c3659e95abc41a004956868017a90c6790793ad5b" target="_blank" rel="noopener noreferrer">Celsius to Acquire Rockstar Energy in U.S. as Part of Partnership with PepsiCo</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Celsius to Acquire Rockstar Energy in U.S. as Part of Partnership with PepsiCo...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ecd543a699fc942eae6c9256a55b21378da4e17d3b86ce585c0eb78a709f1266" target="_blank" rel="noopener noreferrer">PepsiCo Boosting Stake in Celsius in Deal Worth $585M -- Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo Boosting Stake in Celsius in Deal Worth $585M -- Update...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ce6268f498220122c8cd0e0155ac811e13ed80ce8723614b5244a28680c50886" target="_blank" rel="noopener noreferrer">PepsiCo sharpens energy drink focus with bigger Celsius stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.50
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of Celsius, which owns a namesake energy drink and other hydration brands, were up nearly 5% in early trading on Friday.  PepsiCo has bought 5% in Celsius' preferred stock, bringing its stake t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9983fea4557867c221d4eb1ec39c27750297366f28a894b212f1ad0cdf5c6a0b" target="_blank" rel="noopener noreferrer">Celsius Holdings and PepsiCo Strengthen Long-Term Strategic Partnership</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">BOCA RATON, Fla. & PURCHASE, N.Y., August 29, 2025--Celsius Holdings and PepsiCo announced an agreement to strengthen their long-term strategic partnership....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=262ac574e1006ad704d1f20bd82eecfc712a1eec7ddd1f3f18c0c9328a95d1f1" target="_blank" rel="noopener noreferrer">PepsiCo Increases Stake in Celsius, Bolsters Energy Drink Partnership</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo (PEP) is increasing its stake in Celsius (CELH) in a $585 million deal meant to strengthen t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5a7979c6ca5ffa5be9e3887f97b214b28c38d9527766eed0d5e51b12ec9f277e" target="_blank" rel="noopener noreferrer">Celsius Becomes PepsiCo's US Energy Drink Captain In Major Portfolio Deal</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">On Friday, Celsius Holdings, Inc. (NASDAQ:CELH) surged in premarket trading after unveiling a sweeping agreement with beverage giant PepsiCo Inc. (NASDAQ:PEP). The company said that the deal reshapes ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=88afe0e6be1fbb4b01f1efe5da845991dd26548f1ff6a54ee956dfe532783016" target="_blank" rel="noopener noreferrer">PepsiCo Boosting Stake in Celsius in Deal Worth $585 Million</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo is boosting its stake in energy-drink maker Celsius Holdings in a deal worth $585 million as the companies expand their three-year partnership....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=575beffddb71b323bad33fdf8beebed8c2652555dd8bf7a330d7086e2de3d927" target="_blank" rel="noopener noreferrer">Celsius Stock Is Spiking After PepsiCo Increases Stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.64
+                                </span>
+                            </div>
+                            <div class="article-summary">Celsius Stock Is Spiking After PepsiCo Increases Stake...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d86e3f8fa52440147457dbda713530d9965afb089dc4bac8015ebd889a8af6ba" target="_blank" rel="noopener noreferrer">PepsiCo Charges Ahead With Battery-Electric Big Rigs</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.79
+                                </span>
+                            </div>
+                            <div class="article-summary">The soda maker’s director of fleet engineering and sustainability says improving technology is driving better use of zero-emission trucks....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d66233f44e4cb0588296e5a2afa9ddaa0e13107ecee07848c2d533d978510eb5" target="_blank" rel="noopener noreferrer">PepsiCo ups stake in Celsius Holdings</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Celsius has also acquired the Rockstar Energy brand in the US and Canada from PepsiCo....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b4313cac36087bc58c3687c9a8475e084d097ed3d93b33abe4e3921be2346c80" target="_blank" rel="noopener noreferrer">PepsiCo Leans More Into Energy Drinks With $585M Celsius Stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo is leaning further into energy drinks, increasing its stake in Celsius Holdings to 11% in a $585 million deal....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=994d0f1e0bf764d323d0c2848513cb98bf1bfc2a3397ea52bba347f452be0cf5" target="_blank" rel="noopener noreferrer">PepsiCo Boosts Stake in Celsius</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.85
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo is upping its stake in Celsius to 11%. The move consolidates distribution for Celsius and give PepsiCo an energy boost, reports Bloomberg's Crystal Tse....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f54c359efcb5e83696ff3f7338e275bad994ff3f119c9586dbbb5951667870ba" target="_blank" rel="noopener noreferrer">Chip stocks, Caterpillar, PepsiCo & Celsius: Trending Tickers</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Yahoo Finance Senior Reporter Allie Canal discusses some of the trending stories on Friday, Aug. 29, including the US removing China waivers for Intel (INTC) and other chipmakers, Caterpillar's (CAT) ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2c25bdc3d8c4e484e88b5850d69311f694e71e53c4024bffa7d3d9fd0bcc58d1" target="_blank" rel="noopener noreferrer">Celsius Stock Goes From Rock Star to Rockstar</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo strikes a deal to boost its stake in Celsius and hand over a third energy drink brand....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cb221a32114316ff6a486fed5eb015608a13faba9a2f26f75c4a39ce4fb69dd9" target="_blank" rel="noopener noreferrer">PepsiCo ups stake in Celsius to 11% with $585M deal</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">Celsius also will acquire the beverage giant’s Rockstar Energy drink brand in the U.S. and Canada....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=88aa7607e97835df4fb05983e6fdeae21e63432f0dcab9cd640d8301a212b07c" target="_blank" rel="noopener noreferrer">Celsius Stock Gains More Energy With This $585 Million Deal</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.82
+                                </span>
+                            </div>
+                            <div class="article-summary">As part of the deal, PepsiCo acquired $585 million in newly issued convertible stock, bringing its stake in Celsius to 11%.....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c2e22d7dda042fe7b83da33943ab69cf6d0aae18eaafa326473e86b75a82ddc9" target="_blank" rel="noopener noreferrer">PepsiCo (PEP) Expands Energy Drink Portfolio; New US$585 Million Partnership with Celsius</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo (PEP) recently announced a significant strategic partnership with Celsius Holdings, reinforcing their long-term alignment in the beverage industry. This was part of the diverse news landscape ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=927e9093ad012fdaa2b1977fe7574853bd84ff7fe8bc22f4c7c6ff7d98d8378c" target="_blank" rel="noopener noreferrer">Celsius Holdings (CELH) Expands Partnership With PepsiCo; Acquires Rockstar Energy For US$585M</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">Celsius Holdings (CELH) recently enhanced its strategic position through a transformative partnership with PepsiCo, which included a $585 million equity investment and expanded distribution rights for...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=58e3915ebbe1215df1c190c6a53c3603203a3d906a6e5e58ee8cf6d0676802e7" target="_blank" rel="noopener noreferrer">Celsius (CELH) Stock Trades Up, Here Is Why</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of energy drink company Celsius (NASDAQ:CELH) jumped 5.1% in the morning session after the company announced a strengthened long-term strategic partnership with beverage giant PepsiCo, which is...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=300ab70d6fde3de0ca3585f292a65bdabdee5a41a27d4f1853fdfc7f87766b63" target="_blank" rel="noopener noreferrer">Sector Update: Consumer Stocks Mixed Late Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Consumer stocks were mixed late Friday afternoon, with the Consumer Staples Select Sector SPDR Fund...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0ff94d39ef1c3ebd71b7c9562f00b4ecf6d37028fb3448f4465fd2f5c990c259" target="_blank" rel="noopener noreferrer">PepsiCo Increases Stake in Celsius With $585 Million Deal</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.88
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy drink strategy expands as young consumers shift toward low-calorie options...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e69213ab75844b2672542bcef9bd8a36d1d4584664a881c0710b1c2b0135dcec" target="_blank" rel="noopener noreferrer">Pepsi Is Doubling Down on Celsius. Should You Follow Suit and Buy CELH Stock Here?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.50
+                                </span>
+                            </div>
+                            <div class="article-summary">Celsius stock extends gains as PepsiCo announced another $585 million investment to raise its stake in the energy drink firm to 11%. But CELH shares aren’t particularly attractive to own here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c0954779809f8aae1081f97fcf617045d934cd31a8c45762f6aec3d9c52cd1a8" target="_blank" rel="noopener noreferrer">Why the Market Dipped But PepsiCo (PEP) Gained Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.87
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo (PEP) closed at $148.65 in the latest trading session, marking a +1.14% move from the prior day....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4a396188d9813e240d57a8adb215ddbc3714d7ebfca7b22268d5e067d49965b1" target="_blank" rel="noopener noreferrer">Got $1,000 to Invest? Buy These 4 Top Dividend Stocks, and You Could Turn It Into Almost $50 of Annual Passive Income.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">These companies can turn idle cash into an income stream....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b58b02ac402405eb290572fb7f1e1b2f0c1799480e7b230a6ddca6b31ae4f7a0" target="_blank" rel="noopener noreferrer">PepsiCo Reports 2024 Progress Against PepsiCo Positive (pep+) Sustainability and Nutrition Goals</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Today, PepsiCo (NASDAQ:PEP) released its 2024 ESG Summary, reporting progress against the company's pep+ (PepsiCo Positive) sustainability and nutrition goals. The Summary is part of the company's 202...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e904847dc4f179f632bae4598a636d6888d9e22c1af766352479c748ec4efc15" target="_blank" rel="noopener noreferrer">A Look At The Intrinsic Value Of PepsiCo, Inc. (NASDAQ:PEP)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Key Insights Using the 2 Stage Free Cash Flow to Equity, PepsiCo fair value estimate is US$177 With US$148 share price......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bf3f3b8df5d005fe4462b2df27d53b239fac44a64063a353899440b27740ed0f" target="_blank" rel="noopener noreferrer">Everybody Loves Languages Reports Financial Results for the Second Quarter Ended June 30, 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">TORONTO, August 28, 2025--Everybody Loves Languages Corp. ("ELL") (TSX-V: ELL; OTC: LMDCF; FSE: LIMA), www.everybodyloveslanguages.com, an edtech language learning edutainment and content development ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=051419b5a200bdcb3054c10fc96d66d3cc6943ec461ddec7c93fc6b48ebe2150" target="_blank" rel="noopener noreferrer">PepsiCo: Revenue Holds Up, But Investors May Look Elsewhere</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.27
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo's diversification into food adds volatility and opportunity, but also exposes it to more risk compared to Coca-Cola's beverage focus. Click to read....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6fa72cb3c60dde4a3180ad17c2df91d58aa59ccc934dd1f72334c03464c353e0" target="_blank" rel="noopener noreferrer">Best Dividend Aristocrats For September 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.47
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover top Dividend Aristocrats for 2025! Explore undervalued picks with 10%+ annualized returns, robust payout growth, and reliable income opportunities....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1bcc8d8fbc521f5f21241f2ede4752b1fb79e4948a0089b1299acf3d6b890f08" target="_blank" rel="noopener noreferrer">Do Options Traders Know Something About PepsiCo Stock We Don't?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Investors need to pay close attention to PEP stock based on the movements in the options market lately....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ec425284e980cf083d7d06feec4294590bc48a5d33b2fdd798c828b58de26570" target="_blank" rel="noopener noreferrer">Pfizer: Finally Some Fortune, Plus Twenty High-Quality Dividend Growth Valuations</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover high-quality dividend-growth stocks near 52-week lows. Explore Pfizer's strong dividend and valuations, plus other top picks like Merck and Qualcomm....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d118ce9af29b9e4eb27f955faaa6e55df16ec8371e2a8a832ff0c43585c98206" target="_blank" rel="noopener noreferrer">PepsiCo: Dividend Supported Buy Amid Valuation Lows And Product Transitions</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.26
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c25d043dd231e55b5657cf4fd8e55527549fbf417069860e7c1966057efc6fd1" target="_blank" rel="noopener noreferrer">PepsiCo, Inc. (PEP): A Bull Case Theory</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.35
+                                </span>
+                            </div>
+                            <div class="article-summary">We came across a bullish thesis on PepsiCo, Inc. on Value investing subreddit by raytoei. In this article, we will summarize the bulls’ thesis on PEP. PepsiCo, Inc. ‘s share was trading at $152.16 as ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e4197eeb19695697d6b9e62d7c02df05d2c50aec750252ecc67225d40e84a698" target="_blank" rel="noopener noreferrer">A Warning To Dividend Investors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e15481938b125d9d3f3d8e9153b8865d440edc0493cb338d4a998f00feef1268" target="_blank" rel="noopener noreferrer">PepsiCo: The Company's Slowing Volume Sales Show Growth Has Stalled</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo's core business is stagnating, with flat or negative sales volume in North American and global markets. Read why I reiterate strong sell rating on PEP....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=86687226e6505d951ac65ea47a374ee0bd066b0e12574cac2a46d006708792fb" target="_blank" rel="noopener noreferrer">Coca-Cola's failed coffee investment faces uncertain future as sale rumors brew</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.79
+                                </span>
+                            </div>
+                            <div class="article-summary">Coca-Cola CEO James Quincey says he's "rethinking" the company's Costa Coffee brand, raising questions about a potential sale....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3452d5cd9b4cf8d4251a0ea48074df10fe22dad78a44764ff71b7843f2de36f2" target="_blank" rel="noopener noreferrer">2 High-Conviction Picks For 7.73% Growth And 4.22% Yield Within A Dividend Portfolio</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.25
+                                </span>
+                            </div>
+                            <div class="article-summary">Through DPSTF and META, we increased Dividend Income Accelerator Portfolio's sector diversification and global exposure. Learn more about the portfolio here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=75ef4f9801093317d20a8be3ca2788e097cf34b5cd21df798aa18ac91d59626c" target="_blank" rel="noopener noreferrer">PepsiCo's Q3 Test: Can PBNA Gains Outweigh Frito-Lay Struggles?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.68
+                                </span>
+                            </div>
+                            <div class="article-summary">PEP heads into Q3 with strong PBNA momentum, but Frito-Lay's volume struggles may test its balanced growth outlook....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b205882fb36f336283c65b6af8f4412f4bdd077e314fb076e96572d9a44d2aa2" target="_blank" rel="noopener noreferrer">Best Dividend Kings: August 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Dividend Kings underperformed SPY year-to-date but are showing stronger gains in August. Learn more about the Dividend Kings here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f96172cc0ad01bec01228f2ad709997cdd92931ab719bb8d52fbdbb42ab39aae" target="_blank" rel="noopener noreferrer">Is Celsius Still a Good Value After the 53% Rally and PepsiCo Distribution Milestone?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.69
+                                </span>
+                            </div>
+                            <div class="article-summary">Thinking about what to do with your Celsius Holdings shares, or considering a new position? You’re definitely not alone. The stock has been on a wild ride that’s hard to ignore. With a 53.3% gain over...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3ed18b6a289edc19dc1d552d15fb095d93c96a6e71b6acae983fea90fbb4dbf2" target="_blank" rel="noopener noreferrer">Take the Zacks Approach to Beat the Markets: WisdomTree, SkyWest & PepsiCo in Focus</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Zacks highlights gains for WisdomTree, SkyWest, and PepsiCo as its stock strategies deliver strong returns amid market volatility....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4093f32d09e7978bf8ceb122ebeeedf55e56c3993471d884956a79725e39a521" target="_blank" rel="noopener noreferrer">PepsiCo: Continued Share Losses Mandate A Downgrade</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-24</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo faces challenges in growth recovery, underperforming peers with volume and earnings declines. Read why PEP stock is a Hold....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6a987ef707d9244a78273cb625e9121caee2cfb9681047342e9f9dbf045fd6d6" target="_blank" rel="noopener noreferrer">7 to-dos for Target's new CEO</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-24</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Target has some fixing to do....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c3694f3a883b080d8d66b262620eef4d27116f01985cf19fc16e6b9a51430834" target="_blank" rel="noopener noreferrer">The Motley Fool Just Ranked the Biggest Consumer Staples Stocks. Here's Why the No. 7 Pick Is a "Recession-Proof" Goldmine.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-24</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">When you look at the largest consumer staples makers, one stock stands out in both a bad way and a good way....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=08bdffc4b41e6e44fa58a04a0796fa1f920b18f239ed73067981e74474c991ab" target="_blank" rel="noopener noreferrer">Does Recent PepsiCo Rally Signal a Shift in Market Sentiment for 2025?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-23</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">If you have been pondering what your next move should be with PepsiCo stock, you are not alone. With the company’s reputation as a consumer staples giant, many investors naturally turn to PEP during t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=67abe8fc633c4608f5fddde7dbc54f0c97affbfe0de3227b0d524131f22fc049" target="_blank" rel="noopener noreferrer">My 5 Favorite Stocks to Buy Right Now</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.43
+                                </span>
+                            </div>
+                            <div class="article-summary">Not every ticker worth owning at this time has raced to an uncomfortably high price....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=773d0ec1c875a07324e38918c8bd2d90dd30eccb610bd72e328f9ffc1e614b6d" target="_blank" rel="noopener noreferrer">SCHD: Moving Like Zombie Molasses</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Schwab U.S. Dividend Equity ETF offers stable, growing dividends and tends to have lower risk than broader market indices. Click to read why SCHD is a Buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e6eee807b1591bf8eb14e2e9c8a5c00f81d536eba91822322e7debdd68bbd4f1" target="_blank" rel="noopener noreferrer">PepsiCo Inc. stock underperforms Thursday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo Inc. stock underperforms Thursday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7ad5232c07dfaa0cad0555d92dc0a11d123402c9e1bc9a4a7d2ef5fb678ae028" target="_blank" rel="noopener noreferrer">PepsiCo (PEP) Suffers a Larger Drop Than the General Market: Key Insights</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.19
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo (PEP) closed at $148.98 in the latest trading session, marking a -1.16% move from the prior day....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ef2a3429878f5d4e35d9f094ab0e6fc7335a0f2d28388b273af8f924fa1eced5" target="_blank" rel="noopener noreferrer">LRN Corporation Wins Seven Brandon Hall Group Awards</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.85
+                                </span>
+                            </div>
+                            <div class="article-summary">NEW YORK, August 20, 2025--LRN Corporation, a leader in ethics and compliance solutions, won a total of seven awards at the 2025 Brandon Hall Group™ HCM Excellence Awards®, capturing four Gold awards ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=62ede6859308de0fb0a401577200104af67d96bfdf1b5137d480b2cdf3edf43f" target="_blank" rel="noopener noreferrer">Why Target's new CEO won't have a honeymoon period: Opening Bid top takeaway</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Tech stocks are crumbling, and so is Target's stock....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ac4bd1170481cb5a9dbaaf44464dd3f0bf2cc16b9b690a3acce0ec37a0d8437e" target="_blank" rel="noopener noreferrer">PepsiCo vs. Keurig: Which Beverage Giant Is a Refreshing Pick?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">PEP and KDP take different paths to growth, which are global scale versus regional focus, shaping their rivalry in the evolving beverage market....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=eefeee7b424acf863dc8fb6e6bdbbc571342cd8d491384a8e5a3d79817020b7c" target="_blank" rel="noopener noreferrer">What happened at Target? And what now? A veteran trader and analysts weigh in</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Wall Street veteran minces no words in hammering the chain's performance and its decision to choose an insider to take the helm....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d834e9ba84b886b0c5a0b69eb78ced5d1073338737cc2b07b1571a704593aab1" target="_blank" rel="noopener noreferrer">2 Dividend Stocks to Double Up on Right Now</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">It's time to take another look at these dividend giants....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e98b4a37400cb0c25a783867ec2be89b028fbe80be68ba9e442dc6b40db6de46" target="_blank" rel="noopener noreferrer">PepsiCo Inc. stock outperforms competitors on strong trading day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo Inc. stock outperforms competitors on strong trading day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e3b4d5b0efe771b2726e46cca6cf8dd1fcc67efc5b8b08868b1e230c4c47767a" target="_blank" rel="noopener noreferrer">Oatly's Next Chapter: Profitability On The Horizon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.52
+                                </span>
+                            </div>
+                            <div class="article-summary">Oatly's turnaround plan targets profitability by 2025 due to its brand and cost controls....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=62f3eedfd2aabf078c99632cd40685b1261e4b76e8e72b011ca90eab8f883de0" target="_blank" rel="noopener noreferrer">Driven by EPR, brands to offer film and flexibles funding to California recyclers</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">General Mills, Mars, PepsiCo and other brands are investing in film and flexible packaging recycling in the state as California implements stricter recycling regulations for the materials under its EP...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5b8ba00bc76f263a9ac333427714bd4217caccfa026b536f6a5171ecb4bb4f56" target="_blank" rel="noopener noreferrer">PepsiCo, Bold Reuse partner on NFL stadium cups</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The collaboration follows PepsiCo doing away with a formal reuse target earlier this year. It’s also Bold Reuse’s first implementation in California....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=883e271b5e1b057d52d40a9624fb814ee61b4c4ef660a0ac247e7081e00f15dd" target="_blank" rel="noopener noreferrer">Is PepsiCo's Frito-Lay Snacks Unit Still the Star Performer?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">PEP beats Q2 expectations with pricing power. However, soft volumes and long-term growth questions loom....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ea14ac9763208101afcf4f4f20c5eca81ed496e887d81eff93902e284a156927" target="_blank" rel="noopener noreferrer">How to play consumer staples: PepsiCo, Procter & Gamble</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Consumer sentiment is under pressure as worries over inflation persist. Washington Crossing Advisors senior portfolio manager Chad Morganlander sits down with Josh Lipton on Market Domination to discu...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9fea77e4ec819c3fa000457b42c52cb92885dcf965af51c8430cbcfb10bd375a" target="_blank" rel="noopener noreferrer">Can Bad Bunny and Selena Gomez make Americans snack again?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">What does Bad Bunny, Selena Gomez and Walton Goggins all have in common? It might sound like a red carpet premiere, but major food companies are hoping that their star power attracts Americans’ appeti...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2706797227b4c3cb7c8d1acf1d735baa0507a372b7434412398f23da874bdcc7" target="_blank" rel="noopener noreferrer">Best Stock to Buy Right Now: Coca-Cola vs. PepsiCo</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-16</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Longtime rivals Coca-Cola and PepsiCo continue to prioritize dividends for shareholders....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0f2cc835884f8d217e044a1b2c4ecc1178c77b481703d052a257b7ddb994391e" target="_blank" rel="noopener noreferrer">Only Portfolio You May Ever Need To Pay Your Bills: 6% Income Yield</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4edbe129276923095a9543ac2380744b839d2c216ec8c3cc117e166a44f4e54d" target="_blank" rel="noopener noreferrer">Leftovers: Mountain Dew and Trolli link on candy, soda | Twinings splashes into refreshers</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.41
+                                </span>
+                            </div>
+                            <div class="article-summary">The brands are teaming up for a “boundary pushing” collaboration, while Guinness launches a beer flavored ice cream with Van Leeuwen....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8e9c39259affc02d9676a9f997f0427a346579470dd25a8f929cd77561b0cfdd" target="_blank" rel="noopener noreferrer">PepsiCo Announces Timing and Availability of Third-Quarter 2025 Financial Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo, Inc. (NASDAQ: PEP) today announced that it will issue its third-quarter 2025 (ending September 6) financial results and other related information on Thursday, October 9, 2025 by posting the f...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=520761a7084794e5e4010be89f7e056181699bf85a0c0db710ca64a26444a721" target="_blank" rel="noopener noreferrer">This Meatpacker Stock Is a Quality Buy at a Discount Price</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">JBS is the No. 1 producer of beef and poultry globally. Its sales of $77 billion last year made it the world’s largest food company....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=78c53e0ca0cef99f378e59df6e9dab35523e016db2c1c4809a4f273db168d558" target="_blank" rel="noopener noreferrer">3 Magnificent S&P 500 Dividend Stocks Down Roughly 26% to 60% to Buy and Hold Forever</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">A good stock is an even better buy when it's on sale....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f50a6eee1a7272bee87e9c41325c75857e8be2faf95715eca184ef5a6f0c8225" target="_blank" rel="noopener noreferrer">The Rise of Functional Beverages in the USA | Major Brands Transforming the US Functional Beverages Landscape</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.28
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover the rise of functional beverages. Trends like immunity boosters, cognitive enhancers, and sustainability focus are transforming consumer choices. Explore market dynamics, ingredient innovatio...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7f13de4d2e79c831034a6d31f6c72993d82fc74f9c000fa87e06ba03b5463b7d" target="_blank" rel="noopener noreferrer">Madison Square Garden Entertainment Still Filling Seats, But I Wouldn't Buy Here</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Madison Square Garden Entertainment's strengths in live events and iconic venues amid near-term issues like lost residencies. Click to read why MSGE is a Hold....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f7e3a779f6164c948e3b8c0916fe857e9a4fe429513f1bece33756939006126f" target="_blank" rel="noopener noreferrer">Functional Foods Market Surges to USD 654.45 Billion by 2033, Propelled by 10.4% CAGR - Verified Market Reports®</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.90
+                                </span>
+                            </div>
+                            <div class="article-summary">The Global Functional Foods Market is projected to grow at a CAGR of 10.4% from 2026 to 2033, according to a new report published by Verified Market Reports®. The report reveals that the market was va...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=642c79a5d7ace207c9d722f9b6e969419b05a47cf1edf5c3505e32f7b283a55b" target="_blank" rel="noopener noreferrer">My Dividend Stock Portfolio: New July Dividend Record - 100 Holdings With 12 Buys</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">See here for more on July's investment insights: record-breaking dividends, high-yield BDCs, and strategies for steady income growth....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=290bc14391c6aa4f131034fbc895658148b6cc8324eaa595fc5ca8fda40754d1" target="_blank" rel="noopener noreferrer">Building A $50,000 Dividend Portfolio: Enhancing SCHD's Income With August's Top High-Yield Stocks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Build a $50k dividend portfolio with SCHD at the core, boosted by high-yield picks & growth stocks....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e31fd69da7f69c637077be6063be06fd8657db4d2409090097dc57be578ebe2e" target="_blank" rel="noopener noreferrer">Keurig Dr Pepper: A Stable Business With Prospects In The Energy Drink Market</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.23
+                                </span>
+                            </div>
+                            <div class="article-summary">Keurig Dr Pepper's Ghost acquisition is a strategic decision and expansion of its portfolio. Read here for more on KDP stock's strong brands & strategic acquisitions....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4c63b69e4ad23f3b54c4339e66fcfb974029625b396ae53a4ad4b08903244e9d" target="_blank" rel="noopener noreferrer">Texas businessmen indicted for allegedly bribing officials at Mexico's Pemex</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.76
+                                </span>
+                            </div>
+                            <div class="article-summary">MEXICO CITY (Reuters) -Two Texas businessmen were indicted for allegedly bribing officials at Mexico's state energy company Pemex with $150,000 and luxury items to secure contracts, the U.S. Justice D...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=75a90742fade413a42674ca7353f8b1cc5e372a1c1d306f1ac2b506eb700c5d5" target="_blank" rel="noopener noreferrer">Spotting Winners: PepsiCo (NASDAQ:PEP) And Beverages, Alcohol, and Tobacco Stocks In Q2</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Let’s dig into the relative performance of PepsiCo (NASDAQ:PEP) and its peers as we unravel the now-completed Q2 beverages, alcohol, and tobacco earnings season....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=34346d86a1a7fccb3d216df844c118b774424c8cc22761c0433f2cd621ceb000" target="_blank" rel="noopener noreferrer">PepsiCo's Valuation Is Looking 25% Sweeter Compared To Coca-Cola</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo's long-term revenue growth of 6.7% from its diversified global revenue helps make it a compelling long-term investment. See why PEP stock is a Buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5187d7aa56647fcc002aa1c517dea3b44acb0053179bd93e8b7bdc42b741a182" target="_blank" rel="noopener noreferrer">Pepsi vs. Coke: Which Soda Stock Fizzes With Value?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The two seemingly similar companies actually couldn't be any more different. And right now, that goes double for their stocks....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a89626b3dd9319096d1f1ad3e5668759981b8186208e985a87fb90110d4d2fe3" target="_blank" rel="noopener noreferrer">10 Undervalued Dividend Growth Stocks: August 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.50
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover the top 10 undervalued dividend growth stocks with a 5% yield-on-cost....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=dce17d91a15e845ba77768633de78c51630d527b2a889fad6f56f3686545abd8" target="_blank" rel="noopener noreferrer">Pickering Energy Partners Advises Heliogen, Inc. in Merger with Zeo Energy Corp.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">HOUSTON, August 12, 2025--Pickering Energy Partners served as the financial advisor to Heliogen, Inc. in its announced merger with Zeo Energy Corp. (Nasdaq: ZEO)....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=02f0a217d5ed3daa21f1adbfbcb8049e2bb9c8b39021a7aaa83dd39784dd3218" target="_blank" rel="noopener noreferrer">PepsiCo Stock Shows Renewed Momentum: Buy the Rally or Step Back?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">PEP's strong rebound, solid results and innovation-driven growth strategy highlight its resilience and long-term investment appeal....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=42d292cc45ae490185deab9408622a7a3234ffd18e71497e0c26d332e65089f0" target="_blank" rel="noopener noreferrer">Thirsty for Passive Income? PepsiCo's Dividend Yield Continues to Deliver.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo has a lofty, market-beating yield and an incredible history of increasing its dividend annually....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=154160566fbd815d924af12c03e94ce8f31f692e06bfe607b192123c427b609d" target="_blank" rel="noopener noreferrer">5 Dividend Stocks to Hold for the Next 5 Years</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.40
+                                </span>
+                            </div>
+                            <div class="article-summary">Sometimes Wall Street gets downbeat on great businesses as they work through tough times, which can be a great opportunity for dividend investors....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b9474dbc46bd3698faf52530520229ee27dbdebd432a686d2e4dc12bc8453ded" target="_blank" rel="noopener noreferrer">PepsiCo (PEP) Crossed Above the 200-Day Moving Average: What That Means for Investors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.21
+                                </span>
+                            </div>
+                            <div class="article-summary">When a stock breaks out above the 200-day simple moving average, good things could be on the horizon. How should investors react?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5421510bf49ac63ceb01ae327207a073f30a74a11704c71e5acfcc8bb3020ea7" target="_blank" rel="noopener noreferrer">Does PepsiCo Have the Edge in Functional Beverage Boom?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.46
+                                </span>
+                            </div>
+                            <div class="article-summary">PEP is ramping up health-focused innovations, from protein drinks to hydration platforms, aiming to dominate the functional beverage surge....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=de2af0e42b81e3715b80e8676c340722170b68fefa61bf5eb40342c125575ff0" target="_blank" rel="noopener noreferrer">PepsiCo hit with US lawsuit over alleged price discrimination</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">The suit alleges that the Gatorade brand owner was engaged in "anticompetitive and unfair and deceptive business practices", linked to sales of its Pepsi soft drinks....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=51741c3b8e7b76a67fbbebcde517c942f7d4bba0309b1d80c167053dc304b620" target="_blank" rel="noopener noreferrer">My Top 10 High-Yield Dividend Stocks For August 2025: One Yields 11%-Plus</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-10</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">Maximize returns with August 2025âs top dividend stock picks. Discover high-yield, growth-focused choices for a resilient, sustainable portfolio....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=dfad6d0c4ac2c19df0579d8db3abf613c97275d898c706218c3eb6a0e2e44b04" target="_blank" rel="noopener noreferrer">Is It Too Late To Buy Technology?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Of the 15 Sectors covered in reports by ValuEngine, the Technology sector ranks fourth in expected 12-month price return according to our forecast model. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d8986f3d5c5a57c6adc11a3c686e708068cb0a30e2fae2cbf82634a27afcbf91" target="_blank" rel="noopener noreferrer">CFOs On the Move: Week ending Aug. 8</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.46
+                                </span>
+                            </div>
+                            <div class="article-summary">Bloomin’ Brands and Bumble appoint new finance chiefs, Warby Parker’s chief financial officer resigns and Pabst Brewing Company names a new CFO and CEO....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=03adb9786afe30a00ca9821c0bc81e0c5e5505ed5bf4f0ac27f2e5cdc2e0cdca" target="_blank" rel="noopener noreferrer">Pepsi: Turnaround in the Making?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Pepsi looks cheap, but is it a value trap or opportunity? We break down the fundamentals to show you what could come next....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=adc6e684893916e1a5ea36c957969c38cf05adac474f42bc1292d9ccc4ba8411" target="_blank" rel="noopener noreferrer">Why Phillips 66, PepsiCo, And Regions Financial Are Winners For Passive Income</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Companies with a long history of paying dividends and consistently hiking them remain appealing to income-focused investors. Phillips 66, PepsiCo, and Regions Financial have rewarded shareholders for ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8f4a33412beef724cc936fc3c3671becea6f116daca5cb85a0b9d2db0b528a3c" target="_blank" rel="noopener noreferrer">United States Soup Market Trends and Growth Analysis Report 2025-2033 | Premium and Plant-Based Soups Drive Expansion Amidst Evolving Consumer Preferences</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">The United States soup market is poised for significant growth, driven by increasing consumer demand for convenient and healthful meal options. Forecasted to grow between 2025 and 2033, the market's e...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=577fc5c60ddf17c6d2c3c152148551bd33ab66a66a8de79d72b6df4881367c63" target="_blank" rel="noopener noreferrer">PepsiCo (PEP) Crossed Above the 20-Day Moving Average: What That Means for Investors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.20
+                                </span>
+                            </div>
+                            <div class="article-summary">Should investors be excited or worried when a stock crosses above the 20-day simple moving average?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0cd2d45627e4ea9a71925d3ef8e1a1fd7448c4209da693cece25bc0aebc50b12" target="_blank" rel="noopener noreferrer">PepsiCo Stock: Is Wall Street Bullish or Bearish?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.50
+                                </span>
+                            </div>
+                            <div class="article-summary">PepsiCo has underperformed the broader market, while analysts appear to be cautiously optimistic about its near-term prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fb85dbd7dd8a3efc7ba49614ab14963a124542535297ae473552073ddcf46735" target="_blank" rel="noopener noreferrer">PepsiCo (PEP) Unveils 7UP Pink Lemonade To Enhance Moods With Colourful UK Campaign</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.79
+                                </span>
+                            </div>
+                            <div class="article-summary">Amid a flurry of recent events, PepsiCo (PEP) introduced the vibrant 7UP Pink Lemonade, engaging audiences with playful murals and interactive sampling in key UK locations. While this lively launch co...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ae344ecced70e2cda893d90790bf5a019e1b642cb7dd3f9151fe58f474a67b0f" target="_blank" rel="noopener noreferrer">Tracking AMG's Yacktman Asset Management Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Yacktman Asset Management's Q2 2025 13F portfolio value dipped slightly to $7.44B. Click here to read more about the portfolio....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d0d91f7e2347545e48c1777459184b0f0c8cdb0287a672c9358adbd5c1002a17" target="_blank" rel="noopener noreferrer">Barrick Mining and Whirlpool have been highlighted as Zacks Bull and Bear of the Day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.46
+                                </span>
+                            </div>
+                            <div class="article-summary">Barrick Mining gains steam on rising gold prices, surging earnings forecasts, and deep valuation discounts....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9fe2b20643b0b49f4f6dbde766f27aac85bdb9075f0c6b9de090927f68a95d8d" target="_blank" rel="noopener noreferrer">Liberty Media Corporation Reports Second Quarter 2025 Financial Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ENGLEWOOD, Colo., August 07, 2025--Liberty Media Corporation Reports Second Quarter 2025 Financial Results...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e870eb4155b6445e44a16ca0a5da8763f2a3f23ebcbdc1610dec3a0fc1667e82" target="_blank" rel="noopener noreferrer">Food Lion Feeds Provides More than 28 Million Meals to Combat Child Hunger</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.32
+                                </span>
+                            </div>
+                            <div class="article-summary">Summers Without Hunger campaign delivers more than 64 million meals in two years Summers Without Hunger Campaign Summers Without Hunger Campaign SALISBURY, N.C., Aug. 07, 2025 (GLOBE NEWSWIRE) -- With...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a0ca9d0a6936156bb272f538038d0a43edd1124875e22a4633b60d6e9a5c06ab" target="_blank" rel="noopener noreferrer">buildOn Welcomes Three New Members to National Board of Directors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">buildOn, a nonprofit dedicated to uniting people through service and education to ignite opportunity, is proud to announce the appointment of three distinguished leaders to its National Board: DJ Cast...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7aa2a6d2cd669780a0d212bd2021e9e8ec7e438b33f4833771172e741cfb2da9" target="_blank" rel="noopener noreferrer">Celsius Stock Jumps on Earnings Beat. The Alani Nu Deal Is Paying Off.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">The growth was largely driven by the recently acquired female-focused energy-drink brand Alani Nu, whose retail sales surged 129% year over year to $301.2 million.  Revenue for the namesake Celsius en...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=50da2f0322d1f04cf3c131c6793410557c906cd5678966d661b9ac058eee9fda" target="_blank" rel="noopener noreferrer">The Zacks Analyst Blog Highlights Morgan Stanley, PepsiCo, Comcast and Gencor</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.30
+                                </span>
+                            </div>
+                            <div class="article-summary">MS, PEP, CMCSA, and GENC face varied headwinds, but strategic shifts and growth drivers keep them in analysts' sights....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b46f1412e6a3dba8b13a5a04a1d9d1cfd74fab936a2b5c95d53e44eef209d429" target="_blank" rel="noopener noreferrer">Pricing Power vs. Volume Pressure: What's Driving PepsiCo Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">PEP beats Q2 estimates on pricing power, but soft volumes and long-term growth questions loom....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

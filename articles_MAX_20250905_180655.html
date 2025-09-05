@@ -1,0 +1,423 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>MediaAlpha Inc (MAX) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">MediaAlpha Inc (MAX)</h1>
+                    <a href="index.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.19</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fc35bc8eb151bcbe5ec1443ee85856e627deeb9d15d577e86ca14d28f7f7c85e" target="_blank" rel="noopener noreferrer">MediaAlpha Announces $32.9 Million Private Stock Repurchase</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">LOS ANGELES, Sept. 04, 2025 (GLOBE NEWSWIRE) -- MediaAlpha, Inc. (NYSE: MAX), the leading marketing technology platform powering real-time customer acquisition for the insurance industry, today announ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b3f25dd7e187e78274f1dcd42bf20ed662afe0d5a96a5cea1ebfba47f9249ce7" target="_blank" rel="noopener noreferrer">Symbotic's Premium Valuation: Buy, Hold or Sell the Stock Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.49
+                                </span>
+                            </div>
+                            <div class="article-summary">Symbotic's expensive valuation, its dependence on Walmart, and unimpressive earnings history pose some tough questions for investors....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=17b022066e4abf9022e52e8014fd36a0d1dc1ac61895aa9e509c32c78d73fe68" target="_blank" rel="noopener noreferrer">Symbotic Stock Surges 134.5% YTD: Should You Buy Now or Wait?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">SYM has soared 134.5% YTD on strong backlog and faster deployments, but valuation and other risks temper the buy case....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=81d50450e9f64ed8d39fdca75c31ffb015fe389da34efbc46a851d6edbbee9a8" target="_blank" rel="noopener noreferrer">MediaAlpha to Participate in Canaccord Genuity’s 45th Annual Growth Conference</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Event to be Webcast Live on the MediaAlpha Investor Relations WebsiteLOS ANGELES, Aug. 08, 2025 (GLOBE NEWSWIRE) -- MediaAlpha, Inc. (NYSE: MAX), today announced that Chief Financial Officer Pat Thomp...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=baf25f160857903deecd0e4a029a80defca9678d22ee571dae95e63e373d9d49" target="_blank" rel="noopener noreferrer">3 Growth Companies With Insider Stakes Up To 24%</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.41
+                                </span>
+                            </div>
+                            <div class="article-summary">As major U.S. indexes rebound from recent losses, reaching new highs amidst easing economic concerns and a rally in tech stocks, investors are increasingly focused on identifying growth opportunities....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4554e3b34cecd826f8f31b517c6622519ee26d333616ecf1159f412b76fd3ae8" target="_blank" rel="noopener noreferrer">MediaAlpha, Inc. (MAX) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">MediaAlpha, Inc. (NYSE:MAX) Q2 2025 Earnings Conference Call August 6, 2025 5:00 PM ETCompany ParticipantsPatrick R....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=390b4f9a58bcfab45d1c7a866c3906ec274c4f079c7e74027297ccbb34c39b87" target="_blank" rel="noopener noreferrer">MediaAlpha (MAX) Q2 Earnings: How Key Metrics Compare to Wall Street Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The headline numbers for MediaAlpha (MAX) give insight into how the company performed in the quarter ended June 2025, but it may be worthwhile to compare some of its key metrics to Wall Street estimat...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=184de7b5917fde09bdb4755dcd8b15cf07807e1d303546a854bd6be9c6358f33" target="_blank" rel="noopener noreferrer">MediaAlpha Reaches Settlement with FTC</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.50
+                                </span>
+                            </div>
+                            <div class="article-summary">LOS ANGELES, Aug. 06, 2025 (GLOBE NEWSWIRE) -- MediaAlpha, Inc. (NYSE: MAX) ("MediaAlpha" or the "Company") today announced that it has reached a settlement with the Federal Trade Commission (“FTC”) t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=924e8f14fb87ee82184843ebcd247b2aef64c937c4cbb37082274bddc3ab5f4c" target="_blank" rel="noopener noreferrer">MediaAlpha Announces Second Quarter 2025 Financial Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">Second Quarter Revenue Growth of 41% and Transaction Value Growth of 49%; Record Transaction Value of $435 million in Property & Casualty Vertical Second Quarter Net Loss of $(22.5) million; Adjusted ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=235c7b69979f0d5991f8400f7964518963736b58df2eed196315a7aff3436c04" target="_blank" rel="noopener noreferrer">MediaAlpha, Inc. (MAX) Beats Q2 Earnings and Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">MediaAlpha (MAX) delivered earnings and revenue surprises of +6.25% and +2.24%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

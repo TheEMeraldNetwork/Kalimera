@@ -1,0 +1,807 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Alaska Air Group Inc (ALK) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Alaska Air Group Inc (ALK)</h1>
+                    <a href="index.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">34</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">19</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.21</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7946d6bd808c562da87793933625b7897e20fa8d3d7e6ab5cf70535043df2e28" target="_blank" rel="noopener noreferrer">Alaska Air to convert part of its Boeing 787 order to larger 787-10's</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The move reflects the airline's post-Hawaiian integration strategy to meet growing demand on high-traffic routes, especially across the Pacific.  Alaska Air Group maintains an operational fleet of fou...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3dcefc6b1d45a796b4e4d0c398e1b48981b1cd5b7dd37e14350fc2f771567b9d" target="_blank" rel="noopener noreferrer">Zacks.com featured highlights include Kimball Electronics, Alaska Air Group, AutoNation, Asbury Automotive Group and American Axle & Manufacturing</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Broker-backed picks like Kimball Electronics, Alaska Air, AutoNation, Asbury, and American Axle show strong earnings momentum....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=50d633feccf4273ac4dcab01d7eee0d86989d4430a3d2b5cdb4b69971a2da66d" target="_blank" rel="noopener noreferrer">Iceland is calling: Alaska Airlines launches new route to Reykjavík and unveils elevated comfort and care across 737 fleet</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.70
+                                </span>
+                            </div>
+                            <div class="article-summary">Alaska Airlines is taking its global reach further than ever with nonstop service to Reykjavík, Iceland, inviting travelers to book their next adventure at alaskaair.com. With flights starting May 28,...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=06c869799f12751874d7d58507d20148f566977183e8461948eb919de4bc3540" target="_blank" rel="noopener noreferrer">Monitor These 5 Broker-Backed Stocks for Strong Returns</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Broker-adored stocks like KE, ALK, AN, ABG, and AXL stand out, fueled by strong earnings history, upgrades and strategic growth moves....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b3b0eade016fe19e9b17fffd0704c2ea36ac82a496f450e4b8e957c854606310" target="_blank" rel="noopener noreferrer">Airline Stock Roundup: ALGT's Impressive July Traffic, DAL, LUV in Focus</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">ALGT posts double-digit July traffic growth, while DAL, LUV, ALK and ULCC unveil major route expansions and strategic moves....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3301678cf7da126af1ef0daff75fd0382354393b850f340014269a6db3b44670" target="_blank" rel="noopener noreferrer">American Airlines, Alaska Air Are in Solid Shape. Why One of the Stocks Caught a Downgrade.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.24
+                                </span>
+                            </div>
+                            <div class="article-summary">Savanthi Syth of Raymond James upgraded  Alaska Air Group  to Outperform from Market Perform and introduced a $70 price target in a research note Monday.  At the same time, Raymond James downgraded  A...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6a5a64614c6e9cc9e9a6f9a701e748090179b31f8930d170f579e282d8924b08" target="_blank" rel="noopener noreferrer">Figma initiated, Okta upgraded: Wall Street's top analyst calls</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Figma initiated, Okta upgraded: Wall Street's top analyst calls...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b50d305537bed28d8c92e4b9c3a704f87440808b7c0edb0a495296c629986104" target="_blank" rel="noopener noreferrer">Raymond James upgrades Alaska Air, cuts American Airlines on valuation concerns</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.72
+                                </span>
+                            </div>
+                            <div class="article-summary">Investing.com -- Raymond James upgraded Alaska Air Group to Outperform from Market Perform, while downgrading American Airlines to Market Perform from Outperform, citing valuation differences and comp...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7023643080164841cc0ff8e17cdf2a0b54aaabaa5f22ab62634174cce26da84f" target="_blank" rel="noopener noreferrer">Why American Airlines (AAL) Shares Are Sliding Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of global airline American Airlines (NASDAQ:AAL) fell 3.5% in the morning session after the investment firm Raymond James downgraded the stock to 'Market Perform' from 'Outperform', citing valu...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a585765dfa72b4d148094d8e52cda518c3071e6c93b4efa63b5d977959757cdf" target="_blank" rel="noopener noreferrer">Auto & Transport Roundup: Market Talk</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Find insight on the CSX-BNSF Railway partnership, Singapore Post and more in the latest Market Talks covering the auto and transport sector....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b32589af6886d193a4cb864486be0e90d9fa9399257309df518493aafa581362" target="_blank" rel="noopener noreferrer">Tilray, Okta, Alaska Air, American Airlines: Trending Tickers</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Market Domination Host Josh Lipton is joined by Unlimited co-founder, CEO, & chief investment officer Bob Elliott to discuss some of the day's trending tickers, including Tilray (TLRY), Okta (OKTA), A...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=689f3089a5004a97c69a53c433f1f7bf2c5c134bf3cc76daf13595ba334ec741" target="_blank" rel="noopener noreferrer">Alaska Air (ALK) Up 8.1% Since Last Earnings Report: Can It Continue?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Alaska Air (ALK) reported earnings 30 days ago. What's next for the stock? We take a look at earnings estimates for some clues....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=12e2d45044c8f9a8971e55e37506849f74df6d29939cb5ce0cd52f4d424ba4cd" target="_blank" rel="noopener noreferrer">Alaska Airlines teams up with T-Mobile to offer ultra-fast, free Wi-Fi to Atmos™ Rewards members</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.67
+                                </span>
+                            </div>
+                            <div class="article-summary">Alaska Airlines and T-Mobile – both Pacific Northwest-based leaders in innovation – are setting a new standard in inflight connectivity, delivering ultra-fast Wi-Fi, free for Atmos™ Rewards members ev...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7ad4c57ca034dce90951c989929114538546128b31b37f129744ebca58e971e1" target="_blank" rel="noopener noreferrer">Alaska Airlines and Bank of America present a new premium credit card designed for global travelers, the Atmos™ Rewards Summit Visa Infinite® card</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.68
+                                </span>
+                            </div>
+                            <div class="article-summary">Alaska Airlines' enhanced, combined loyalty program, Atmos™ Rewards, has arrived along with a new premium credit card that rewards loyalty even more. We're introducing the Atmos™ Rewards Summit Visa I...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d8aa91df4a0450ea7bd3c24a6286b494e7be3577d6d9479bdd3e2f6264fea8e5" target="_blank" rel="noopener noreferrer">Alaska Airlines selects Starlink, the fastest Wi-Fi in the sky, to launch new era of connectivity</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">Alaska Airlines is set to launch a transformational upgrade to the inflight experience: the fastest, most reliable Wi-Fi in the sky on every flight, everywhere we fly. Starting in 2026, Alaska guests ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1744eba3bbdc6dae514254f5ae6bb57fc295759ff0669c04da776f5fb68f9e3b" target="_blank" rel="noopener noreferrer">Introducing Atmos™ Rewards - an enhanced, combined loyalty program by Alaska Airlines and Hawaiian Airlines, unlocking a world of more choices, benefits and possibilities</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.60
+                                </span>
+                            </div>
+                            <div class="article-summary">On a mission to transform global travel, Alaska Airlines launched Atmos™ Rewards today – our evolved, supercharged loyalty program that unifies the best of Mileage Plan and Hawaiian Airlines' Hawaiian...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6cb7317a79cf205be52b048f61e99b287b452b871941cbbbae77e9212e6a817e" target="_blank" rel="noopener noreferrer">Way Partners with Alaska Air Group to Power New "Atmos Rewards Unlocked" Loyalty Experiences</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.72
+                                </span>
+                            </div>
+                            <div class="article-summary">Way, the premier experiential platform for enterprise brands, today announced a partnership with Alaska Air Group to power Atmos Rewards Unlocked, a newly launched loyalty offering as a part of the ne...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7ad2b002d8b39b1f9c6fc67055d98ae6b62c1523bad993fc178d04705f9c7726" target="_blank" rel="noopener noreferrer">Update: Delta, United Airlines Face Lawsuits for Charging Extra for Windowless Window Seats</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.70
+                                </span>
+                            </div>
+                            <div class="article-summary">(Updates with statement from United in fifth paragraph.) Delta Air Lines (DAL) is being sued by p...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ed6305d072274b461e507c9e723db3c50a6e37198e82f9383b47917206e1e3b6" target="_blank" rel="noopener noreferrer">Alaska Airlines' New Loyalty Program Lets Members Choose How to Earn Points—Here’s Why That Matters</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Unlike many of its rivals, Alaska Airlines is giving members of its new loyalty program a choice on how they earn rewards points....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ece650cf8930e4aef5ae21825ae01c9cce9c9f69528f6e0166044acb98538667" target="_blank" rel="noopener noreferrer">Alaska Air Will Let Flyers Choose Their Own Loyalty Plan</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Alaska Air Group Inc. debuted a new loyalty program that will let members choose from three options to earn award points, the first such offering in the US industry. The Points Guy Managing Editor Cli...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=809206a804f21f92700e2202b108e46ea786b67b8b1f9f9afdbfc07ee8d1b150" target="_blank" rel="noopener noreferrer">Boeing Wins On Airplane Delivery Cadence</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.27
+                                </span>
+                            </div>
+                            <div class="article-summary">Boeing stock shows recovery signs with rising deliveries and a strong order backlog. Here's what investors need to know about the jetmaker....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=08a1564c4caba0cfb64e2e9b767fb3774b58db3c7837157322a9e1d25a97ce34" target="_blank" rel="noopener noreferrer">Diamond Hill Small-Mid Cap Strategy Sells Alaska Air Group (ALK) at Compelling Valuation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.34
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamond Hill Capital, an investment management company, released its “Small-Mid Cap Fund” second-quarter 2025 investor letter. A copy of the letter can be downloaded here. In Q2, the market surged uni...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=919b7f400eb9a4a67d7a42df87c4aeb02aa4d568bfecf759fe2b59d470d02066" target="_blank" rel="noopener noreferrer">Stock Of The Day Flies Near Buy Point As Airlines Catch This Tailwind</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">SkyWest is one of the 10 largest U.S. airlines by passengers carried, yet many of its customers don't even realize they've flown with SkyWest, the IBD Stock Of The Day.  Passengers book flights with t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=920c0c541560abcae45ef32492ca5d841f5e43cc638598841ea032698cc34bdc" target="_blank" rel="noopener noreferrer">Natixis Corporate & Investment Banking Provides Senior Secured Term Loan for Alaska Air Group's Financing of Boeing 737 Max 8 and Boeing 787-9 Aircraft</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Based in Seattle, Alaska Air Group is the fifth largest airline in the United States. Following the acquisition of Hawaiian Holdings Inc. ("Hawaiian") on September 18, 2024, Alaska and Hawaiian are in...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d0f13e1c8e5d9d0ffd58f029f3be4a791a02774a20de17865ed8946ec2a1f4ee" target="_blank" rel="noopener noreferrer">Airfare Growth Accelerates for July Bookings, Led by American Airlines, UBS Data Show</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Annual fare growth of several US airlines accelerated in July from June, suggesting an improving rev...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8aa7d40f0fa311c0c07016fb447c1b65adc978fd6bf79ae6d021f5609cdd1480" target="_blank" rel="noopener noreferrer">Cheaper Gas, Pricier Flights: Airline Stocks Rally On July Inflation Report</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.68
+                                </span>
+                            </div>
+                            <div class="article-summary">Airline stocks rallied Tuesday after July's inflation report showed ticket prices jumping while gasoline costs — a key industry expense — dropped sharply. This gave carriers a rare double boost. JETS ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1b200c3e822a22075da66b11f0268b11f78bf11756379bec0acf63e77064f637" target="_blank" rel="noopener noreferrer">United and Delta Are S&P 500’s Top Stocks Today. Thank the Inflation Report.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines Holdings  and  Delta Air Lines  were the top performers in the  Tuesday as an unexpected pickup in airfares lifted airline stocks.  Airline fares increased 4% month over month in July,...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3e95a132affd493c1a088f9a80f9b64b027c16e8cae398e027e92d0f52041875" target="_blank" rel="noopener noreferrer">Spirit Air Sends An Ominous Warning. Here's Why Most Airline Stocks Rallied.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.89
+                                </span>
+                            </div>
+                            <div class="article-summary">Spirit Air continues to suffer from adverse market conditions, including weak demand for domestic leisure travel....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bd70e53844262263c5df322d685a7f4c87dd092dbdc8af3fd3bd75d20ce0a9b1" target="_blank" rel="noopener noreferrer">US airlines' shares jump as airfare data signals improving pricing power</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of major U.S. carriers soared on Tuesday after upbeat airfare data for July signaled improving pricing power for the industry, as airlines bring capacity in check to align with a soft demand en...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3d3cbed3e02ce224fa0d0643588c7dcb5b63e1013d2332b0d018c139314042ae" target="_blank" rel="noopener noreferrer">Airline Stocks Take Flight, Rising Above Cloudy Early-Year Outlooks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    -0.04
+                                </span>
+                            </div>
+                            <div class="article-summary">Airline stocks appear to be bouncing back after carriers suffered through a bout of turbulence earlier in the year, marked by weak domestic travel and general uncertainty....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3a0b1ab2d433dc75eb8a0642508cdfedb73edd83814253f59fd2d0163f77f999" target="_blank" rel="noopener noreferrer">Delta and Alaska Air Square Off in Battle for Seattle</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.52
+                                </span>
+                            </div>
+                            <div class="article-summary">Alaska wants to make the Pacific Northwest hub a more global gateway. Delta has already done that, and now it’s matching some of Alaska’s new flights....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=abb8fc0c6544c05c8c26129926b16f43850cd4b1cebe53d1572ceb8fd4311087" target="_blank" rel="noopener noreferrer">Boeing’s Spirit AeroSystems Deal Gets U.K. Approval. It’s Part of the Turnaround.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.71
+                                </span>
+                            </div>
+                            <div class="article-summary">Boeing  received one regulatory approval for its acquisition of fuselage supplier  Spirit AeroSystems  Closing that deal is part of the commercial jet maker’s turnaround efforts.  Friday, the U.K.’s C...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fc8438580a7b15dabcfd03503481404e1450c6ef95e306dacde8a4fe3032bfee" target="_blank" rel="noopener noreferrer">United Airlines Tech Issue Grounds Hundreds of Flights. The Stock Shrugs.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.88
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines grounded hundreds of flights due to a technology issue late Wednesday, causing delays and cancellations into Thursday morning....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=71cc623a1ff40275731af081f6e12d3227438b77c26c39470bdf46a35cf3a8d2" target="_blank" rel="noopener noreferrer">Alaska Air Group Stock Earns RS Rating Upgrade</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.88
+                                </span>
+                            </div>
+                            <div class="article-summary">A Relative Strength Rating upgrade for Alaska Air Group shows improving technical performance. Will it continue?...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

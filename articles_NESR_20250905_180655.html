@@ -1,0 +1,471 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>National Energy Services Reunited Corp. (NESR) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">National Energy Services Reunited Corp. (NESR)</h1>
+                    <a href="index.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">13</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.51</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1a6d1635affa6986906f847b753f22c898aa7b7430a3208ddae872e3d37a5687" target="_blank" rel="noopener noreferrer">Should Value Investors Buy National Energy Services Reunited (NESR) Stock?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Here at Zacks, our focus is on the proven Zacks Rank system, which emphasizes earnings estimates and estimate revisions to find great stocks. Nevertheless, we are always paying attention to the latest...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9720e04355fc8613aab939e5236b3179657f39f793110e705bed144bdae923b6" target="_blank" rel="noopener noreferrer">National Energy Services Reunited Second Quarter 2025 Earnings: Revenues Beat Expectations, EPS Lags</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.26
+                                </span>
+                            </div>
+                            <div class="article-summary">National Energy Services Reunited ( NASDAQ:NESR ) Second Quarter 2025 Results Key Financial Results Revenue: US$327.4m......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=72952b10196d1bf058735afce1c21c042a30ba5f85f9835a7e28bfbe49f8260d" target="_blank" rel="noopener noreferrer">National Energy Services Reunited Corp. (NESR) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">National Energy Services Reunited Corp. (NASDAQ:NESR) Q2 2025 Earnings Call August 20, 2025 8:00 AM ETCompany ParticipantsBlake Geelhoed Gendron - Vice......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=25c0e8a7a87713f1170fbe17e63982a6ee39c9f88843a391b23fefd3079559f2" target="_blank" rel="noopener noreferrer">NESR Lifts Q2 Earnings With Strong Cash Flow, Cuts Net Debt to Record Low</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.90
+                                </span>
+                            </div>
+                            <div class="article-summary">NESR reported Q2 2025 revenue of $327.4 million, up 8% sequentially, with net income jumping 46% to $15.2 million....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c8af622bbb02c2e0b50729a8eceb607b3ec7b9decc8da71ac93252a69e02eee0" target="_blank" rel="noopener noreferrer">National Energy Services Reunited Corp (NESR) Q2 2025 Earnings Call Highlights: Strong Revenue ...</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">National Energy Services Reunited Corp (NESR) reports an 8% sequential revenue increase and significant cash flow improvements, while navigating global market challenges....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=da69ec89a1e63b72390d9a6f845db41a18b314cd564baaf5256c9a247aacf6d6" target="_blank" rel="noopener noreferrer">National Energy Services Reunited Corp. Reports Second Quarter 2025 Financial Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">● Revenue for the quarter ended June 30, 2025, is $327.4 million, growing 8.0% sequentially ● Net income for the quarter ended June 30, 2025, is $15.2 million, improving 46.3% on a sequential quarter ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=38cd22d280cf402f5cf3cee97cff4c580cd6afe116a64b8596fc999176607663" target="_blank" rel="noopener noreferrer">National Energy Services Reunited (NESR) Q2 Earnings and Revenues Surpass Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">National Energy Services Reunited (NESR) delivered earnings and revenue surprises of +10.53% and +3.41%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d372be63d3cb579b6b3d289aa9dbbaedcf4d6fb08311450cfc3c891737531448" target="_blank" rel="noopener noreferrer">National Energy Services Reunited Corp. (NESR) Secures Multiple Production Services Contracts in Algeria and Libya</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.67
+                                </span>
+                            </div>
+                            <div class="article-summary">National Energy Services Reunited Corp. (NASDAQ:NESR) is included in our list of the 10 Overlooked Energy Stocks to Buy Now. On August 13, 2025, National Energy Services Reunited Corp. (NASDAQ:NESR) r...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=58de0acc9f949a888d057c1dac2b1f0ba04488e22d390584088703923a0b853d" target="_blank" rel="noopener noreferrer">NESR to Release Second Quarter 2025 Financial Results on August 20th</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">HOUSTON, TX / ACCESS Newswire / August 18, 2025 / National Energy Services Reunited Corp. ("NESR" or the "Company") (Nasdaq:NESR) an international, industry-leading provider of integrated energy servi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0a9329c6079da7bb489985312689bf02ba3d5141ae56530bf1a6ed0c9ac0aeb9" target="_blank" rel="noopener noreferrer">National Energy Services Reunited (NESR) Announces Award of Several Production Services Contracts in Libya and Algeria</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-16</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.81
+                                </span>
+                            </div>
+                            <div class="article-summary">National Energy Services Reunited Corp. (NASDAQ:NESR) is one of the top cheap stocks that will go to the moon according to Reddit. On August 13, National Energy Services Reunited Corp. (NASDAQ:NESR) a...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3d4ac13f9f84c06555d0dfd40572c81143d9bb4d38074966eac8110c0c5c457e" target="_blank" rel="noopener noreferrer">NESR Secures Multiple Awards in North Africa Exceeding $100 Million</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">HOUSTON, TX / ACCESS Newswire / August 13, 2025 / National Energy Services Reunited Corp. ("NESR" or the "Company") (Nasdaq:NESR) an international, industry-leading provider of integrated energy servi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b242a8265a808e542c8fe22e69847971e38f439138f7ff8c8fa18ec3b6139a9f" target="_blank" rel="noopener noreferrer">Sector Update: Energy Stocks Edge Higher in Afternoon Trading</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks were slightly higher Wednesday afternoon with the NYSE Energy Sector Index up 0.2% and...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b6b65e74d77427252ef19d2f2e235a4431c1d274074284a31396b44bbb80edde" target="_blank" rel="noopener noreferrer">With 26% stake, National Energy Services Reunited Corp. (NASDAQ:NESR) seems to have captured institutional investors' interest</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.81
+                                </span>
+                            </div>
+                            <div class="article-summary">Key Insights Institutions' substantial holdings in National Energy Services Reunited implies that they have significant......</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

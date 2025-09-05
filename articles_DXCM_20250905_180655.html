@@ -1,0 +1,823 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>DexCom Inc. (DXCM) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">DexCom Inc. (DXCM)</h1>
+                    <a href="index.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">35</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">17</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">9</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.11</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=92818c3f99588b93ec750472071c4c25653472a2d16e4245424d1529ab179e00" target="_blank" rel="noopener noreferrer">Dexcom to lay off about 350 people</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">The diabetes technology company said the cuts are part of broader changes to its structure, including eliminating operations roles in San Diego and shifting those positions to Arizona....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=42ee20cd69298db05151df7fa87600c8fce75152c85a399d7865331b4777a299" target="_blank" rel="noopener noreferrer">Why DexCom (DXCM) Stock Is Up Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of medical device company DexCom (NASDAQ:DXCM) jumped 3.3% in the afternoon session after company executives provided an optimistic outlook at the Wells Fargo Healthcare Conference on Wednesday...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0e3b1a509cc32d2f49d47726acc60b61f1115b205b93e648479ccd353b6d0c90" target="_blank" rel="noopener noreferrer">DexCom, Inc. (DXCM) Presents At 2025 Wells Fargo Healthcare Conference (Transcript)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover DexCom's future growth plans, product innovations, and market outlook shared at...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=12e18b268ec257f3a37497bafdda5fd4c5b967c34d681e493449bbb6a2b703c4" target="_blank" rel="noopener noreferrer">DexCom Inc. stock underperforms Tuesday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">DexCom Inc. stock underperforms Tuesday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1624546b5117034f5ed0b47e79a8bdd29fbc9d184d4ebf13e9cbb91c57991f06" target="_blank" rel="noopener noreferrer">Argus Initiates Coverage of DexCom (DXCM) with a Buy Rating</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.49
+                                </span>
+                            </div>
+                            <div class="article-summary">DexCom, Inc. (NASDAQ:DXCM) is one of the best strong buy growth stocks to buy now. On August 21, Argus initiated coverage of DexCom, Inc. (NASDAQ:DXCM) with a Buy rating and $100 price target. The fir...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f7614bcefa90f7c3b84916fc11a3cf2bee91a4f26bb5752294ff42050c12839f" target="_blank" rel="noopener noreferrer">If You'd Invested $1,000 in DexCom 10 Years Ago, Here's How Much You'd Have Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">The company's innovative devices have helped it generate decent performances....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1fa2bdba803a99875436d54fe7709079dbef00776333bf25496dd9176dfe0db3" target="_blank" rel="noopener noreferrer">Why Is DexCom (DXCM) Down 7% Since Last Earnings Report?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">DexCom (DXCM) reported earnings 30 days ago. What's next for the stock? We take a look at earnings estimates for some clues....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=81a09a21fae955c0adb29eab47a2c218a7ef15b9d64a82585c3659e761a43dc5" target="_blank" rel="noopener noreferrer">DexCom Inc. stock underperforms Thursday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">DexCom Inc. stock underperforms Thursday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=057f40ec97c760bb06e7e3e34b3bbf6709f7a58325ab710a0706caaeed419d49" target="_blank" rel="noopener noreferrer">San Diego's Dexcom lays off 350 employees</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">In its most recent round of layoffs, Dexcom cuts 3% of its global workforce, targeting mostly San Diego-based employees....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4f43f342bf198e32e159a6fd18295b92d1c7e6f3cb569fb03d513f5fba3a6073" target="_blank" rel="noopener noreferrer">Discuss Introduces “Vibe Coding” and Hybrid AI + Human Market Insight Platform</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">New release introduces vibe coding for market insights, enabling any team to combine AI-moderated research with the depth of human-led conversations.SEATTLE, WA, Aug. 27, 2025 (GLOBE NEWSWIRE) -- As A...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a246b4773f89db9454656d5f8a3b07f11582e14085e9315c6d5d8fce94092a95" target="_blank" rel="noopener noreferrer">Dexcom Announces Upcoming Conference Presentations</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">SAN DIEGO, August 26, 2025--DexCom, Inc. (NASDAQ:DXCM) today announced that management will present an update on the company at the following upcoming investor conferences:...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2fbaba783e39259efea2d5da6056479557496184e9a8deaa70865053261cb18e" target="_blank" rel="noopener noreferrer">DexCom Insiders Sold US$11m Of Shares Suggesting Hesitancy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.52
+                                </span>
+                            </div>
+                            <div class="article-summary">Many DexCom, Inc. ( NASDAQ:DXCM ) insiders ditched their stock over the past year, which may be of interest to the......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=749eed40e2cab1b589ea2631fc521a20d3c1103236784232d436e95e96170832" target="_blank" rel="noopener noreferrer">DexCom Inc. stock underperforms Monday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">DexCom Inc. stock underperforms Monday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d67e7db2c0644c76e97fcf24ab095720c01e4d478bc2418ec9d4f3c9892017ef" target="_blank" rel="noopener noreferrer">3 Stocks That May Be Undervalued By As Much As 46.1%</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.08
+                                </span>
+                            </div>
+                            <div class="article-summary">As the U.S. stock market navigates a mixed landscape, with recent rallies and shifts in major indices like the Dow Jones Industrial Average and S&P 500, investors are closely watching for opportunitie...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=eaa3d91264e6c1bfe037eb6897ca7638e04f5f98f55ae45bc8485625875130fd" target="_blank" rel="noopener noreferrer">DexCom Inc. stock outperforms competitors on strong trading day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">DexCom Inc. stock outperforms competitors on strong trading day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e6bd1ca141bb355b6fdc6e8e07114c4153e36c756c2f45920f6a61d8ac7416b8" target="_blank" rel="noopener noreferrer">DexCom (NASDAQ:DXCM) Shareholders Will Want The ROCE Trajectory To Continue</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">NasdaqGS:DXCM 1 Year Share Price vs Fair Value Explore DexCom's Fair Values from the Community and select yours If we......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=26b896a61549ef804826b3aa791754c6e8e1cb818d911858644db9b403338927" target="_blank" rel="noopener noreferrer">CoreWeave upgraded, Instacart downgraded: Wall Street's top analyst calls</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">CoreWeave upgraded, Instacart downgraded: Wall Street's top analyst calls...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4bdc83ad37690609a93db07250363449731118b10ec022762bbb7b5713a332df" target="_blank" rel="noopener noreferrer">Signos Unveils First Ever FDA-Cleared Glucose Monitoring Breakthrough for Weight Management, Enabling Millions of Americans to Take Control of Their Health</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Signos, a purpose-driven metabolic health platform committed to transforming lives through personalized, real-time insights, today announced the launch of Signos Glucose Monitoring System, the first e...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=99e5825bb5552d6e09a7e288b74e3bc8f3dcbd20087d42095e94e05cc679ff4a" target="_blank" rel="noopener noreferrer">DexCom Expands Access and Innovation While Balancing Headwinds</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.86
+                                </span>
+                            </div>
+                            <div class="article-summary">DXCM grows on type 2 access, Stelo adoption, and new sensor launches, but faces margin pressures, competition and leadership transition....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=497115ca588e11b72410ce2e624fd078cb375a1006798783dfa75f5267ec153a" target="_blank" rel="noopener noreferrer">Synchron Expands Executive Team with Appointment of Andy Rasdal as Chief of Staff and Mark Brister as VP R&D</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.60
+                                </span>
+                            </div>
+                            <div class="article-summary">NEW YORK, August 19, 2025--Synchron Expands Executive Team with Appointment of Andy Rasdal as Chief of Staff and Mark Brister as VP RD...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=245e45ced2beda453fc3141d91dff327e53d3748b045254a67bb2084a3c1392e" target="_blank" rel="noopener noreferrer">2 Stocks to Buy on the Dip and Hold for 10 Years</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-16</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">There should be plenty of long-term upside for these stocks for investors willing to ride out the storm....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9bf3ec24c13e55dc62344819e8a3574f34fc0dd37d37e93c74f67b735fd2af58" target="_blank" rel="noopener noreferrer">DexCom Inc. stock underperforms Friday when compared to competitors despite daily gains</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.79
+                                </span>
+                            </div>
+                            <div class="article-summary">DexCom Inc. stock underperforms Friday when compared to competitors despite daily gains...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=95878696f52a58f98a8b30028fb702fafb40eca96f335aff4d82d32857c23c16" target="_blank" rel="noopener noreferrer">Artisan Mid Cap Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5776f853b62e3658c584511f20bfa761f40a9dc779730b551822a8548f74d342" target="_blank" rel="noopener noreferrer">3 Reasons We’re Fans of DexCom (DXCM)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Over the last six months, DexCom’s shares have sunk to $80.25, producing a disappointing 9.9% loss - a stark contrast to the S&P 500’s 5.8% gain. This may have investors wondering how to approach the ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8ad387f814daebd2e0f47b0bca4d07813f8e140cc59b51ca45c2b6a702606acc" target="_blank" rel="noopener noreferrer">DexCom Stock: Analyst Estimates & Ratings</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Despite DexCom’s underwhelming price action, Wall Street analysts appear highly optimistic about its prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8fbfe0897883b5eae0e97d27d07b197aa9581beb96d05ac2e053d44794db6ab0" target="_blank" rel="noopener noreferrer">5 Revealing Analyst Questions From DexCom’s Q2 Earnings Call</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">DexCom’s second quarter 2025 results saw the company surpass Wall Street’s revenue and earnings expectations, though the market’s immediate reaction was notably negative. Management attributed the qua...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c763dc20f7926ddd0f5b55b9076f1e69d445c71d46d55ad7d897bdd9d75a4d86" target="_blank" rel="noopener noreferrer">DXCM Q2 CY2025 Deep Dive: Volume Growth, Leadership Changes, and New Product Launches Shape Outlook</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Medical device company DexCom (NASDAQ:DXCM) reported revenue ahead of Wall Street’s expectations in Q2 CY2025, with sales up 15.2% year on year to $1.16 billion. The company expects the full year’s re...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=92d62bc86b044c77c5956389ca3b7d2e7db0d76d63805376bc0ed89cee489570" target="_blank" rel="noopener noreferrer">Saudi Arabia Blood Glucose Device Market Trends and Company Analysis Report 2025-2033 Featuring Abbott Laboratories, Medtronic, Dexcom, Braun, DarioHealth, Sanofi, Bionime, and Novo Nordisk</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">The Saudi Arabia Blood Glucose Device Market is anticipated to grow from US$ 143.96 million in 2024 to US$ 259.8 million by 2033, exhibiting a CAGR of 6.78% from 2025-2033. This growth is fueled by ri...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=919f9fdf3c6a3e853355e74aa9ab80aa2b8b10b6b1d0e4d00cb70022e7f4f4fd" target="_blank" rel="noopener noreferrer">FriskaAi and Dexcom Enter CGM Data Integration Agreement</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.53
+                                </span>
+                            </div>
+                            <div class="article-summary">ARLINGTON, VA / ACCESS Newswire / August 13, 2025 /FriskaAi announced today an agreement with DexCom, Inc., the global leader in glucose biosensing, to integrate data from Dexcom G7 and Dexcom G6 Cont...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8969ac226cdfae7cccc6ba10fb066f39885475d2a70fcdd5354542fdddccd253" target="_blank" rel="noopener noreferrer">ViCentra to Bring Smartphone-Based Closed Loop Therapy to People with Diabetes in Early 2026</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">ViCentra, maker of the Kaleido insulin patch pump, today announced that following the CE Mark approval of Diabeloop's DBLG2 algorithm under the EU Medical Device Regulation (MDR), its next-generation ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9481736d1ecac26c8f73ac68e1dbea9261bbe8946fb1f3e9ab083ab1f7597a22" target="_blank" rel="noopener noreferrer">Health Care Roundup: Market Talk</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Find insight on Novartis, Eli Lily, Dexcom and more in the latest Market Talks covering Health Care....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=83b6eb88f6f97c32fe2f37b95e3a0683ff37b427132425563f778d84f441a5d3" target="_blank" rel="noopener noreferrer">DexCom Inc. stock outperforms competitors despite losses on the day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">DexCom Inc. stock outperforms competitors despite losses on the day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4faa71e8e6a1fb142e292585c4567007403d7d7799b299abcbd26dd5c81296a6" target="_blank" rel="noopener noreferrer">Tracking Baillie Gifford's 13F Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-10</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=83cecc1774b44fb7455d235c73fee7449f9e6a3334d32296a7818691bfc027df" target="_blank" rel="noopener noreferrer">Inside Dexcom’s strategy to stay ahead in the $13.6bn CGM market</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.75
+                                </span>
+                            </div>
+                            <div class="article-summary">With a new CEO taking over in 2026, Dexcom aims to stay ahead of its CGM competitors through a combination of innovation and product market expansion....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4debdc49591d366903383d40135e5bd8d9999ad138aa33fa53fa950cc68c235b" target="_blank" rel="noopener noreferrer">Baron Small Cap Fund Q2 2025 Shareholder Letter</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.29
+                                </span>
+                            </div>
+                            <div class="article-summary">Baron Small Cap Fund gained in the second quarter, but trailed its benchmark, the Russell 2000 Growth Index. Read more here....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

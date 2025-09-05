@@ -1,0 +1,583 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Evolent Health Inc. (EVH) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Evolent Health Inc. (EVH)</h1>
+                    <a href="index.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">20</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">-0.25</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=85065771ed7e11d1f5134fb62c6b53aec841e1324fcf6e89a7d4687a5a9727ef" target="_blank" rel="noopener noreferrer">Why Elevance Health (ELV) Stock Is Trading Lower Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of health insurance provider Elevance Health (NYSE:EVH) fell 3.5% in the afternoon session after the company's CFO flagged potentially elevated medical costs and weakening margins at an investo...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6a781bb54c9a2bde7d603ccf6864aa66b0fc991436ff696376501b3b886ad155" target="_blank" rel="noopener noreferrer">FTAI Infrastructure, Acadia Healthcare, agilon health, Clover Health, and Evolent Health Shares Skyrocket, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.44
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks jumped in the afternoon session after the major indices rebounded, as Fed Chair Jerome Powell delivered dovish remarks at the much-awaited Jackson Hole symposium. Powell suggested t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=515bb2be61321b7a9f99a778b07f3914ee9f11eb366e223c335dedbef396bd11" target="_blank" rel="noopener noreferrer">Evolent's Soft Q2 Results: Why I'm Holding Anyway</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.30
+                                </span>
+                            </div>
+                            <div class="article-summary">Evolent's revenue dip in Q1 was structural, not demand-driven, and Q2 shows stabilization. Click here to read an analysis of EVH stock now....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=51df02f7a1566368fa71911e36d58ae9a6632d886ee522ee77258cc70d3f5e99" target="_blank" rel="noopener noreferrer">Lennox, Sportsman's Warehouse, CAVA, TreeHouse Foods, and Evolent Health Shares Plummet, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks fell in the afternoon session after markets continued to decline, as investors grew cautious ahead of a key speech by Federal Reserve Chair Jerome Powell. The move came as U.S. equi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=126446f756d5563548ca30d391716501ad7bbb716b8658090c739ddaad63516c" target="_blank" rel="noopener noreferrer">Evolent Health, Inc. Announces Pricing of Oversubscribed and Upsized $145.0 Million of Convertible Senior Notes Due 2031 to Repurchase Existing Notes and Class A Common Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Evolent Health, Inc. (NYSE: EVH), a company focused on achieving better health outcomes for people with complex conditions ("Evolent"), today announced the pricing of $145.0 million aggregate principa...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=664557f752b00af75bbd7070e9f88ef0b08077a5d7abdeff452bdb450963a694" target="_blank" rel="noopener noreferrer">Evolent Health, Inc. Announces Proposed Offering of $140.0 Million of Convertible Senior Notes Due 2031 to Repurchase Existing Notes and Class A Common Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Evolent Health, Inc. (NYSE: EVH), a company focused on achieving better health outcomes for people with complex conditions ("Evolent"), today announced that it intends to offer $140.0 million aggregat...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=423a8c7c4f60df237583f610b3f4b744fb88ada54f3a4df85b881e3527ea915f" target="_blank" rel="noopener noreferrer">5 Insightful Analyst Questions From Evolent Health’s Q2 Earnings Call</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Evolent Health’s second quarter was marked by a negative market reaction after the company missed Wall Street’s revenue and earnings expectations. Management attributed the underperformance primarily ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5f67e8790aa1ce98f10975ebfa7319e7a2f02e1090c095d12362d6ca8a02d164" target="_blank" rel="noopener noreferrer">Brookdale, Evolent Health, Fortrea, 10x Genomics, and Organon Stocks Trade Up, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks jumped in the afternoon session after markets continued to rally amid growing speculation of an impending interest rate cut by the Federal Reserve. Following a favorable Consumer Pr...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1b5e224fbd3ea969f7972465831f42d0577b4fd7b80b28e4f455ca3ceabdf60f" target="_blank" rel="noopener noreferrer">Centene, RadNet, Evolent Health, Illumina, and Charles River Laboratories Shares Are Soaring, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks jumped in the morning session after positive inflation data fueled hopes for an interest rate cut by the Federal Reserve....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ace398c1359df4f2164a6535f7379169e4908437d42a89c95ae23762936af5d6" target="_blank" rel="noopener noreferrer">EVH Q2 Deep Dive: Revenue Falls Short, Guidance Cut as Margin Initiatives Continue</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Healthcare solutions company Evolent Health (NYSE:EVH) missed Wall Street’s revenue expectations in Q2 CY2025, with sales falling 31.3% year on year to $444.3 million. Next quarter’s revenue guidance ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=41405aea8ea7c747dad9ba4bd00d69c887c26f10686717ad989d2e0462d493a9" target="_blank" rel="noopener noreferrer">Evolent Health (EVH) Reports Q2 Loss, Misses Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">Evolent Health (EVH) delivered earnings and revenue surprises of -211.11% and -2.86%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=25e9172d6109be6e505c83923ed180a1b8bbacc0c2b5363325f608a1271226c2" target="_blank" rel="noopener noreferrer">Evolent Health (EVH) Q2 Earnings: How Key Metrics Compare to Wall Street Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The headline numbers for Evolent Health (EVH) give insight into how the company performed in the quarter ended June 2025, but it may be worthwhile to compare some of its key metrics to Wall Street est...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d88d94e97c4a1a87a5f642141032ca4e61511ef9ac8f170487462aa7387e158e" target="_blank" rel="noopener noreferrer">Evolent Health Inc (EVH) Q2 2025 Earnings Call Highlights: Strong Partnerships and Revenue ...</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.88
+                                </span>
+                            </div>
+                            <div class="article-summary">Evolent Health Inc (EVH) reports robust EBITDA performance and strategic partnerships, despite facing revenue shortfalls and operational cash outflows....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=62febe47e47888bae2d5f179fdf65436cd453a01d48ef742f0150d23b72a781e" target="_blank" rel="noopener noreferrer">Evolent Health (NYSE:EVH) Reports Sales Below Analyst Estimates In Q2 Earnings, Stock Drops</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">Healthcare solutions company Evolent Health (NYSE:EVH) missed Wall Street’s revenue expectations in Q2 CY2025, with sales falling 31.3% year on year to $444.3 million. Next quarter’s revenue guidance ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=159228db4e98cfd956a779706af62a9f7d7498ac26430ac1b48b4fa26f7216ab" target="_blank" rel="noopener noreferrer">Why Evolent Health (EVH) Stock Is Nosediving</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.90
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of healthcare solutions company Evolent Health (NYSE:EVH) fell 13.9% in the morning session after the company reported disappointing second-quarter 2025 financial results, missing analyst expec...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2517e2f0f414a7a4f444a89e71d98e8162e867990603a476d278e917d36bfc14" target="_blank" rel="noopener noreferrer">Evolent Health, Inc. 2025 Q2 - Results - Earnings Call Presentation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The following slide deck was published by Evolent Health, Inc....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c3386dd272a9cb7bea1ae1ecc4a1ae76e9319e0f5c58ce1d33003b675e5a9650" target="_blank" rel="noopener noreferrer">Evolent Health, Inc. (EVH) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Evolent Health, Inc. (NYSE:EVH) Q2 2025 Earnings Conference Call August 7, 2025 5:00 PM ETCompany ParticipantsJohn Paul Johnson - Chief Financial......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d1e4e79b07efcad6a55c4cd1cda0d74a2ac0dab601aa0236ef95a9720f9da36f" target="_blank" rel="noopener noreferrer">Evolent Announces Second Quarter 2025 Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Evolent Health, Inc. (NYSE: EVH) ("Evolent" or the "Company"), a company that specializes in better health outcomes for people with complex conditions through proven solutions that make health care si...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0d33131b4c5ca02a3fa869c1b31096591817610679f00cea4d9bfe3de1a17508" target="_blank" rel="noopener noreferrer">Evolent Health: Q2 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.78
+                                </span>
+                            </div>
+                            <div class="article-summary">EVH) on Thursday reported a loss of $19.9 million in its second quarter. The Arlington, Virginia-based company said it had a loss of 44 cents per share. Losses, adjusted for non-recurring costs and st...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b5966cdbaedb33601e8bfb3eda4353796b3272b24ebfb69a42f723a0368aac38" target="_blank" rel="noopener noreferrer">Evolent Health (EVH) Q2 Earnings Report Preview: What To Look For</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Healthcare solutions company Evolent Health (NYSE:EVH) will be reporting results this Thursday after the bell. Here’s what investors should know....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

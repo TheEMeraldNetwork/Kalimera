@@ -1,0 +1,487 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Kelly Services Inc. (KELYA) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Kelly Services Inc. (KELYA)</h1>
+                    <a href="index.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">14</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.14</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e6422ad036fa3889644a89d9554ac46987b98e2c0ba00e7ec4a182bc10665c13" target="_blank" rel="noopener noreferrer">Gateway Group Announces Final Lineup of 60+ Companies Across AI, FinTech, Cleantech, and Other Growth Sectors Presenting in San Francisco Sept. 3–4</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Gateway Conference expected to draw 300+ institutional investors for company presentations and exclusive one-on-one meetingsNEWPORT BEACH, Calif., Aug. 26, 2025 (GLOBE NEWSWIRE) -- Gateway Group (“Gat...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=94d8e8d83b77859980a566986210f52ddfb08ed4716035e603bb8428bd9974c2" target="_blank" rel="noopener noreferrer">Kelly Announces Participation in Upcoming Investor Conferences</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">TROY, Mich., Aug. 19, 2025 (GLOBE NEWSWIRE) -- Kelly (Nasdaq: KELYA, KELYB), a leading global specialty talent solutions provider, today announced the Company will participate in the following upcomin...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=08f6031218a9e9080e503a45a217cba3edd494377860e366d2b9d1a708941d52" target="_blank" rel="noopener noreferrer">Read This Before Considering Kelly Services, Inc. (NASDAQ:KELY.A) For Its Upcoming US$0.075 Dividend</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-16</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Readers hoping to buy Kelly Services, Inc. ( NASDAQ:KELY.A ) for its dividend will need to make their move shortly, as......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6a4bad593b84a5ee47adcea3dde533328d17a189be5dde7f17d59d5873910aa2" target="_blank" rel="noopener noreferrer">Kelly + Motion Recruitment Recognized as IT Contingent Staffing Leader, Star Performer by Everest Group</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.88
+                                </span>
+                            </div>
+                            <div class="article-summary">Positioning reflects exceptional year-over-year growth in vision, investments and industry impact Everest Group 2025 US IT Contingent Talent & Strategic Solutions PEAK Matrix® Kelly + Motion Recruitme...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d82b0df578498e3da92b80af033174485ed343c86cad408dc75433b5887b801b" target="_blank" rel="noopener noreferrer">Kelly Services (NASDAQ:KELY.A) Is Paying Out A Dividend Of $0.075</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The board of Kelly Services, Inc. ( NASDAQ:KELY.A ) has announced that it will pay a dividend of $0.075 per share on......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c90afab86acb3a1296ad4ada23cbae31bf178f5c3108c354987b1b841048fc7b" target="_blank" rel="noopener noreferrer">Kelly Engineering Named Back-to-Back Contingent Staffing Star Performer, Leader by Everest Group</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.83
+                                </span>
+                            </div>
+                            <div class="article-summary">Recognition highlights year-over-year growth in market impact, vision and investments Everest Group US Engineering Contingent Talent and Strategic Solutions PEAK Matrix 2025 Kelly® Engineering, a divi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4e1897e5a80a4c844711ec060903788b805302cc84ca3e4727f93890d6129d48" target="_blank" rel="noopener noreferrer">Kelly Services, Inc. (KELYA) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Kelly Services, Inc. (NASDAQ:KELYA) Q2 2025 Earnings Conference Call August 7, 2025 9:00 AM ETCompany ParticipantsPeter W....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ac44c9b5a37c7f202604009573dc5ad6e9a3ea66fe01c02bdc5370922af70e8e" target="_blank" rel="noopener noreferrer">Kelly Services, Inc. 2025 Q2 - Results - Earnings Call Presentation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The following slide deck was published by Kelly Services, Inc....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=45634d1b57f42f5ba3e5177e24883bf4913f70be0413f6c4d5ed303a6a977ee3" target="_blank" rel="noopener noreferrer">Kelly Services Second Quarter 2025 Earnings: EPS Beats Expectations, Revenues Lag</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.22
+                                </span>
+                            </div>
+                            <div class="article-summary">Kelly Services ( NASDAQ:KELY.A ) Second Quarter 2025 Results Key Financial Results Revenue: US$1.10b (up 4.2% from 2Q......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2674038887edb98036060c4846db90da359606679ab70929f1719ce811684b7d" target="_blank" rel="noopener noreferrer">DLH Holdings Corp. (DLHC) Meets Q3 Earnings Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">DLH (DLHC) delivered earnings and revenue surprises of 0.00% and +0.41%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e327f28720d2feeb3318bd9e8768f40990491afe3494f0f35476fe5cbaa6636b" target="_blank" rel="noopener noreferrer">Kelly Announces Selection of Chris Layden as President and Chief Executive Officer</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">TROY, Mich., Aug. 07, 2025 (GLOBE NEWSWIRE) -- Kelly (Nasdaq: KELYA, KELYB), a leading global specialty talent solutions provider, today announced that Chris Layden has been selected to serve as presi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=32cd3b0d94a31e01bae44d9641e34cb5cf2c78163c364930480047e33b47cf7c" target="_blank" rel="noopener noreferrer">Kelly Reports Second-Quarter 2025 Earnings</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.59
+                                </span>
+                            </div>
+                            <div class="article-summary">TROY, Mich., Aug. 07, 2025 (GLOBE NEWSWIRE) -- Kelly (Nasdaq: KELYA, KELYB), a leading specialty talent solutions provider, today announced results for the second quarter of 2025. Q2 revenue of $1.1 b...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2fc0101d6a3f188556e9dd5e01e04899b8c895446b05b45fd9c26fbeb5571457" target="_blank" rel="noopener noreferrer">Kelly Services: Q2 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">TROY, Mich. AP) — Kelly Services Inc. KELYB) on Thursday reported net income of $19 million in its second quarter....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=04494b315370effe66c63ac365465168e6b5c0805b187f347251ddf7bda7fb24" target="_blank" rel="noopener noreferrer">Kelly Services (KELYA) Q2 Earnings Meet Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.23
+                                </span>
+                            </div>
+                            <div class="article-summary">Kelly Services (KELYA) delivered earnings and revenue surprises of 0.00% and -1.86%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

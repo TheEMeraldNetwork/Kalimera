@@ -1,0 +1,487 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Syndax Pharmaceuticals Inc. (SNDX) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Syndax Pharmaceuticals Inc. (SNDX)</h1>
+                    <a href="index.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">14</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.41</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4a48a6e2bfca461d91af22b4780af05ae9c49b643fdcf3ee52ab704eccb7eae1" target="_blank" rel="noopener noreferrer">Rare Stock Picks In August 2025 - From 32 Discerning Analysts</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">In our monthly Rare Stock Picks series, we're highlighting August 2025 investment picks. Click here for the list of August 2025 Buy recommendations....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=76a562eaebfa29413dfda36d89312673610756a6c1739148adbbeb91fca27854" target="_blank" rel="noopener noreferrer">Syndax Pharmaceuticals, Inc. (SNDX) Presents At Citi's Biopharma Back To School Conference Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Get the latest updates on Syndax Pharmaceuticals' commercial success...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cabceba6efaf03c5c7643af3244de5b32b72f50ee7e27c5c9fa3cd95e6857405" target="_blank" rel="noopener noreferrer">Wall Street Analysts Believe Syndax (SNDX) Could Rally 112.8%: Here's is How to Trade</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">The mean of analysts' price targets for Syndax (SNDX) points to an 112.8% upside in the stock. While this highly sought-after metric has not proven reasonably effective, strong agreement among analyst...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8f410f8c774141b8ddfb784efb0f9487a57107bb165632f8a61c57a15316f4fd" target="_blank" rel="noopener noreferrer">Syndax Announces Participation in September Investor Conferences</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">NEW YORK, Aug. 26, 2025 (GLOBE NEWSWIRE) -- Syndax Pharmaceuticals (Nasdaq: SNDX), a commercial-stage biopharmaceutical company advancing innovative cancer therapies, today announced that Michael A. M...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=45b7cd5f10fb5c465db83999a02e94db8da4c3d531ab85fbb8fe6d39c8933de5" target="_blank" rel="noopener noreferrer">Regulatory Milestone and Analyst Optimism Fuel Momentum for Syndax Pharmaceuticals</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.89
+                                </span>
+                            </div>
+                            <div class="article-summary">Syndax Pharmaceuticals, Inc. (NASDAQ:SNDX) is one of the 11 Best Short Squeeze Stocks to Buy Now. The company’s stocks surge following the approval of the U.S. FDA Priority Review for sNDA for Revufor...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=09ef6595d72adc8205332eef8fe413b46982c2329954b912fa37b7812bc9bf0f" target="_blank" rel="noopener noreferrer">BTIG Raises Syndax Pharmaceuticals (SNDX) PT to $56 Following Strong Q2 Revenue from Revuforj, Niktimvo</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Syndax Pharmaceuticals Inc. (NASDAQ:SNDX) is one of the best small cap stocks with biggest upside potential. On August 5, BTIG analyst Justin Zelin raised the firm’s price target on Syndax to $56 from...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3fbff7bf122a64ef83568793ff2e68659e6ea37bb13f3605b49f292ed4eec013" target="_blank" rel="noopener noreferrer">Syndax Pharmaceuticals (SNDX) Is Up 15.8% After Revenue Surges in Q2 2025 Results Has Sentiment Shifted?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    -0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Syndax Pharmaceuticals, Inc. recently reported its second quarter 2025 results, with revenue reaching US$37.96 million compared to US$3.5 million a year earlier, while net loss increased slightly to U...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d113ca2a65fd1b3501767ccc43545ddcdf07ac8c9ef911c2fcda25b14d9f10f4" target="_blank" rel="noopener noreferrer">Does Syndax (SNDX) Have the Potential to Rally 158.36% as Wall Street Analysts Expect?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">The mean of analysts' price targets for Syndax (SNDX) points to a 158.4% upside in the stock. While this highly sought-after metric has not proven reasonably effective, strong agreement among analysts...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f2825d4e82409c28e68480cacfb7b722b3738c40071f72697bcc5c846d2e8776" target="_blank" rel="noopener noreferrer">FDA Priority Review and Revenue Growth Drive Short-Term Upswing for Syndax Pharmaceuticals</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.71
+                                </span>
+                            </div>
+                            <div class="article-summary">Syndax Pharmaceuticals, Inc. (NASDAQ:SNDX) is one of the 11 Best Short-Term Stocks to Invest in. Amid revenue surges from the existing drugs, Revuforj and Niktimvo in Q2, FDA grants Priority Review fo...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c65f2f0b95636a587b2014650ba9dcd6e0e6ee65ee11cdb80076e4e9a88bbcc4" target="_blank" rel="noopener noreferrer">Syndax Pharmaceuticals: A Tale Of Two Drug Launches</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Syndax Pharmaceuticals stock is down 45% over the past three years. Read what investors may be missing with this biotech....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=46a5f79b83a38086d32dc1c4ddb74ae3fd22211ee14d581bf69c8cfcb5c75a3d" target="_blank" rel="noopener noreferrer">Analysts Just Made A Dazzling Upgrade To Their Syndax Pharmaceuticals, Inc. (NASDAQ:SNDX) Forecasts</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-10</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.87
+                                </span>
+                            </div>
+                            <div class="article-summary">NasdaqGS:SNDX 1 Year Share Price vs Fair Value Explore Syndax Pharmaceuticals's Fair Values from the Community and......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=dcf20f1064ea1a93996092167fd530b28b5724b3b75d9a27aadbaedab157cc0f" target="_blank" rel="noopener noreferrer">Syndax Pharmaceuticals Second Quarter 2025 Earnings: Beats Expectations</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.87
+                                </span>
+                            </div>
+                            <div class="article-summary">NasdaqGS:SNDX 1 Year Share Price vs Fair Value Explore Syndax Pharmaceuticals's Fair Values from the Community and......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=80c3fc3048f4342e32b0a2107101fcd086064685ff987d1374738ef13bb2b2ed" target="_blank" rel="noopener noreferrer">Citi ups Syndax target, opens ‘upside catalyst watch’</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Citi analyst Yigal Nochomovitz raised the firm’s price target on Syndax (SNDX) to $51 from $46 and keeps a Buy rating on the shares. The firm also added a positive “upside catalyst watch” on Syndax ah...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8e590dca07fcaa22eb1cc8af63336f4adfa9885f98998639fada4e37f99b2db3" target="_blank" rel="noopener noreferrer">Syndax Pharmaceuticals Reports Inducement Grants Under NASDAQ Listing Rule 5635(c)(4)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">NEW YORK, Aug. 06, 2025 (GLOBE NEWSWIRE) -- Syndax Pharmaceuticals (Nasdaq: SNDX), a commercial-stage biopharmaceutical company advancing innovative cancer therapies, today announced that on August 1,...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

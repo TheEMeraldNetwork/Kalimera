@@ -1,0 +1,999 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Devon Energy Corporation (DVN) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Devon Energy Corporation (DVN)</h1>
+                    <a href="index.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">46</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">26</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.29</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2f00f7e4a247159e98aaff07e8c74fd6aece7a590c6aa5ad3fe68d512950d55a" target="_blank" rel="noopener noreferrer">SCHD ETF Alternative Strategy, CAGR Improves To 15.11%</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=30575c461143a39f30d9ba2a336d83f9410dd01774a72ea12002cac98e98c9d4" target="_blank" rel="noopener noreferrer">Can Devon Energy Unlock Value Through Strategic Debt Reduction?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">DVN stock continues to reduce debt, thereby cutting costs and boosting its financial flexibility as shares outperform peers....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fc5a1893c8d0026d7f9cbaee86db6fd9ae80003a4bc2015f91ed924bb3109766" target="_blank" rel="noopener noreferrer">William Blair Initiates Coverage on Devon Energy (DVN) Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.40
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy Corporation (NYSE:DVN) is one of the Best Oil and Gas Stocks to Buy According to Analysts. On August 25, William Blair initiated coverage on the company’s stock with a “Buy” rating. The f...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ea4aa6e6623299199169cdf941a70bd733f6fc1870b2c54d82d2e2f9e6bcdacf" target="_blank" rel="noopener noreferrer">Devon Energy Corporation (DVN) Presents At Barclays 39th Annual CEO Energy-Power Conference 2025 Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover how Devon Energy is leveraging AI and cost optimization to boost free cash flow,...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cdd38f71c145f2d2b29d216351b3faa9108e6c341de6d1c260d22ae22e102f2e" target="_blank" rel="noopener noreferrer">Stocks and Bonds Climb as Weak Jobs Bolster Fed Rate Cut Chances</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.11
+                                </span>
+                            </div>
+                            <div class="article-summary">The S&P 500 Index ($SPX ) (SPY ) today is up by +0.56%, the Dow Jones Industrials Index ($DOWI ) (DIA ) is down by -0.19%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) is up by +1.02%. September E-mini S&...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=56c84d92b3b14810872dd18e2c144a3f8c518b3253341c4e3618a4aa6febaa98" target="_blank" rel="noopener noreferrer">DVN Outperforms Industry in a Month: How to Play the Stock Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy's stock gains 14% in a month, fueled by low-cost operations, strong ROIC and discounted valuation versus peers....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fe35d93312c25ca2e484404b7989e3b2d44e217fbabee0194db49961db6cb8bf" target="_blank" rel="noopener noreferrer">Undercovered Dozen: MSTY, Devon Energy, D-Wave Quantum, OMAH, And More</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover 12 under-the-radar stocks and ETFs with unique buy/hold/sell ratings....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0aedf28ab0ca56d223273e57822140568954259427c6b1147241427769bbc05e" target="_blank" rel="noopener noreferrer">Devon Energy Corporation (DVN) Is a Trending Stock: Facts to Know Before Betting on It</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy (DVN) has been one of the stocks most watched by Zacks.com users lately. So, it is worth exploring what lies ahead for the stock....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e8a0989ca78e0eaeb6145d13a60cbc399bb18b29e396116b823f096ae4d4a214" target="_blank" rel="noopener noreferrer">WaterBridge Infrastructure Launches IPO For Oil And Gas Water Management Growth</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">WaterBridge Infrastructure operates a large water management network in the Delaware Basin, but has customer and geographic concentration risks. Learn more on WBI stock here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d0ca5d419e0648264270824e59a0ffa5f309511b76d2b5d9eab2f19e5f9f6411" target="_blank" rel="noopener noreferrer">3 Oil Stocks That Could Surge Soon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.22
+                                </span>
+                            </div>
+                            <div class="article-summary">Oil prices are unlikely to stay depressed, with potential for a substantial move higher by 2026 as market dynamics and political factors shift. Click here to read my picks....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=140cd4e1cbec303194185fbd97a73c1a6dcedcef48eec7805e13afe695b0ab3c" target="_blank" rel="noopener noreferrer">My #1 Contrarian Bet: Why I'm Betting Big On The Market's Most Undervalued Sector</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Smart money is quietly accumulating energy stocks despite recent underperformance. Read why I'm investing heavily in quality energy names....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cbdac7471741fa1561df187fc5ad99621678f1c0334f55ad17f8fec5534da89d" target="_blank" rel="noopener noreferrer">Devon Energy Corp. stock underperforms Tuesday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy Corp. stock underperforms Tuesday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2cf9d69a85ea78b535a7d18a38f412fa4b6d4397151c69ce46af89001948f000" target="_blank" rel="noopener noreferrer">Devon Energy: The Best Opportunity In US Oil Today That I'm Buying</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.73
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy is a highly efficient, low-cost US oil and gas producer with strong growth, capital discipline, and proactive management amid volatile markets....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0908843add42702b739fe877642e99e8658489cf00dff03021368cdc391e4c95" target="_blank" rel="noopener noreferrer">Devon Energy Corp. stock outperforms competitors on strong trading day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy Corp. stock outperforms competitors on strong trading day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=73b54166ce4d70f5fb80b3d182c3e0ce31003f61967f7eaf90fc4f141d8db526" target="_blank" rel="noopener noreferrer">Devon Energy: Strong Acquisitions, Economic Headwinds, Hold On</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-24</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.32
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=60fabdf86d71570c9c4a0356135e9d47098121fc3b4af3fddfa29ed1c5c47f87" target="_blank" rel="noopener noreferrer">Devon Energy: Mispriced Upstream Play For Deep Value Investors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-24</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energyâs efficient production, balanced pricing, and undervaluation create a compelling setup despite near-term headwinds. Find out why DVN stock is a buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=795f4b6f725bc0c4b4563497491730e258414d298a0fdb8600182def37c5dfcc" target="_blank" rel="noopener noreferrer">Devon Energy: Maintaining Free Cash Flow Despite The Decline In Oil</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy is a BUY with strong free cash flow, disciplined spending, and growth potential despite lower oil prices. Read more on DVN's significant potential and risks....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=83492ae41889a473e653056462f64cf3cbc456e4094079a5514adfc28d34015d" target="_blank" rel="noopener noreferrer">Investors Heavily Search Devon Energy Corporation (DVN): Here is What You Need to Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy (DVN) has received quite a bit of attention from Zacks.com users lately. Therefore, it is wise to be aware of the facts that can impact the stock's prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6ebf9bf25a57ce58c0c2991666f65fa1f322f9f30177812939550050e114b985" target="_blank" rel="noopener noreferrer">Devon Energy (DVN): Exploring Valuation After Recent Stock Uptick Without Material News</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.78
+                                </span>
+                            </div>
+                            <div class="article-summary">If you have been watching Devon Energy (DVN) lately, you may have noticed the stock drawing renewed attention after its latest 4% jump over the past month. There is no major news headline or dramatic ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ebb3ca8fcdb2136842d52df2db1678f8ecb0853426df42d297a9d3ad33ad3671" target="_blank" rel="noopener noreferrer">Devon Energy: Growth Ahead</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.41
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy excels in capital efficiency and free cash flow, offering strong dividends, buybacks, and a 7% yield. Click here to read my analysis of DVN stock....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=de28e3480bfd0d080838e9143c163c38e4bdfcd4c9436ec1e35a8ee143952672" target="_blank" rel="noopener noreferrer">Devon Energy to Participate in a Fireside Chat at the Barclays 39th Annual CEO Energy & Power Conference</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">OKLAHOMA CITY, Aug. 20, 2025 (GLOBE NEWSWIRE) -- Devon Energy Corp. (NYSE: DVN) today announced Clay Gaspar, President and CEO will participate in a fireside chat at the Barclays 39th Annual CEO Energ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0ae90b76ed52d1e79aa1b22feeed5be23af227cd70bdf8da5a15bacbc7968b00" target="_blank" rel="noopener noreferrer">Upstream Oil, Gas Operators Eye Reinvestment Opportunities With Tax Savings Boost</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    -0.02
+                                </span>
+                            </div>
+                            <div class="article-summary">US oil and natural gas exploration and production companies may see a windfall from recently passed...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a1054cdcd7a8e2f5287fb2d4f34e6bfb8f6a9a193e87c4e086b91232496fb31e" target="_blank" rel="noopener noreferrer">Wall Street Lunch: SPAC King Returns With New Blank-Check Deal</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Venture capitalist Chamath Palihapitiya has filed to list a SPAC worth $250 million under the name of American Exceptionalism Acquisition Corp....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e65a060b6497458f7233e2a18dcb9f2f1ecbf5883407a45f05153b4ec5c5d8f1" target="_blank" rel="noopener noreferrer">Centrica signs long-term agreement with Devon Energy for natural gas supply</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.78
+                                </span>
+                            </div>
+                            <div class="article-summary">The agreement is designed to mitigate market price risk in Centrica's LNG portfolio by linking feed gas pricing to the European TTF price....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9d704ceffe1679492cf7ffcb34cecddb35e5c77c4022114a7f5a7552e9f25dc9" target="_blank" rel="noopener noreferrer">Can Domestic Assets Continue to Drive Long-Term Growth for Occidental?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">OXY's strong U.S. asset base from the Permian to the Gulf of America underpins cash flow stability and long-term growth prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4dd6342e3cab68f6c1e599a756c27ff936fa03c7bd6c88f8e90b282d33f3a6c4" target="_blank" rel="noopener noreferrer">Centrica Signs 10-Year Deal for US Natural Gas With Devon Energy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.90
+                                </span>
+                            </div>
+                            <div class="article-summary">Centrica Energy, its trading arm, will receive 50,000 million British thermal units per day of natural gas from 2028, or the equivalent of five liquefied natural gas cargoes per year, according to a s...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=554203d35f47da8095b6dcc19ea4f9f8380bd1b1e09d7e0d855a652cc56218c4" target="_blank" rel="noopener noreferrer">British Gas owner Centrica enters natural gas deal with US-based Devon Energy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">British Gas owner Centrica said on Friday it has entered into a natural gas agreement with Devon Energy, in which the U.S.-based firm will supply an equivalent to five LNG cargoes per year over a 10-y...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4d09b2962dd391e839bd71dd53054c6d4fdb7de95a7fe8cdaccd7e730a14f2ce" target="_blank" rel="noopener noreferrer">Devon Energy and Centrica Ink Major LNG Supply Deal</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">U.S.-based Devon Energy Corporation has signed a 10-year natural gas supply agreement with UK’s Centrica, owner of British Gas, to provide LNG starting in 2028....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=80a4e5e92a3012b6a2201693c3e81269763e4fe4ea9e5f3cb2383874d3d08703" target="_blank" rel="noopener noreferrer">Sector Update: Energy Stocks Edge Higher Pre-Bell Friday</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks were edging higher pre-bell Friday, with the Energy Select Sector SPDR Fund (XLE) adva...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7976c72544e3fd13c94ee4c0d4244bdda02b203105934fbdc08fa4bcc8b86ced" target="_blank" rel="noopener noreferrer">Devon Energy Just Landed a European Jackpot -- Thanks to Centrica's Gas Grab</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.88
+                                </span>
+                            </div>
+                            <div class="article-summary">A 10-year deal could supercharge Devon's global exposure while giving Centrica a TTF-indexed edge in LNG markets....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9a4a1843f184a6e6f6c924fa7f8c649b3dce2eefef4ecc75c80a791db59be64d" target="_blank" rel="noopener noreferrer">Sector Update: Energy Stocks Advance Late Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.84
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks increased late Friday afternoon with the NYSE Energy Sector Index fractionally higher...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c5c22fb3fe4ec5cef1eb4c2d79343d0b0780cb6cb859aa4739466a09fce449a9" target="_blank" rel="noopener noreferrer">Devon Energy Corporation (DVN) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy Corporation (NYSE:DVN) Q2 2025 Earnings Call August 6, 2025 11:00 AM ETCompany ParticipantsClay M....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c9f3837cd570742713c32eb454441428ebbbb761da0bf7f1966c6ea60bd7bc0a" target="_blank" rel="noopener noreferrer">Devon Energy Corporation 2025 Q2 - Results - Earnings Call Presentation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The following slide deck was published by Devon Energy Corporation in conjunction with their 2025 Q2 earnings call....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=918573a4772a8f54f1c7cc0b28c2f5b023730732be1345a7544089b0ef4c7fd4" target="_blank" rel="noopener noreferrer">Devon Energy Corporation (DVN) is Attracting Investor Attention: Here is What You Should Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Zacks.com users have recently been watching Devon Energy (DVN) quite a bit. Thus, it is worth knowing the facts that could determine the stock's prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7d079b039645302e5c9eed4da2ddd988f9fb63d2afb25630a607d64af1e26c03" target="_blank" rel="noopener noreferrer">Devon Projects $2B in Savings on OBBB, Capex Cuts</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy expects tax benefits from the One Big Beautiful Bill to generate $1 billion during the next three years and its business optimization plan to bring in another $1 billion of incremental fr...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9a1ce5af85030931f9a4e617258eaee59eb1dba0b7995fe3aa12973d7f09d68f" target="_blank" rel="noopener noreferrer">Devon Energy Corp. stock underperforms Monday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy Corp. stock underperforms Monday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3f57a489bf0fd7a37843c823232a7332ab2de5cd30c08d804ccb9c5fe10249e5" target="_blank" rel="noopener noreferrer">Devon Energy Second Quarter 2025 Earnings: Beats Expectations</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">NYSE:DVN 1 Year Share Price vs Fair Value Explore Devon Energy's Fair Values from the Community and select yours Devon......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9b74ad69e5cf01bbb2a94329a429dc8b7e485c387099bdc7d3602ef76f4b22f6" target="_blank" rel="noopener noreferrer">Devon Energy (DVN) Q2 Earnings: How Key Metrics Compare to Wall Street Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The headline numbers for Devon Energy (DVN) give insight into how the company performed in the quarter ended June 2025, but it may be worthwhile to compare some of its key metrics to Wall Street estim...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1f74255d2510b4f4e11618bd0bbf667b3fd6ece9efbd222c14cea7ed58f8902f" target="_blank" rel="noopener noreferrer">Occidental Petroleum Q2 Earnings Surpass, Revenues Miss Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.03
+                                </span>
+                            </div>
+                            <div class="article-summary">OXY beats second-quarter earnings estimates and has reduced operating costs through operational efficiency....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7754daaf6495d411e55df4464b888d0857a7830736a769534b4707caa8ab1de7" target="_blank" rel="noopener noreferrer">Devon Energy Benefitting From Internal Value Creation Projects, Other Gains, RBC Says</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.72
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy (DVN) continues to build on internal value creation initiatives and also from a "handfu...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=78feca063274ad0b09e4344623494673e48b5f1c8f8454b7bc454563ae31e4b2" target="_blank" rel="noopener noreferrer">Murphy Oil Q2 Earnings & Sales Beat Estimates on Strong Production</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">MUR beats second-quarter earnings and revenue estimates as strong well productivity drives production above guidance....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=038929764663c545005c542e5e62f6e14d037f62faa4fe93902915030cf557de" target="_blank" rel="noopener noreferrer">Devon Energy Beats Q2 Guidance and Boosts Output Forecast</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.81
+                                </span>
+                            </div>
+                            <div class="article-summary">Devon Energy delivered second-quarter results that surpassed production expectations, raised its full-year output forecast, and trimmed capital spending for the second consecutive quarter as part of a...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=19f866848c692414f19474c9898fdd8002a2bcebe7bda2015b0206a98bba5070" target="_blank" rel="noopener noreferrer">LandBridge Announces Long-Term Surface Use and Pore Space Reservation Agreement with Devon Energy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.80
+                                </span>
+                            </div>
+                            <div class="article-summary">HOUSTON, August 06, 2025--LandBridge Company LLC (NYSE: LB) ("LandBridge") today announced it has executed a 10-year surface use and pore space reservation agreement with Devon Energy Corp. (NYSE: DVN...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d0104077e4700cf202df05afb46aa685343f3c747a6d8907b8b509f3c1876f56" target="_blank" rel="noopener noreferrer">Devon Q2 Earnings & Sales Beat Estimates, Production Guidance Raised</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">DVN beat second-quarter earnings and sales estimates, raises 2025 production guidance and cut capital spending again....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=23fedb3bd4a0b21c15b624f89c0204eb377eb14014d70ac4793f6b655c42fd96" target="_blank" rel="noopener noreferrer">Sector Update: Energy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks were lower in late Wednesday afternoon trading, with the NYSE Energy Sector Index down...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=49496c47087c31185635495bc90bfbae284c05da714f6d2304a08b667066dee9" target="_blank" rel="noopener noreferrer">Sector Update: Energy Stocks Fall Late Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks fell in late Wednesday afternoon trading with the NYSE Energy Sector Index declining 0...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

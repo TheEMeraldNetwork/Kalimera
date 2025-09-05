@@ -1,0 +1,663 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Torex Gold Resources Inc. (TXG) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Torex Gold Resources Inc. (TXG)</h1>
+                    <a href="index.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">25</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">9</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">7</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.00</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=36b57413f494c36dc702f65304004dcbfcfb5e595c7aa5b5ddb65cf35516ae9d" target="_blank" rel="noopener noreferrer">10x Genomics to Participate in the Morgan Stanley 23rd Annual Global Healthcare Conference</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">10x Genomics, Inc. (Nasdaq: TXG), a leader in single cell and spatial biology, announced today that members of its management team will participate in a fireside chat at the Morgan Stanley 23rd Annual...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5f081e1646765724db4972b7595c53ecc0126de3d2f6e9b0e74c9023a1a19f92" target="_blank" rel="noopener noreferrer">Q2 Earnings Highs And Lows: 10x Genomics (NASDAQ:TXG) Vs The Rest Of The Life Sciences Tools & Services Stocks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">Wrapping up Q2 earnings, we look at the numbers and key takeaways for the life sciences tools & services stocks, including 10x Genomics (NASDAQ:TXG) and its peers....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8b186e29038a0eb937e20f3081e6d8cdfe806e9d0439456c257d478604f8a218" target="_blank" rel="noopener noreferrer">3 Reasons TXG is Risky and 1 Stock to Buy Instead</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Over the past six months, 10x Genomics has been a great trade, beating the S&P 500 by 10.9%. Its stock price has climbed to $13.25, representing a healthy 17.4% increase. This was partly thanks to its...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a9e011390bd89d08835c05acb0a82d85b2e5e97eeb9769dac79e57235af2b51a" target="_blank" rel="noopener noreferrer">Bio-Techne, 10x Genomics, Lumen, EPAM, and ASGN Shares Are Soaring, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.44
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks jumped in the afternoon session after the major indices rebounded, as Fed Chair Jerome Powell delivered dovish remarks at the much-awaited Jackson Hole symposium. Powell suggested t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c82adba58645884f78a036c8b52d34a36b090299fc873111bdf6a6b0d9ea2545" target="_blank" rel="noopener noreferrer">LGI Homes, Moderna, Fortrea, 10x Genomics, and Cogent Shares Are Falling, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.85
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks fell in the afternoon session after markets continued to decline, as investors grew cautious ahead of a key speech by Federal Reserve Chair Jerome Powell. The move came as U.S. equi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=71e1c59afa4c2c0cc25ec5f0c0891b426db182feae961796b38eaada9b5854af" target="_blank" rel="noopener noreferrer">1 Cash-Producing Stock for Long-Term Investors and 2 We Turn Down</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">While strong cash flow is a key indicator of stability, it doesn’t always translate to superior returns. Some cash-heavy businesses struggle with inefficient spending, slowing demand, or weak competit...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6aa75198deb4c025273790ec4300f7db1bd5b0bc415f65f183b2df9c5f029ca3" target="_blank" rel="noopener noreferrer">10x Genomics Launches Xenium Protein, Advancing Spatial Biology by Enabling Same-Cell RNA and Protein Analysis</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">10x Genomics, Inc. (Nasdaq: TXG), a leader in single cell and spatial biology, today announced the launch of Xenium Protein, a powerful new addition to its Xenium Spatial platform that enables simulta...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9deb4b620bd4d0bf59100225d569ddb37c7ab15df97f87467b547dcfe65e4858" target="_blank" rel="noopener noreferrer">1 Volatile Stock to Own for Decades and 2 That Underwhelm</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.79
+                                </span>
+                            </div>
+                            <div class="article-summary">Market swings can be tough to stomach, and volatile stocks often experience exaggerated moves in both directions. While many thrive during risk-on environments, many also struggle to maintain investor...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=55db33991c48f3284fd49c202fab5909a0648e64901ce97ed6e448e542df7395" target="_blank" rel="noopener noreferrer">10x Genomics’s Q2 Earnings Call: Our Top 5 Analyst Questions</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.52
+                                </span>
+                            </div>
+                            <div class="article-summary">10x Genomics delivered second quarter results that exceeded Wall Street’s expectations, but the market responded negatively, reflecting continued concerns about the company’s end-market dynamics. Mana...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=55c4f06412ce84668452c3ce4f2df6f4897d840369091e3a090487d9e815374b" target="_blank" rel="noopener noreferrer">Earnings Beat: 10x Genomics, Inc. Just Beat Analyst Forecasts, And Analysts Have Been Updating Their Models</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    -0.12
+                                </span>
+                            </div>
+                            <div class="article-summary">Shareholders might have noticed that 10x Genomics, Inc. ( NASDAQ:TXG ) filed its quarterly result this time last week......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5f67e8790aa1ce98f10975ebfa7319e7a2f02e1090c095d12362d6ca8a02d164" target="_blank" rel="noopener noreferrer">Brookdale, Evolent Health, Fortrea, 10x Genomics, and Organon Stocks Trade Up, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks jumped in the afternoon session after markets continued to rally amid growing speculation of an impending interest rate cut by the Federal Reserve. Following a favorable Consumer Pr...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=03a8f7892cd61ed5f0ab8d077cfd343c7340595fa70d7e2eb36c5312452fda6f" target="_blank" rel="noopener noreferrer">Zacks.com featured highlights include Tsakos Energy Navigation Limited, 10x Genomics, Pan American Silver, Wolverine World Wide and Interface</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Tsakos Energy Navigation, 10x Genomics, Pan American Silver, Wolverine World Wide, and Interface rank high on efficiency metrics, signaling strong profit potential in volatile markets....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=86023f9642bfd3c8ca606bc6846161a32027b1d824391e499b98e481127f41bd" target="_blank" rel="noopener noreferrer">5 Must-Buy Efficient Stocks to Buy Amid Volatile Market Conditions</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Tsakos Energy Navigation, 10x Genomics, Pan American Silver, Wolverine World Wide, and Interface top an efficiency-driven stock screen....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ef4a00f59c9d38b5925081b5565d50d7ebae53d78e91cbe9598d7bf2603f8b5e" target="_blank" rel="noopener noreferrer">TXG Q2 Deep Dive: Robust Product Demand and Cautious Outlook Amid Funding Uncertainty</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.25
+                                </span>
+                            </div>
+                            <div class="article-summary">Biotech company 10x Genomics (NASDAQ:TXG) reported Q2 CY2025 results topping the market’s revenue expectations, with sales up 12.9% year on year to $172.9 million. On the other hand, next quarter’s re...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e24259e4ff32d31a52b609c99a3ca62926a15f119a9a0f99a3367b80fd26061f" target="_blank" rel="noopener noreferrer">10x Genomics, Inc. (TXG) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">10x Genomics, Inc. (NASDAQ:TXG) Q2 2025 Earnings Conference Call August 7, 2025 4:30 PM ETCompany ParticipantsAdam S....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=84a04aadd0bbdb3f71183736d7c25b8dd02c598e2c05a6f56bd16df9a8ef278c" target="_blank" rel="noopener noreferrer">10x Genomics (TXG) Reports Q2 Earnings: What Key Metrics Have to Say</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Although the revenue and EPS for 10x Genomics (TXG) give a sense of how its business performed in the quarter ended June 2025, it might be worth considering how some key metrics compare with Wall Stre...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ad4e7170dc03da4ccd6b603d3ad195023489b856aa580580803e69a2d008fcb2" target="_blank" rel="noopener noreferrer">10x Genomics (NASDAQ:TXG) Reports Upbeat Q2, Stock Soars</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.49
+                                </span>
+                            </div>
+                            <div class="article-summary">Biotech company 10x Genomics (NASDAQ:TXG) beat Wall Street’s revenue expectations in Q2 CY2025, with sales up 12.9% year on year to $172.9 million. On the other hand, next quarter’s revenue guidance o...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c42e8075aff303e6cd4a62e3e0fbe03f3e2729c3581fe8242b9763f3a235fb7c" target="_blank" rel="noopener noreferrer">Why 10x Genomics (TXG) Stock Is Falling Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of biotech company 10x Genomics (NASDAQ:TXG) fell 5.5% in the morning session after the company reported strong second-quarter results that surpassed Wall Street's expectations for both revenue...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8bbec87250d7b55eb05d91b8cc0df0da22668d32fb5fd7324aebffbddb933fd1" target="_blank" rel="noopener noreferrer">10x Genomics to Acquire Scale Biosciences</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.53
+                                </span>
+                            </div>
+                            <div class="article-summary">10x Genomics, Inc. (Nasdaq: TXG), a leader in single cell and spatial biology, today announced that it has signed a definitive agreement to acquire Scale Biosciences, Inc., a leader in innovative and ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bc87af6915b15caca02973f1a64455a99771e9a8699b538111d985c49447ee68" target="_blank" rel="noopener noreferrer">10x Genomics Reports Second Quarter 2025 Financial Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">10x Genomics, Inc. (Nasdaq: TXG), a leader in single cell and spatial biology, today reported financial results for the second quarter ended June 30, 2025....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0f851f7502ec05d44ae6a43fcb62fd7a28f9bf2bfef217e26c77031a63db653c" target="_blank" rel="noopener noreferrer">10x Genomics: Q2 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.30
+                                </span>
+                            </div>
+                            <div class="article-summary">The results topped Wall Street expectations. The average estimate of eight analysts surveyed by Zacks Investment Research was for a loss of 35 cents per share. The life science technology company post...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6caa4ec0c6fc26248681e85852a1351f845c7816fb01e66e7e4792b2b3998d0e" target="_blank" rel="noopener noreferrer">Tracking Cathie Wood's ARK Invest 13F Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ARK Invest's Q2 2025 portfolio hits $13.6B, emphasizing disruptive tech. See more on trends, new stakes, key exits, and top growth investments from ARK....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c7338c9de4cacd55b8156c058194f7a5064e2aba70f450d4d15f654a5a7b0e93" target="_blank" rel="noopener noreferrer">10x Genomics (TXG) Surpasses Q2 Earnings and Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">10x Genomics (TXG) delivered earnings and revenue surprises of +180.00% and +24.00%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2b4d561412e7637f7edbf820aea40d3051d8d813a8bda703febfdcc7fbd89655" target="_blank" rel="noopener noreferrer">Earnings To Watch: 10x Genomics (TXG) Reports Q2 Results Tomorrow</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Biotech company 10x Genomics (NASDAQ:TXG) will be reporting results this Thursday after market hours. Here’s what to expect....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a97f967a16fa9d04d41f9271defaa81077691ea6359082fa0ea1fed98d4e66cb" target="_blank" rel="noopener noreferrer">10x Genomics (TXG) Upgraded to Buy: Here's Why</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">10x Genomics (TXG) might move higher on growing optimism about its earnings prospects, which is reflected by its upgrade to a Zacks Rank #2 (Buy)....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        
