@@ -1,0 +1,2264 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Berkshire Hathaway Inc. (BRK.B) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Berkshire Hathaway Inc. (BRK.B)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">125</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">32</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">32</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">-0.00</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=60e2705918e5f80c3fbf07cf6c732bd7a11bb9a80a2749f6443bb945ad4338fa" target="_blank" rel="noopener noreferrer">Berkshire Hathaway: Defensive Strength Matters This September</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway's diversified, profitable businesses and $300B+ cash pile make it a safe harbor during market corrections. See why BRK.B stock is a Buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d11df53a2c8b608d12f9b07ff56c1ad7d870496dedd8a752bc47207b4c988da9" target="_blank" rel="noopener noreferrer">Tracking Ruane, Cunniff, & Goldfarb's Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">See here for more on Ruane, Cunniff & Goldfarbâs Q2 2025 portfolio strategy, top stock holdings, and how the Sequoia Fund outperformed the S&P 500....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=07c02f0a86a0ed80df358fddd235e06cc968ebb8b0c9b27a0d5b04666f8dbd26" target="_blank" rel="noopener noreferrer">Berkshire's Capital Allocation After Buffett</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Explore how Greg Abel's leadership may impact Berkshire Hathaway post-Buffett, with insights on M&A strategies and expected market volatility....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fe35d93312c25ca2e484404b7989e3b2d44e217fbabee0194db49961db6cb8bf" target="_blank" rel="noopener noreferrer">Undercovered Dozen: MSTY, Devon Energy, D-Wave Quantum, OMAH, And More</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover 12 under-the-radar stocks and ETFs with unique buy/hold/sell ratings....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=538092aaa36f305485a3b8808220ae8ab955999fb6a707bf58c7ae91eed47d8c" target="_blank" rel="noopener noreferrer">VONV: Well Balanced Value ETF, But Lagging Some Peers</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.19
+                                </span>
+                            </div>
+                            <div class="article-summary">Read the latest analysis on Vanguard Russell 1000 Value, and ETF that tracks the Russell 1000 Value Index....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=56253ced9eb41269e9b7f2990f4864b5919edab3f18374689db5868806c18b7c" target="_blank" rel="noopener noreferrer">The 2 Biggest Dividend Stock Bargains I See In The Berkshire Hathaway Portfolio</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover why Constellation Brands & UnitedHealth Group offer compelling value and recession resistance....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a83025dd9462c6d84a029924333c9ecc75537ae2e097b76fb638bbe38158da50" target="_blank" rel="noopener noreferrer">Berkshire Hathaway Raises Stake in Trading House Mitsubishi</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>DowJones</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway Raises Stake in Trading House Mitsubishi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=25584e41faa21c3b3a9259a39f57c0b61f8303eac9172acc645a253ef017179e" target="_blank" rel="noopener noreferrer">Buffett’s Berkshire Hathaway boosted Mitsubishi and Mitsui stakes. Why he’s enamored with Japan.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Buffett’s Berkshire Hathaway boosted Mitsubishi and Mitsui stakes. Why he’s enamored with Japan....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7a2fdbd692795495f6c6af220f2b18541f9bc654fd0ea54801426b7e4e71cac0" target="_blank" rel="noopener noreferrer">Why Warren Buffett’s Berkshire Hathaway Still Likes Japan</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Why Warren Buffett’s Berkshire Hathaway Still Likes Japan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a9ad31b77b09b0724bce3053cf78b8b90792f9d3c326534965d47b95ddaf456f" target="_blank" rel="noopener noreferrer">This old-school retailer doesn’t do earnings calls, and its stock has still beaten Nvidia’s</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.88
+                                </span>
+                            </div>
+                            <div class="article-summary">This old-school retailer doesn’t do earnings calls, and its stock has still beaten Nvidia’s...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ae283d7556695cee78e7ec41beee8d19b0df531519239073664ecef4e4d5755d" target="_blank" rel="noopener noreferrer">Warren Buffett's Berkshire Hathaway Should Sell Coca-Cola</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway's Coca-Cola stake underperforms. Explore why I think reallocating this holding could boost returns and enhance shareholder value....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c04d166d975bae708aa97b266e2260b558cf4565ce6b43b6d7366aed49b4da38" target="_blank" rel="noopener noreferrer">Howard Hughes Holdings: Transforming Into A Modern-Day Berkshire Hathaway</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Pershing Square reveals plans to reshape Howard Hughes Holdings into a Berkshire-style powerhouse. Learn how this bold pivot could unlock long-term value....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e4197eeb19695697d6b9e62d7c02df05d2c50aec750252ecc67225d40e84a698" target="_blank" rel="noopener noreferrer">A Warning To Dividend Investors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6ee7c3f50e9f9a9ccc6b877dbcc58e85c0f2285095776d097d2a52c4ab311ac4" target="_blank" rel="noopener noreferrer">Are We Sure CSX And BNSF Are Playing It Wrong?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.24
+                                </span>
+                            </div>
+                            <div class="article-summary">Union Pacific & Norfolk Southern spark merger talks, but BNSF & CSX unveil a game-changing partnership....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0a425ea2e098ad388ffadcd167df5b1545161197ebb875797ccdde5c2bcceb08" target="_blank" rel="noopener noreferrer">Berkshire Hathaway: It's Better To Buy Options Than Shares</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway's Q2 results were mixed, with declining insurance profits and ongoing business uncertainties despite a modest beat on EPS. Read the latest analysis on the stock here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3452d5cd9b4cf8d4251a0ea48074df10fe22dad78a44764ff71b7843f2de36f2" target="_blank" rel="noopener noreferrer">2 High-Conviction Picks For 7.73% Growth And 4.22% Yield Within A Dividend Portfolio</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.25
+                                </span>
+                            </div>
+                            <div class="article-summary">Through DPSTF and META, we increased Dividend Income Accelerator Portfolio's sector diversification and global exposure. Learn more about the portfolio here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4a0b49a239ab25b52e45575d96fcdfdce00d505759a1c8d591407aa6a9c4c4c2" target="_blank" rel="noopener noreferrer">CSX Stock Drops Because Buffett Isn’t Interested in Rail Merger. It Has Wider Consequences.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">CSX Stock Drops Because Buffett Isn’t Interested in Rail Merger. It Has Wider Consequences....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=58990138d8fe8d477a6838738136d46cb3da707c449f5d2bca585ad94a3798e7" target="_blank" rel="noopener noreferrer">OMAH: A Berkshire Hathaway Copycat With A 15% Distribution Yield</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">OMAH ETF seeks 15% annual yield via covered calls on Berkshire's holdings, ideal for income investors. Click here to read my most recent analysis of OMAH....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0a5842fbe70df80129a810270d1a975d78ff5d175f427d75e4e203867504cb5b" target="_blank" rel="noopener noreferrer">Tracking Akre Capital Management Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Akre Capital's Q2 2025 portfolio update: see more on shifts in top holdings, new stakes, and their disciplined strategy focusing on high-growth names....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8d64323cbb78ecf27f069099b9058dd6aecc8f179f5c80ac4e4d053566628cab" target="_blank" rel="noopener noreferrer">CSX shares fall after Warren Buffett says Berkshire not in market for another railroad</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">CSX shares fall after Warren Buffett says Berkshire not in market for another railroad...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bedccc73bb33e7657f9203ba5149a2fa70216a2c67fa7ffc369c542f6c00c8b8" target="_blank" rel="noopener noreferrer">This CEO Follows the Buffett Playbook. He’s Winning.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Tom Gayner is a long-time disciple of Buffett’s and Berkshire—and as such, has modeled Markel Group to a degree after that company....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d3a2d4322a391bdcf3d8a3520d964263e8862ee67bc8e3f1cc2139bfee11f62d" target="_blank" rel="noopener noreferrer">Lucid Is Doing a 1-for-10 Reverse Stock Split. What That Means for Shares.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Lucid Is Doing a 1-for-10 Reverse Stock Split. What That Means for Shares....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=492ff42c2c54dc2bd9659617255a6cbd3fd2a5662bd0e2d6628beb209d7d38b1" target="_blank" rel="noopener noreferrer">CSX–BNSF Railway, Opendoor surges, Cracker Barrel sell-off eases</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.34
+                                </span>
+                            </div>
+                            <div class="article-summary">Yahoo Finance's John Hyland tracks Friday's top moving stocks and biggest market stories in this Market Minute: new coast-to-coast services from rail company CSX (CSX) and Berkshire Hathaway (BRK-B, B...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=280ee3eaa1193c7d0676f23596a1623c3dd36319b570fb879da9bf5f836aa73f" target="_blank" rel="noopener noreferrer">CSX and Warren Buffett’s BNSF Made News. Why Investors Are Disappointed.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.49
+                                </span>
+                            </div>
+                            <div class="article-summary">CSX  and Burlington Northern Santa Fe announced a partnership on Friday, sending shares of CSX falling while the market roared higher.  Investors were hoping for more.  The  and  rose 1.5% and 1.9%, r...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=638687b2a5d3253e9c78c56268b32c6c1e2262e5ee23d25f405c8b1502f7d371" target="_blank" rel="noopener noreferrer">Berkshire Hathaway Has Had a Tough Summer. Will It Get a Buffett Swansong Boost?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Warren Buffett isn’t used to lagging behind the market.  The billionaire’s  Berkshire Hathaway  investment group has firmly outpaced the  over the past five years, and has delivered staggering returns...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d9c287141d746b4095a605da55dbd8ef1e485ad1716564cc1d5ef0af54b1bf27" target="_blank" rel="noopener noreferrer">Hartford Dividend And Growth Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.35
+                                </span>
+                            </div>
+                            <div class="article-summary">Hartford Dividend and Growth Fund (I Share) underperformed the S&P 500 Index for the quarter. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a873ea146172e9c9a6ebccb97224b1e4bfceb4342dcdc0c185a9577c0ab7f857" target="_blank" rel="noopener noreferrer">Berkshire Hathaway: A Weak Investment In The Modern Market, A Hold Ahead Of 'Buffett Premium' Erosion</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.89
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover why Berkshire Hathaway's post-Buffett era faces strategic uncertainty, limited growth catalysts, and underperformance....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ae75e90fa583f89216271194be2a6861dbdd05aa2967671d7af65fa90ea5029d" target="_blank" rel="noopener noreferrer">Healthcare Stocks Are the Cheapest They‘ve Been in 30 Years—and a Turnaround May Have Already Started</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.22
+                                </span>
+                            </div>
+                            <div class="article-summary">Healthcare stocks have been in a funk.  For investors worried about elevated market valuations, they may be just what the doctor ordered.  The healthcare sector is enduring one of its worst patches on...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=26264bb559de59ba6ab489eaf95047feb80ada152460763a59fb9ce7d866fb81" target="_blank" rel="noopener noreferrer">Is this Company a 'Little Berkshire Hathaway'? Its CEO Weighs In.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Is this Company a 'Little Berkshire Hathaway'? Its CEO Weighs In....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=72dcdb6d1480d9b8d487369a643daf079d2ebdc40e4e4926e3e88a5a6efb2d2e" target="_blank" rel="noopener noreferrer">Berkshire's Strategic Acquisitions: A Driver of Long-Term Growth?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway fuels long-term growth through transformative deals and bolt-on acquisitions that expand earnings, float and diversification....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ba683e86ed9d399932f7a1fa8244f92546cd26818399c7d3f11b7d82fe40b259" target="_blank" rel="noopener noreferrer">Lucid Is Doing a 1 for 10 Reverse Stock Split. What That Means for Shares.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Lucid  wants a higher stock price.  Lucid stock closed at $2.09, flat on the day, while the  and  fell 0.4% and 0.3%, respectively.  Traders sometimes see reverse stock splits as a sign that a share p...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=07b87637069b72d1b39cf70ab3afacedd41ad0fc1528a6a91798618e239dc936" target="_blank" rel="noopener noreferrer">Coca-Cola May Not Be The Compounder The Market Thinks It Is</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Coca-Cola faces slowing growth, as recent earnings show stagnation. See why KO stock's valuation seems stretched & why it may not outperform the S&P 500....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0fc6b18363dbe50f8b6d18586ba1fb2e823839aa04e2ca62acdd816e32d5678a" target="_blank" rel="noopener noreferrer">Possible Bearish Signals With Berkshire Hathaway Insiders Disposing Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">In the last year, many Berkshire Hathaway Inc. ( NYSE:BRK.A ) insiders sold a substantial stake in the company which......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e6732abd6c164c89aa6c657dffcdea18ced5bf870993ca9b478d1a71470bc1b8" target="_blank" rel="noopener noreferrer">Nucor: Berkshire Hathaway's Bet On Quality Is Not A Fluke</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">Nucor stock remains one of the highest-quality companies in the U.S. steel sector. Learn why improving cash flows should benefit investors in the future....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=680b722762174029dc90feecfe542b507daf61101e212b235d7af4c2aa8143d0" target="_blank" rel="noopener noreferrer">Buy, Hold, or Fade the Recent Rally in UnitedHealth Group (UNH) Stock?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">UnitedHealth Group (UNH) stock is still down 40% YTD but has surged more than +20% this month following reports that Warren Buffett, and other billionaire hedge fund managers have taken a stake in the...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0ca7b3a9287ff8b6eea6c098a30681fd001bfa489a1ba07f768883864b542c8b" target="_blank" rel="noopener noreferrer">UBS Raises Price Target for Berkshire Hathaway (BRK-B), Keeps Buy Rating</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.86
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway Inc. (NYSE:BRK-B) is one of the 9 Best NYSE Stocks to Buy According to Hedge Funds. On August 4, UBS increased its price target on Berkshire Hathaway Inc. (NYSE:BRK-B) from $595 to ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=35ed2937449a0a914812e0dc28ccf7309f4938a7e43ea25f4461656294c5be63" target="_blank" rel="noopener noreferrer">I Just Dropped $20K In These 3 Stocks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">Explore 2025's market highs driven by tech and earnings....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f05e3febcf34bb592226c47a9455f0eebc93dd5756361789435846195b58c89d" target="_blank" rel="noopener noreferrer">Homebuilders Offer Best Incentives Since COVID</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.33
+                                </span>
+                            </div>
+                            <div class="article-summary">A full 37% of homebuilders have slashed prices this month, down ever so slightly from a record 38% in July....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4de19b34dbe280dc6329055127dce2e9120c176d98bcaf89d03aa5de51196f3c" target="_blank" rel="noopener noreferrer">Artisan Global Value Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bb12c5bcb7c501ba4c5a0b1e5760fdbb7e946860f626370a293676cd947b4e18" target="_blank" rel="noopener noreferrer">Berkshire Hathaway Bought UnitedHealth Stock. Should You Follow Warren Buffett’s Lead?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">UnitedHealth Group  the worst-performing stock in the Dow Jones Industrial Average so far this year, got a major boost last week from billionaire investor Warren Buffett.  Berkshire Hathaway  Buffett’...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2ffebbcdab5d60f43e4efbe54bf7f7387b40efb7cbb8a53ae6368df0fef2046d" target="_blank" rel="noopener noreferrer">The Biggest Stocks Are Still Winning. Why There’s Hope for the Whole Market.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Analysts’ price forecasts are a hint that gains for stocks may broaden out beyond the usual suspects in big tech....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=01b152c14c8c1f285a7f6be3cef25b0b5389d06aed9511f24761681e0ade378c" target="_blank" rel="noopener noreferrer">Zacks Value Investor Highlights: Berkshire Hathaway</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway faces questions on valuation, buybacks, and its $344B cash pile as Buffett prepares to step down as CEO....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a3e8d9c4e66226d943da3ac8512a0c618fbb0de20ce0c7bd038ff2c193196800" target="_blank" rel="noopener noreferrer">Occidental Petroleum: The Bottom Might Really Be In (Rating Upgrade)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=70cf95cb96037a8fd9c9bb5763cf38445e5a71e27bf280b7ef4268a1541e56f1" target="_blank" rel="noopener noreferrer">Invest Like Warren Buffett With These ETFs</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Buffett's Berkshire reshapes its portfolio with big bets on UnitedHealth and housing, while trimming Apple and Bank of America. The big bets put focus on ETFs like IHF and ITB....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=06a97919fbe7ae2f8b32cc1dcd6e9b0ae935a9133dfb5580bc45e6eda5be2045" target="_blank" rel="noopener noreferrer">Macquarie Growth And Income Fund Q1 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.47
+                                </span>
+                            </div>
+                            <div class="article-summary">For 2Q25, Macquarie Growth and Income Fund Institutional Class shares outperformed the Fundâs benchmark, the Russell 1000Â® Value Index....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=088d86844260b4685cbe463cb77a9c093dc7afaff63ee0ce0605f286b261e931" target="_blank" rel="noopener noreferrer">Here is What to Know Beyond Why Berkshire Hathaway Inc. (BRK.B) is a Trending Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Zacks.com users have recently been watching Berkshire Hathaway B (BRK.B) quite a bit. Thus, it is worth knowing the facts that could determine the stock's prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e4d9025893ca276bc6dd623f958a409109ec03a7ca5dba60ef11b99c08ac7a11" target="_blank" rel="noopener noreferrer">Company News for Aug 18, 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Companies in The News Are: AMAT, UNH, BRK.A, WFC, LLY...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=622c1d176630eb0a0d2c4873007ca56b5179f690c38fcb3129c344bae9a3c9b7" target="_blank" rel="noopener noreferrer">Buffett's Shot in the Arm Sends UnitedHealth Soaring Against the Odds</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.87
+                                </span>
+                            </div>
+                            <div class="article-summary">Buffett's $1.57B bet on UNH sparks a 12% surge, lifting peers despite sector headwinds and recent struggles at the insurer....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fa6dc6f417ddf2a622ab29e5556e5233f5d9253264821ef2033daada34f5e17e" target="_blank" rel="noopener noreferrer">Retailers Start to Report Earnings This Week</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">It's the final leg of earnings season, in a general sense, to hear from the retailers who tend to stagger their earnings quarters....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1a9e969bdaf3bb7d3b654f7d788e4b9a39501e82bbc4aeb373e24155399a87c2" target="_blank" rel="noopener noreferrer">Retail Earnings Season to Commence</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Retail Earnings Season to Commence....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3b9988073dabde365476049d2d0dd675640cdd3ef3ba75961e9ad354ddbec07d" target="_blank" rel="noopener noreferrer">How We'd Build A $100K Income Portfolio At Market Highs</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover why a diversified, income-focused portfolio is key in record-high S&P 500 markets. Learn to manage risks and avoid income traps. Click for our strategy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=196e73be509977d2b9507c302fb3061291b526eb75abe75bbe078a5584fa540f" target="_blank" rel="noopener noreferrer">Hartford Quality Value ETF Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.30
+                                </span>
+                            </div>
+                            <div class="article-summary">Hartford Quality Value ETF underperformed the Russell 1000 Value Index during the quarter. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=abdcfc7414c024b4a1ef96ab2faac9bbdfb29f442859ed22402764565c78c6b5" target="_blank" rel="noopener noreferrer">Columbia Dividend Income Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Columbia Threadneedle Investments reports Q2 underperformance for its Dividend Income Fund amid tech and healthcare headwinds. See how quality stocks remain central.
+...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8ab8fd3d9b0a0bec1d4b452ee2e9429af6320cf0bde9bfa36f9000d39b97a606" target="_blank" rel="noopener noreferrer">Davis International Fund 2025 Semi-Annual Review</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.47
+                                </span>
+                            </div>
+                            <div class="article-summary">Davis International Fund posted a strong return of +16.32% in the first six months of 2025, though this was below the performance of the MSCI ACWI (All Country World Index) ex US benchmark....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0a297a0796a75f5f0cf1bbd96cf0936cc54d3c857d1bc905937c4a57fef99d37" target="_blank" rel="noopener noreferrer">Brookfield Corporation: Growth At A Price, Shares No Longer A Bargain</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Brookfield shifts toward financing investments via insurance float, eyeing AI data centers & energy projects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5816b6b9e3ec84208ff4c72c047d72bc944f1f7335447429dcbf1456ac1d46e7" target="_blank" rel="noopener noreferrer">Davis Global Fund 2025 Semi-Annual Review</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">Davis Global Fund posted a strong return of +14.12% in the first six months of 2025, outperforming its MSCI ACWI (All Country World Index) benchmark. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c564455fd10b76f21f5f103ab7b70f398ab294367c74dd7a418df356a129b362" target="_blank" rel="noopener noreferrer">Investors are plowing into homebuilder stocks. Will Jackson Hole prove them wrong?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.66
+                                </span>
+                            </div>
+                            <div class="article-summary">Investors are plowing into homebuilder stocks. Will Jackson Hole prove them wrong?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1b330bf4f990ea28da321dd10f66e9eb3fbc885c6cebce2da277b3a068f57927" target="_blank" rel="noopener noreferrer">Berkshire Builds Exposure to Housing. Buy DR Horton Stock.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-16</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Builds Exposure to Housing. Buy DR Horton Stock....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7e169698a9d3ffd630d10b43c435fca16e2899cac049fa2731bb90761c8a05a1" target="_blank" rel="noopener noreferrer">Why UnitedHealth? Buying the stock was actually a ‘classic Buffett move.’</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-16</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Why UnitedHealth? Buying the stock was actually a ‘classic Buffett move.’...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5c2c7832af9597f5e63561027435663315325b3243b2b28b725390dbd4556d13" target="_blank" rel="noopener noreferrer">Berkshire Hathaway: Load Up While The Market Ignores</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-16</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway is deploying its $344B cash pile into undervalued stocks like UnitedHealth, while trimming Apple and BAC. See why BRK.A stock is a buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=39130660744f0e7af9d640dd012fc51d967d70bee5b81b8b0f2a490716a92760" target="_blank" rel="noopener noreferrer">Tracking Warren Buffett's Berkshire Hathaway Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway's Q2 2025 portfolio sees changes with new stakes, position trims, and notable increases. Read here for more insights....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7f25e28d9b7d11d3d98514c8327da6d6cb04603967a4ff648d5756c3677b5f84" target="_blank" rel="noopener noreferrer">Warren Buffett’s Berkshire Further Pares Stake in Apple, Adds UnitedHealth Position</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>DowJones</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Warren Buffett’s Berkshire Further Pares Stake in Apple, Adds UnitedHealth Position...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bc4b83daa5e6d32d4643cbb38b2bf6daef038e416c8597e29da76937740af22a" target="_blank" rel="noopener noreferrer">Wall Street Breakfast Podcast: UnitedHealth Jumps As Funds Boost Stakes</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.32
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=dfa6b289303c9593870458049e4e152951bb70b12b32fd52b381d8a9b4a557f3" target="_blank" rel="noopener noreferrer">UnitedHealth: The 'Buffett Buffer' That Changed My Call (Rating Upgrade)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Warren Buffett's (via Berkshire Hathaway) $1.6B stake in UnitedHealth Group Incorporated signals a market shift. Click for why I have now upgraded UNH stock to Buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=917d8d3f61f9a614f74bd0d978f5737d4e93e2ab698fcee20e0a5d757a09201a" target="_blank" rel="noopener noreferrer">UnitedHealth: A Gamechanger Eases The Pain</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">UnitedHealth Group saw major investors like Buffett, Tepper, and Burry take or increase positions. Check out why we see UNH stock as a long-term buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=40c764e006f194d8edc0eac866f17903ddcd318ea27ff7ba00b233b46b71ec9b" target="_blank" rel="noopener noreferrer">UnitedHealth Stock Is Having Its Best Day in Years. It Still Needs More to Cure Its Problems.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.69
+                                </span>
+                            </div>
+                            <div class="article-summary">UnitedHealth Stock Is Having Its Best Day in Years. It Still Needs More to Cure Its Problems....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e5bab0d10973a8fdf11ff5d317e94104c41aad0120621705ba97802542a4b26b" target="_blank" rel="noopener noreferrer">The Buffett effect: about 190 Dow points</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Buffett effect: about 190 Dow points...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9ac37125871a307a52d24f95209906ecd34de27c11b38ce56650426815b75606" target="_blank" rel="noopener noreferrer">OMAH: I'd Rather Just Own Berkshire Hathaway</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">VistaShares Target 15 Berkshire Select Income ETF is a unique covered call ETF built on Berkshire Hathaway's securities portfolio. Read why OMAH is just a hold....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3f3914e1036c3298fffa0543d8acebce5910406a1a231f6fde2b3831cec2d8ef" target="_blank" rel="noopener noreferrer">Health Insurers Climb as Berkshire Hathaway Takes UnitedHealth Stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.70
+                                </span>
+                            </div>
+                            <div class="article-summary">Health Insurers Climb as Berkshire Hathaway Takes UnitedHealth Stake...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=41379e0e7a769d7bd4c1168f02ffa804648ddbac51a91527a9ede9007f6336e2" target="_blank" rel="noopener noreferrer">Buffett's Secret $1.6B Bet Revealed In Berkshire's 13F (Rating Upgrade)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">See Berkshire Hathaway Inc.'s strategy with a big new stake in UnitedHealth. Learn how it's hedging against recession and stagflation. Click for my BRK.A update....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b0676aff7eef1b6dbf730700ad10e9d405b8c400e55e6d221d1181471b1eaf12" target="_blank" rel="noopener noreferrer">UnitedHealth: Buy Like Buffett</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway's $1B+ UnitedHealth investment highlights confidence despite profit woes....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fa3aff72e68add6cd60054b98ce600505c632ad71e2a206a028000052c6b81dc" target="_blank" rel="noopener noreferrer">Dow eyes record close after touching new intraday high, as Warren Buffett gives Wall Street an upward nudge</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.62
+                                </span>
+                            </div>
+                            <div class="article-summary">Dow eyes record close after touching new intraday high, as Warren Buffett gives Wall Street an upward nudge...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0dc0969da90d8d5f0629739f1555aacfeb1fb969ca6a7c95ce5c7156cdc96340" target="_blank" rel="noopener noreferrer">Nucor Stock Gets a Boost From Buffett. Berkshire’s Last Steel Buy Didn’t Go So Well.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">Nucor Stock Gets a Boost From Buffett. Berkshire’s Last Steel Buy Didn’t Go So Well....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8118c97ae227517dfade257f981fb74b11a9a9c51176fc8ca1979b445245828b" target="_blank" rel="noopener noreferrer">Dow ends just shy of record after touching new intraday high, as Buffett gives Wall Street a boost</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.83
+                                </span>
+                            </div>
+                            <div class="article-summary">Dow ends just shy of record after touching new intraday high, as Buffett gives Wall Street a boost...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6f7b536ad5150d3fafbe7642e4a0a0dae496c46eb3b9cd4c5c9722a6865ae8f6" target="_blank" rel="noopener noreferrer">Health Care Up on Berkshire UnitedHealth Investment -- Health Care Roundup</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Health Care Up on Berkshire UnitedHealth Investment -- Health Care Roundup...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e763e824764f3ab4d972cf23b7747598b49a2fa8816940afc922e89b31761fd8" target="_blank" rel="noopener noreferrer">This is how important Taylor Swift’s ‘The Life of a Showgirl’ is to an entire industry</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">This is how important Taylor Swift’s ‘The Life of a Showgirl’ is to an entire industry...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7308d2112c4306a6b198b5ba9e6c87409cf1b139cc19db063dd7d7208b1c2ba3" target="_blank" rel="noopener noreferrer">UnitedHealth: Berkshire Bets, A Strategic Signal Investors Can't Ignore</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathawayâs UnitedHealth Group Incorporated investment highlights confidence in healthcare. Click for why I am bullish on UNH stock prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e03c713ba631d609f2c49ccff7a742056cefa93b4a09a750ba29c0e3b62a041b" target="_blank" rel="noopener noreferrer">Tracking Tweedy Browne Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.34
+                                </span>
+                            </div>
+                            <div class="article-summary">Tweedy Browneâs Q2 2025 portfolio reveals disciplined value investing with key holdings in CNH, Berkshire Hathaway, and Alphabet. See more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=727e6ba429a44b31b8344110612c71951d331506d54e1e0f1a039150fc5a38a3" target="_blank" rel="noopener noreferrer">UPRO: Benefits And Risks Of The 3x Leveraged ETF</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Maximize gains with UPRO, a 3x leveraged S&P 500 ETF ideal for active traders. Learn its risks, strategies, and why it's not suited for long-term investing....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f892debf18bb28d5f4de92b2de0ead36e77ceb9bc730d5f77257082a710ef40e" target="_blank" rel="noopener noreferrer">BNY Mellon Dynamic Value Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">BNY Mellon Dynamic Value Fund (Class A at NAV) returned 5.00% during the second quarter of 2025. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e310b0a629375e53ca7a5f5bbe8b20157a978376b48c9a2d8d0153416e1a6ef3" target="_blank" rel="noopener noreferrer">BNY Mellon Appreciation Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The BNY Mellon Appreciation Fund underperformed the S&P 500 Index in the second quarter of 2025. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5f34913de60b106473c1c9786b6b76ab891d8b22241e99e58f32ec2502bad4db" target="_blank" rel="noopener noreferrer">Berkshire Buys UnitedHealth Shares, Lifts Veil on 3 Mystery Stocks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Buys UnitedHealth Shares, Lifts Veil on 3 Mystery Stocks...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c339d85121920334e987c89bde6e09d4da9f4ba293d2a1f9b2ffccc21ea1c268" target="_blank" rel="noopener noreferrer">Tepper’s Appaloosa Raises Stake in UnitedHealth, Adds Intel</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Tepper’s Appaloosa Raises Stake in UnitedHealth, Adds Intel...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=caf65451d25b9800fe0fec60d94ec35d2fef6043689e9480fdc3117396c42988" target="_blank" rel="noopener noreferrer">Warren Buffett has secretly invested $5 billion into a mystery stock — and the trail leads to this industrial giant</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Detective work points to one stunning conclusion. Buy the stock or an industrial-sector ETF — but get ahead of Berkshire Hathaway’s big reveal....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=135942215f34e9ecd342c316ac51b5333a47e27af2cded58659b044133c6f883" target="_blank" rel="noopener noreferrer">Warren Buffett places new bets on UnitedHealth and a major homebuilder, sending their stocks soaring</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Warren Buffett places new bets on UnitedHealth and a major homebuilder, sending their stocks soaring...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c8e012dc06b071d672be78ebc344c6dfade4e1aa424798b0ade2beeea1f98589" target="_blank" rel="noopener noreferrer">Don’t Fret About Warren Buffett. Berkshire Stock Is Still a Buy.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">It is understandable that many investors are struggling to imagine the financial world without Buffett. But it is silly to think he has failed to prepare his company for what comes next....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c78aa415d1f41dfdfd9545817d8ed7b27c94785b67d7e4597752340ef4e1fc12" target="_blank" rel="noopener noreferrer">A Secret to Buffett’s Success at Berkshire: Issue Little Stock for Deals, None to Employees</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">One of the underappreciated aspects of Warren Buffett’s leadership of  Berkshire Hathaway  over the past 60 years has been his sparing issuance of Berkshire stock.  Buffett’s reluctance to issue stock...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=45d08f7ba25edd22cb50011990aa9390952d15c2d2e23dc4ac2d9a4366066a80" target="_blank" rel="noopener noreferrer">Macquarie Core Equity Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.49
+                                </span>
+                            </div>
+                            <div class="article-summary">For 2Q25, Macquarie Core Equity Fund Institutional Class shares outperformed the Fund's benchmark, the S&P 500 Index....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5a53ddba18580b79e7e3874a0bd9fe4c4ce7ad5537f04d56c38ab26aeda25d36" target="_blank" rel="noopener noreferrer">Voya Global Advantage And Premium Opportunity Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">During the quarter, Voya Global Advantage And Premium Opportunity Fund underperformed its index due to beta positioning and divided yield. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=356c665e70f4a9f9cf6ccee2dc6b0511d1152107aa540dd03f7d0f36ab2fe80e" target="_blank" rel="noopener noreferrer">Voya Global Equity Dividend And Premium Opportunity Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">During the quarter, Voya Global Equity Dividend And Premium Opportunity Fund underperformed its Index largely due to beta positioning, followed by dividend yield....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6deb984470c32a3924917ccb003af45cb941cfdb2c87b7004aa8b399b622e569" target="_blank" rel="noopener noreferrer">Artisan Select Equity Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Our top-performing stocks this quarter were Heidelberg Materials, Meta and Aramark. Click here to read more....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=58b2ca129765fec3b2a9e4221086b237bd8fa88a424382086a4525d86fe55ee5" target="_blank" rel="noopener noreferrer">Berkshire Hathaway Inc. (BRK-B) Target Edges to $597 at UBS</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.88
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway Inc. (NYSE:BRK-B) is among the best holding company stocks to invest in. Brian Meredith, an analyst at UBS Group AG, has raised the price target on Berkshire Hathaway Inc. (NYSE:BRK...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f9713f36c56f85257c3752c49f2b47070963dc4c7483c2be45d250a44688db5e" target="_blank" rel="noopener noreferrer">Voya Corporate Leaders Trust Fund B Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.46
+                                </span>
+                            </div>
+                            <div class="article-summary">Emerging markets rebounded in the second quarter after April's post-Liberation DayÂ volatility, ending above the February peak. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1e081446717898a8b97c66a766f91b2f7da30df35a0f973f315d3040db2e82f9" target="_blank" rel="noopener noreferrer">Stock Market Cheer Amid Trump Tariffs Is Masking a Deeper Fear. Here’s What.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Trump extends China trade deadline, a new pick to lead the Bureau of Labor Statistics, Ford’s EV revamp, and more news to start your day....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c9e8d4a06d81fc87fc00f80eeea1ace78b004ad353d223441b988b2fd4691665" target="_blank" rel="noopener noreferrer">Macquarie Balanced Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">For 2Q25, Macquarie Balanced Fund Institutional Class shares underperformed the Fund's equity benchmark, the S&P 500 Index....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=404443044ca80c485f39334d2637f3c03ac4f574a810490eff6a6a9bcb5aae8b" target="_blank" rel="noopener noreferrer">Buffett Shows Value of Working Past 65. That’s When He Really Got Rich.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Berkshire Hathaway CEO, who turns 95 at the end of August, has created almost 95% of his current wealth over the past 30 years....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=06a7ec890d78abde74783c9745d7cf5bf1f3b9fa7b865f8ef215e35de9f2a235" target="_blank" rel="noopener noreferrer">Wallace Weitz's Strategic Moves: Adobe Inc. Exit and Portfolio Adjustments</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Insight into Weitz's Investment Philosophy and Recent Portfolio Changes...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7ed9b3106c354ab7a6e79d468a78740864e32ce0587c6fbdcaa49ebd909fa2c3" target="_blank" rel="noopener noreferrer">2025 Berkshire Hathaway Annual Meeting: Summary Of The 32 Questions And Answers</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.45
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway's disciplined approach, leadership shift, and operational improvements position it for long-term growth. Click here for a detailed analysis....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1a665fccf6a384c5088152ffb2ec211ddc4fefe8c9b8daa278f6b6349b4aceb0" target="_blank" rel="noopener noreferrer">Schwab Modern Wealth Survey: Is $2.3 Million Enough To Be Wealthy?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover Schwab's 2025 Wealth Survey insights: What it takes to be 'wealthy' vs. 'comfortable' in the U.S., with real case studies....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=28d30e2207af0df99c76695912e70e5e4295f68e84ab84fb2f0fb6749bb0cbbf" target="_blank" rel="noopener noreferrer">Berkshire Hathaway Director’s Firm Sold Almost 30% of Its Berkshire Stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The investment firm of Berkshire Hathaway director Chris Davis sold nearly a third of its stake in Warren Buffett’s company....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0e69faae14f8e102bba8f36edd9b33f6baf5fa255fc9e7e42439b40fb053a9aa" target="_blank" rel="noopener noreferrer">Is GEICO the Cornerstone of Berkshire Hathaway's Insurance Growth?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">GEICO's cost-efficient model and steady float make it the driving force behind Berkshire Hathaway's insurance growth....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e9dde0be3e9c7edcc68fc9bce5951677a5ebb9247eb1fd21f8fade3db1768f8f" target="_blank" rel="noopener noreferrer">Tracking Christopher Davis' Davis Selected Advisers 13F Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1124ee36cf1105aeee243c52ccebcef51fa5ebd6adec7d3300639383330b8b73" target="_blank" rel="noopener noreferrer">Berkshire Hathaway’s Mystery Stock Could Be Revealed Thursday. Filings Offer Clues.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway’s  latest mystery-stock investment could be revealed on Thursday.  There is a good chance it is an industrial company.  Berkshire also could disclose that it made further sales of  ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ba6fed0ee20c6934ad981c898266a0d638dbf0a6b1bfe7e47991d91278076fbc" target="_blank" rel="noopener noreferrer">3 Years Later - Portfolio Ideas For Market Highs</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-10</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Explore top investment strategies for 2023 as markets reach highs. Learn how our 2022 picks outperformed the S&P 500 and where to focus next....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f4bfeab81242914eb6fed373df6aa043fa7bee677c4e8ccb0d876473ffeb5839" target="_blank" rel="noopener noreferrer">The Paramount Merger Was a Bad Deal for Old Shareholders. Buying the Stock Is a Good Bet for New Ones.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Skydance Media has completed its purchase of Paramount, and now David Ellison, the son of  Oracle’s  Larry Ellison, has a chance to do what once seemed impossible—revive the ailing media company.  Par...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cf182742ee1002f0a795052fa45d7dcfe193cdbdf6fc13d6491d656f871eda5b" target="_blank" rel="noopener noreferrer">Berkshire Hathaway: Why Q2 Earnings Declined</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway offers portfolio stability with diversification, low volatility and cash reserves. See why I view post-earnings dip as a buying opportunity....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c4a5d6cb564ea31c992aff482dc0babac2df63c0cccaa4e33625a3a217164ef2" target="_blank" rel="noopener noreferrer">Berkshire's Q2 Earnings: Better Than We Were Led To Believe</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.70
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway Q2 beat expectations despite a dip in insurance profits, with strong metrics and long-term value. See why BRK.B stock is a buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f9b9eb9a1be0e0a5b09ec553f781f6c4678d8f6a1141c2703e022644cbc8a146" target="_blank" rel="noopener noreferrer">Berkshire Hathaway (BRK-B) Shares Traded Down in Q2. Here’s Why</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.14
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamond Hill Capital, an investment management company, released its “Large Cap Fund” first-quarter 2025 investor letter. A copy of the letter can be downloaded here. After a significant decline in Ap...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1c6f55ed8a4df0ac32d6771d8e02b627a648fb6a4f18798ec76f949f4c09c28e" target="_blank" rel="noopener noreferrer">How Much End User Spending Would Justify The AI Capex Wave</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.49
+                                </span>
+                            </div>
+                            <div class="article-summary">Warden Capital warns of poor ROI in AI despite massive capex surge. See why they think end-user growth must explode to justify the spending. Read more now....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ae344ecced70e2cda893d90790bf5a019e1b642cb7dd3f9151fe58f474a67b0f" target="_blank" rel="noopener noreferrer">Tracking AMG's Yacktman Asset Management Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Yacktman Asset Management's Q2 2025 13F portfolio value dipped slightly to $7.44B. Click here to read more about the portfolio....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fddebabf577c83c55e31bd2a44287aaea27e7b57ebf5e4ba8a27151e23e93e81" target="_blank" rel="noopener noreferrer">Constellation Brands A Better Pick Than Kraft Heinz But Not A Compelling Buy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.35
+                                </span>
+                            </div>
+                            <div class="article-summary">Get insights on Berkshire Hathaway's investment in Constellation Brands, its risks, and why small investors might benefit more from small-cap opportunities....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7dfd35236a6b340feb81fa5ca192c009d817d941fdd662fba9a32531abbe0af7" target="_blank" rel="noopener noreferrer">Davis Financial Fund 2025 Semi-Annual Review</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">Davis Financial Fund returned +13.77% in the first half of 2025, exceeding the performance of the S&P Financials Index which returned +9.23%, and the S&P 500 Index, which returned +6.20%....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=334dc3da89b7d16ba3b53e3993a0951255fd30886e6e139968f93ed49c43d6f8" target="_blank" rel="noopener noreferrer">The London Company Income Equity Vs. Russell 1000 Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">The London Company Income Equity portfolio returned 4.7% (4.5% net) during the first quarter vs. a 11.1% gain in the Russell 1000 Index. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d1948138626e7f4588fac6cdd60a5d0dff5b90d80254806c10b126f45a584a7e" target="_blank" rel="noopener noreferrer">The London Company Income Equity Vs. Russell 1000 Value Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.32
+                                </span>
+                            </div>
+                            <div class="article-summary">The London Company Income Equity portfolio returned 4.7% (4.5% net) during the first quarter vs. a 3.8% gain in the Russell 1000 Value Index. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2b309fb1349d4aae9cf5b71413f3474a76d2b488c287090ee3124fc4353ae88c" target="_blank" rel="noopener noreferrer">The London Company Large Cap Vs. Russell 1000 Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b31d12ec71471f218b4225c5543899966589309a9e72234c6ef999e67c638891" target="_blank" rel="noopener noreferrer">Berkshire Hathaway: Rare Misses Are Causing Short-Term Pain</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.30
+                                </span>
+                            </div>
+                            <div class="article-summary">Glean insights from Berkshire Hathaway Inc.'s Q2 results, including insurance losses, core growth drivers, and Warren Buffett's strategy. Click for my BRK update....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=260d0bbcf067a8c67cb5027b33fd84580be905596e8fe80783abe3bea5c211e4" target="_blank" rel="noopener noreferrer">Berkshire Hathaway Inc. Cl B stock underperforms Thursday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway Inc. Cl B stock underperforms Thursday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=eadda7b84c914659d8a4bacbbdaaa3f292348896b4f845a356bbe7409ff8c4a3" target="_blank" rel="noopener noreferrer">Auxier Asset Management Summer 2025 Market Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Markets have been a rollercoaster for investors in 2025, with every major benchmark starting the year down in the first quarter to all being up for the second quarter and year-to-date....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=67a839350ab4e3dbdf39d8c8c8702661818f70884ba4ca83c04fba8dcfa96844" target="_blank" rel="noopener noreferrer">Berkshire Hathaway: It's Time To Listen To Apple</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway remains fundamentally strong, but its massive $350B cash pile is underutilized, limiting shareholder returns. Read more on BRK.A stock here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=720d8d5754a0efd860cb1e3563aa3338a944dbdd6d2374bf938f059c30e5fef4" target="_blank" rel="noopener noreferrer">Berkshire Hathaway Is At An Inflection Point</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover how Berkshire Hathaway navigates a key transition as Warren Buffett retires....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5b535f90394131370ada976c1c47c83bba613e04a01c39901e1e32a217341018" target="_blank" rel="noopener noreferrer">Trigano SA: The Ryanair Of The Motorhome Industry</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">Highwood Value Partners highlights Trigano SAâs Ryanair-like edge in RVs - low costs, smart acquisitions, and strong returns. Discover why TGNOF stands out....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8c8ebb72fbb896b975257a5ff96544c095ee6331abde241f17a365bef3d809e3" target="_blank" rel="noopener noreferrer">Is Trending Stock Berkshire Hathaway Inc. (BRK.B) a Buy Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway B (BRK.B) has received quite a bit of attention from Zacks.com users lately. Therefore, it is wise to be aware of the facts that can impact the stock's prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1397809a8718b8b2aaa622e39ebe74d522d0b44e347f00eeeb07c1e51407abe8" target="_blank" rel="noopener noreferrer">PGR vs. BRK.B: Which Insurer is a Safer Investment Option?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">PGR edges out BRK.B with stronger profit metrics, robust growth prospects and a leading position in personal auto....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c8603cea00e268d9dfa7de13a5894473c60c2c5a37b923a36ea08a3cf17bef68" target="_blank" rel="noopener noreferrer">Berkshire Hathaway Inc. Cl B stock outperforms competitors on strong trading day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway Inc. Cl B stock outperforms competitors on strong trading day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7d7106c2fe1f569222a7e180bfbc82a0aea1e74fccb22a3c404ce99a1a4398a6" target="_blank" rel="noopener noreferrer">Top Analyst Reports for Walmart, BlackRock & Texas Instruments</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">WMT, BLK, and TXN top today's analyst picks, each navigating growth, strategy shifts, and macro risks in Q3 2025....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

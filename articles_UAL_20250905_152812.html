@@ -1,0 +1,1223 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>United Airlines Holdings Inc. (UAL) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">United Airlines Holdings Inc. (UAL)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">60</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">25</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">17</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.08</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c31ca8f4209155bd2525caa04900b50cec3c7542cd59eb122852d0b1d9ee5bf6" target="_blank" rel="noopener noreferrer">Spirit Airlines Is Struggling, and Rivals Smell Blood</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines and Frontier are planning new routes regularly flown by Spirit, which last week filed its second bankruptcy in less than a year....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=eb1113609b6847f15f64a16b8a74bc56e2c3933858a51fbb3d047e101be07e47" target="_blank" rel="noopener noreferrer">United Expands Winter Schedule and Adds Flights to Cities Like Fort Lauderdale, Orlando and Las Vegas</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.83
+                                </span>
+                            </div>
+                            <div class="article-summary">United today expanded its winter schedule, adding flights to 15 cities including Fort Lauderdale, Orlando, and Las Vegas. These new flights start January 6 and include:...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2ee366657a9eac8a1a115e43976cf0651d6548d13efdaad4b14ace9f429f9818" target="_blank" rel="noopener noreferrer">UATP Partners with APG Pay to Deliver Comprehensive Travel Payment Solutions in Asia-Pacific</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.78
+                                </span>
+                            </div>
+                            <div class="article-summary">UATP, the global network enabling organizations to simplify payment processes and expand their payment capabilities, has announced a strategic partnership with APG Pay, a provider of digital payment s...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e27ecdcec16e8afaa90fcebe86afc8ee4b5512f7866301d83f6067b83b9310cc" target="_blank" rel="noopener noreferrer">Possible Bearish Signals With United Airlines Holdings Insiders Disposing Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.32
+                                </span>
+                            </div>
+                            <div class="article-summary">In the last year, many United Airlines Holdings, Inc. ( NASDAQ:UAL ) insiders sold a substantial stake in the company......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c1aba66bb08c21b33c3e747c3476665168d992ba1c804373a585833e4c428d6e" target="_blank" rel="noopener noreferrer">United Resumes Flights to Tel Aviv, Israel from Chicago and Washington D.C.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">United today announced plans to resume flights to Tel Aviv, Israel from Chicago O'Hare and Washington Dulles international airports. This marks the first time United has operated these flights since 2...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8bab18ea18fa237d8a0bc9cc589bfa20377e898911d6549540b17863a7a6ddf8" target="_blank" rel="noopener noreferrer">United Airlines Holdings (UAL) Expands Winter Schedule With New Flights to 15 Cities</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines Holdings (UAL) recently announced an expansion of its winter flight schedule, adding routes to 15 cities, set to commence in January 2026. This move coincided with a significant 32% ri...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=540f8c111dbfa0c321aba56349139713b65ce650cc019c8a0a7e60bc931345df" target="_blank" rel="noopener noreferrer">1 Reason United Airlines Stock Is Approaching All-Time Highs</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.75
+                                </span>
+                            </div>
+                            <div class="article-summary">The airline industry is better positioned to handle a demand slowdown than in previous cycles, but this improvement has not yet been reflected in valuations....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a97c82501371bf64a87af685247025dafddac33d7b720a77a20ebf9bea21496b" target="_blank" rel="noopener noreferrer">Travel and Vacation Providers Stocks Q2 Recap: Benchmarking United Airlines (NASDAQ:UAL)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Earnings results often indicate what direction a company will take in the months ahead. With Q2 behind us, let’s have a look at United Airlines (NASDAQ:UAL) and its peers....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ac00a3ca0ee88e224894e8cb58b2481bf32a9159b6ebe613bc256fcc5305d247" target="_blank" rel="noopener noreferrer">These 2 Airlines Will Gain the Most From Spirit’s Bankruptcy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.88
+                                </span>
+                            </div>
+                            <div class="article-summary">These 2 Airlines Will Gain the Most From Spirit’s Bankruptcy...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=315d9f22e7d3c057f52bab7338e438e39f181b472233cbb7ba0439567411a854" target="_blank" rel="noopener noreferrer">Tracking Stanley Druckenmiller's Duquesne Family Office Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Duquesne Family Office's Q2 2025 portfolio updates: key bets in tech & healthcare, new positions, and Druckenmiller's trend-driven investment strategy. See more....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fae2e5c6c4fe6cd9690b6e42262e9d8e2a80563dafe4ff73ba54298b1a06a510" target="_blank" rel="noopener noreferrer">SPLG: S&P 500 Dashboard For September</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-31</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">SPLG reflects an S&P 500 skewed by mega-cap gains, despite median overvaluation and sector imbalances. Learn why SPLG ETF is a hold....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7c1e382b358358836ccd577982c8a0990a8a6b96866a9aa9a5208362b0991941" target="_blank" rel="noopener noreferrer">Is Now The Time To Look At Buying United Airlines Holdings, Inc. (NASDAQ:UAL)?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Let's talk about the popular United Airlines Holdings, Inc. ( NASDAQ:UAL ). The company's shares saw a significant......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9aa15fb8fd13142f068f99af4602cca6decaf33516da943240609f4d035eb1b4" target="_blank" rel="noopener noreferrer">Is Archer Aviation Stock A Sleeper Hit In The Flying Car Wars?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-30</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Archer Aviationâs differentiated eVTOL strategy, global partnerships, and defense angle position it for long-term upside. Check out why ACHR stock is a buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=77ec199d131bf7cd689727b4addafee867ce882e0a1094fe85ddc704f00df6cc" target="_blank" rel="noopener noreferrer">Investing in the red-hot airline sector? You may want to avoid these stocks.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Investing in the red-hot airline sector? You may want to avoid these stocks....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0f3a9e9c13bbe4ade86f5e6aac94f4f3a44069a8522221714263d8b922b5be59" target="_blank" rel="noopener noreferrer">Labor Day travel costs drop, holiday costs rise: Tips to save</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Airfare has come down for Labor Day, but prices for Thanksgiving and Christmas are already ticking up. Clint Henderson, The Points Guy managing editor, explains how airlines are adjusting capacity and...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=341a1aa061fcdcbe27c47fb9e95bd502f33deec2b10c65a060c8685cc03afa4b" target="_blank" rel="noopener noreferrer">United Airlines to Present at the Morgan Stanley's 13th Annual Laguna Conference</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">United will present at Morgan Stanley's 13th Annual Laguna Conference on Thursday, September 11, beginning at 10:45 a.m. PST. On the webcast Mike Leskinen, Chief Financial Officer, will make remarks o...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9dbec9a2a61811f305590e424bd6f01e444af91df2545d693e7be94b47c4fdf1" target="_blank" rel="noopener noreferrer">Tracking David Tepper's Appaloosa Management Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.45
+                                </span>
+                            </div>
+                            <div class="article-summary">David Tepper's Q2'25 portfolio changes reveal bold bets on Whirlpool and healthcare, trimmed big tech gains, and a bullish stance on tech and healthcare trends. See more....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5d256c95bab22c0c430656d9fb4ee5574604c2a62bc3df6d92e4fd7e7d62d23f" target="_blank" rel="noopener noreferrer">Can United Airlines Holdings, Inc.'s (NASDAQ:UAL) ROE Continue To Surpass The Industry Average?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">While some investors are already well versed in financial metrics (hat tip), this article is for those who would like......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ff858b7d81a8ac1468608b38625b4c1744a788e320fa223425083ca891a10db5" target="_blank" rel="noopener noreferrer">AsiaPay Partners with UATP to Expand Digital Payment Reach in Asia-Pacific Region</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.91
+                                </span>
+                            </div>
+                            <div class="article-summary">UATP, the global network that enables organizations to simplify payment processes to expand their capabilities, has announced a new partnership with AsiaPay, a leading electronic payment service and t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c3eaf7cdcef05a3a0e7a93c5260e2bd53a33abbe5ace9144991fc37b58545873" target="_blank" rel="noopener noreferrer">United Airlines Holdings Inc. stock underperforms Tuesday when compared to competitors despite daily gains</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.86
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines Holdings Inc. stock underperforms Tuesday when compared to competitors despite daily gains...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=eab1afcb37a60b2146f77557299b32e686a85cb549a1ff21b16b9ec072410a3e" target="_blank" rel="noopener noreferrer">Delta And United: The Fed's Next Move Could Be A Liftoff For Airlines</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Fed rate cuts boost the airlines! Explore options like Delta Air Lines, Inc., high-risk-high-reward United Airlines Holdings, Inc. Click for more on DAL and UAL....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8d4789f75471989f0063203c7993cc6c795dc99c5839f39b33068c80612ebe70" target="_blank" rel="noopener noreferrer">United Airlines Holdings' (NASDAQ:UAL) Returns On Capital Are Heading Higher</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-23</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">If we want to find a stock that could multiply over the long term, what are the underlying trends we should look for......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ef295411428f0b975e85dcb6dcffb07f832a195c1f1ef0a5ec6901f3db44fad3" target="_blank" rel="noopener noreferrer">United Airlines Holdings Inc. stock outperforms competitors on strong trading day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines Holdings Inc. stock outperforms competitors on strong trading day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=84090f3e77574214713021c9b9174634c2d0bd5f3e47812eaadf66d902abdda3" target="_blank" rel="noopener noreferrer">United Airlines Holdings Inc. stock underperforms Thursday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines Holdings Inc. stock underperforms Thursday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1f4d6f72db96721c9458c3a3368b50f4f88b863b55620a4412b50d77ab155a69" target="_blank" rel="noopener noreferrer">United Airlines Invests in Aerospace Startup Astro Mechanica</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines Invests in Aerospace Startup Astro Mechanica...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3191aa75b99bd2ff1024514c8fdf727930773e4d4e6b275b1b9f52f3fd5f2126" target="_blank" rel="noopener noreferrer">United Airlines Ventures Invests in Aerospace Startup Astro Mechanica</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines Ventures (UAV), the venture capital arm of United Airlines, today announced an investment in aerospace startup Astro Mechanica. Astro Mechanica's adaptive propulsion concept and advanc...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7ad2b002d8b39b1f9c6fc67055d98ae6b62c1523bad993fc178d04705f9c7726" target="_blank" rel="noopener noreferrer">Update: Delta, United Airlines Face Lawsuits for Charging Extra for Windowless Window Seats</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.70
+                                </span>
+                            </div>
+                            <div class="article-summary">(Updates with statement from United in fifth paragraph.) Delta Air Lines (DAL) is being sued by p...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9051dd5c08bf9249d092a827e0da95a348f71c6dfca2108d677d3e92dd783cef" target="_blank" rel="noopener noreferrer">United Airlines Holdings Inc. stock underperforms Wednesday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines Holdings Inc. stock underperforms Wednesday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fd1b8c678b2fde6897f7b92607c62448da90c9d917b21fca39075e070ba4a086" target="_blank" rel="noopener noreferrer">Delta and United Sued Over Windowless 'Window Seats'</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.91
+                                </span>
+                            </div>
+                            <div class="article-summary">Passengers allege misrepresentation in seat sales...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a1054cdcd7a8e2f5287fb2d4f34e6bfb8f6a9a193e87c4e086b91232496fb31e" target="_blank" rel="noopener noreferrer">Wall Street Lunch: SPAC King Returns With New Blank-Check Deal</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Venture capitalist Chamath Palihapitiya has filed to list a SPAC worth $250 million under the name of American Exceptionalism Acquisition Corp....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=49d591c7ea868f4c0c90daf2b626528ba18b7940b5028addeb46b900d5fabb13" target="_blank" rel="noopener noreferrer">Navigating airline stocks as fares rise & travel trends shift</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Third Bridge global head of sector analysts Peter McNally joins Market Domination with Josh Lipton to discuss how to invest in the airline industry and his top picks among the sector. To watch more ex...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4f85cdea8aa4454f1782da21d07b17e271127a37c8a9c42677bf8db027f1e6fc" target="_blank" rel="noopener noreferrer">EXI: Industrials Dashboard For August</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">EXI offers global exposure and less concentration risk than XLI but underperformed. Check out the analysis of the industrial sector here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0627d38c687866710782c7eba3d967644a5d97da12e32edc6c655373814ab592" target="_blank" rel="noopener noreferrer">United Airlines Has Reached Cruise Altitude</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.23
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines navigates rising labor costs, fleet renewal challenges, and competitive markets....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d21a1a49d61fded65716a48d9b16129a48bea909e3cf20caa5abaad3a50fa205" target="_blank" rel="noopener noreferrer">Does United Airlines Holdings (NASDAQ:UAL) Deserve A Spot On Your Watchlist?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Investors are often guided by the idea of discovering 'the next big thing', even if that means buying 'story stocks......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d89a43a12eab1a3a351e88b9cc44ad8892688682fdb85b2ea663bf780fcad167" target="_blank" rel="noopener noreferrer">Uncertainty Isn’t Keeping Americans at Home. Travel Stocks Are Benefiting.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-16</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.86
+                                </span>
+                            </div>
+                            <div class="article-summary">It has been a roller coaster year for many Americans in terms of their finances.  People have been worrying about the impact of tariffs on prices and the economy while watching their 401ks zigzag, so ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4c1b533f96597ecd440e25d3a1043760238c437c158cc728fb955e825832022a" target="_blank" rel="noopener noreferrer">Tepper’s Appaloosa Raises Stake in UnitedHealth, Adds Intel</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">David Tepper’s Appaloosa snapped up shares of  UnitedHealth  Group during the second quarter and took new stakes in Intel and other stocks, according to a regulatory filing.  The investment manager in...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ca63a24074bda6e901307bee191848d00f7dcdc87f9737d55f5a0283c3d16e66" target="_blank" rel="noopener noreferrer">3 Reasons to Sell UAL and 1 Stock to Buy Instead</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines currently trades at $99.20 per share and has shown little upside over the past six months, posting a small loss of 3.9%. The stock also fell short of the S&P 500’s 5.5% gain during tha...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5e65519f31f6fa9e9dd2e82a8582c055f245d051c46d7eedb6875f642948f7a9" target="_blank" rel="noopener noreferrer">The bull-case on airlines seems to be building</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Investing.com -- Wolfe Research said in a note Friday that this week’s 15% jump in its Airline Index, driven by “improved CPI fare data and news of a potential Spirit bankruptcy,” is creating a set-up...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=be3a590ea846809b350e144796cc0eff924ce9c24fa44416440757b287467879" target="_blank" rel="noopener noreferrer">United (UAL) Up 8.7% Since Last Earnings Report: Can It Continue?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">United (UAL) reported earnings 30 days ago. What's next for the stock? We take a look at earnings estimates for some clues....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d0f13e1c8e5d9d0ffd58f029f3be4a791a02774a20de17865ed8946ec2a1f4ee" target="_blank" rel="noopener noreferrer">Airfare Growth Accelerates for July Bookings, Led by American Airlines, UBS Data Show</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Annual fare growth of several US airlines accelerated in July from June, suggesting an improving rev...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=aeda1dec65bb04383c4d4d677647826a524a17cdac2913553ef9ec3e5a106c36" target="_blank" rel="noopener noreferrer">Dow Jones Futures Rise, CoreWeave Tumbles After Stock Market Runs On Fed</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>DowJones</span>
+                                <span class="article-sentiment negative">
+                                    -0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Dow Jones Futures Rise, CoreWeave Tumbles After Stock Market Runs On Fed...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=87948bdfea54ce7de6f64df430c871a21e39f86a89d6f7f2a896418cfebdee9d" target="_blank" rel="noopener noreferrer">Archer Aviation Q2: The Prove-It Phase Begins</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Archer Aviation Inc. is on the runwayâand this time, the seatbelt sign might finally turn on. Click here to find out why I rate ACHR stock a Buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=60f796862dd4cce1471db2949c8d4bba23265ebca3b910db0cf327f045776ff2" target="_blank" rel="noopener noreferrer">Tencent, airline stocks, Brinker Q4 beat: Trending Tickers</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Tencent (0700.HK) reported a 15% revenue jump in its most recent quarter, boosting investor confidence in the company's place in the artificial intelligence (AI) landscape. Airline stocks, including J...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7f6170b9d07c28a79502b0e7455b41e192087fd84c06e7ab13df5ca3167f06ba" target="_blank" rel="noopener noreferrer">United Airlines (UAL) Takes Off by 10% as Gas Cheaper, Airfare Jumps</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.90
+                                </span>
+                            </div>
+                            <div class="article-summary">We recently published 10 Stocks on Euphoria. Are You Holding Any? United Airlines Holdings Inc. (NASDAQ:UAL) is one of the best-performing stocks on Tuesday. United Airlines extended its rally to a th...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=883771d9a23be95f8b5e9f60d781b6741f464c2df91ae088d459d9cad325b93b" target="_blank" rel="noopener noreferrer">United Airlines Holdings (UAL) Posts 24.7% Price Increase Over Last Quarter</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines Holdings (UAL) recently saw a 24.7% increase in its share price over the last quarter. This upward movement coincided with important developments, such as the completion of the DOT rev...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0526b7826fcb6af197644918710607e3c99fd39caa8f9a62f8510e9483a17730" target="_blank" rel="noopener noreferrer">Severance at 30,000 Feet: Award-Winning Apple Originals Now Playing on United</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">United today announced that full seasons of select Apple TV+ global hits will now be available for free on the airline's 130,000+ seatback screens and in the United app, including award-winning shows ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8aa7d40f0fa311c0c07016fb447c1b65adc978fd6bf79ae6d021f5609cdd1480" target="_blank" rel="noopener noreferrer">Cheaper Gas, Pricier Flights: Airline Stocks Rally On July Inflation Report</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.68
+                                </span>
+                            </div>
+                            <div class="article-summary">Airline stocks rallied Tuesday after July's inflation report showed ticket prices jumping while gasoline costs — a key industry expense — dropped sharply. This gave carriers a rare double boost. JETS ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1b200c3e822a22075da66b11f0268b11f78bf11756379bec0acf63e77064f637" target="_blank" rel="noopener noreferrer">United and Delta Are S&P 500’s Top Stocks Today. Thank the Inflation Report.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines Holdings  and  Delta Air Lines  were the top performers in the  Tuesday as an unexpected pickup in airfares lifted airline stocks.  Airline fares increased 4% month over month in July,...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3e95a132affd493c1a088f9a80f9b64b027c16e8cae398e027e92d0f52041875" target="_blank" rel="noopener noreferrer">Spirit Air Sends An Ominous Warning. Here's Why Most Airline Stocks Rallied.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.89
+                                </span>
+                            </div>
+                            <div class="article-summary">Spirit Air continues to suffer from adverse market conditions, including weak demand for domestic leisure travel....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5c2f68d4ee587a5e7575806ad94fa1f9f491bb710200375b475fe12cf410bde7" target="_blank" rel="noopener noreferrer">Here's Why Shares in United Airlines Took Off Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">A reduction in overall capacity would benefit airlines like United Airlines....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d99064b9af0b1812af9800f23e1a64b2101be4b0678d8d519463400317a32ea2" target="_blank" rel="noopener noreferrer">Those who invested in United Airlines Holdings (NASDAQ:UAL) five years ago are up 160%</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">The most you can lose on any stock (assuming you don't use leverage) is 100% of your money. But on the bright side, you......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=45ef150309e16658767ce61f723244791529f854f9ec8377d8e967bb1f80f883" target="_blank" rel="noopener noreferrer">Stocks Rally on Higher Odds for Fed Rate Cut after CPI Report</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.79
+                                </span>
+                            </div>
+                            <div class="article-summary">The S&P 500 Index ($SPX ) (SPY ) on Tuesday rose by +1.14%, the Dow Jones Industrials Index ($DOWI ) (DIA ) rose by +1.10%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) rose by +1.33%. September E-mini S&...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b87d49a217b3119b031f73604a86d302db72633074787f4377525439d3ca741b" target="_blank" rel="noopener noreferrer">Dow Jones Futures: Stocks Run On Fed Green Light, Meta Leads Buys; Nvidia-Backed CoreWeave Tumbles Late</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.04
+                                </span>
+                            </div>
+                            <div class="article-summary">The S&P 500 and Nasdaq hit highs as Fed rate cut odds rose on the CPI report. Meta led new buys. Nvidia-backed CoreWeave reported late....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=376141f60d43bae20ed84a0fa660ddb8b44ebc275b67719766d194ddec68bc7b" target="_blank" rel="noopener noreferrer">Is Archer Aviation Stock a Buy, Hold, or Sell Before Q2 Earnings?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ACHR's soaring stock price, bold partnerships and Abu Dhabi air taxi launch raise big questions ahead of its earnings report....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7568cde83b7c89b7a23479942d57b4cb8694a2c97eef5f2b6a1f83710623eeeb" target="_blank" rel="noopener noreferrer">United Airlines sees massive delays with hundreds of U.S. flights grounded by technical issue</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines sees massive delays with hundreds of U.S. flights grounded by technical issue...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=95d1653c3824b10f8a919f11cec1cd760b52db4bc6febc1b126c73b24b7bae87" target="_blank" rel="noopener noreferrer">United Airlines Resumes Flights After Tech Problem Prompts Halts</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.91
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines  flights started taking off again late Wednesday, a few hours after a systemwide technology issue prompted the carrier to halt departures.  “The underlying technology issue has been re...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=332812cc5fb02a94ec7c1ce31d1d6217f40208cc1a21dd570de917a9ad13b360" target="_blank" rel="noopener noreferrer">Wall Street Breakfast Podcast: Tariff Win Sends TSMC Higher</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.75
+                                </span>
+                            </div>
+                            <div class="article-summary">TSMC climbs to record levels as Taiwan says chip giant exempt from Trump tariffs. Samsung shares rise as Apple taps Texas factory for chip supply. United Airlines resumes operations....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=827d2bc0427455a052dc23fa50110729c8edb65d06a49acb43308c64d54af78d" target="_blank" rel="noopener noreferrer">United Airlines Tech Issue Grounds Hundreds of Flights. The Stock Shrugs.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.75
+                                </span>
+                            </div>
+                            <div class="article-summary">United Airlines Tech Issue Grounds Hundreds of Flights. The Stock Shrugs....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=492a6ff90879bebc9c0095efd840307782ceb22f8ae7b7dccc29f7eff30ac83d" target="_blank" rel="noopener noreferrer">United Airlines Meltdown: Over 1,000 Flights Delayed After Major Tech Crash</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">United Planes Grounded Nationwide as System Failure Paralyzes Operations...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=22521f6f7148cb571ddc1a72babce75f1d3d3b9199e36bc4ce166f72e514088a" target="_blank" rel="noopener noreferrer">Peloton, United Airlines, Crocs: Trending Tickers</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Peloton (PTON) is in focus after the company projected a sales decline for the current quarter and announced more job cuts. United Airlines (UAL) temporarily grounded flights due to a software outage,...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

@@ -1,0 +1,2024 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>CONOCO PHILLIPS (COP) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">CONOCO PHILLIPS (COP)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">110</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">54</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">18</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.23</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=767e914cd96c26ad7b7d2b6fe793994f38d44549265264934d7f5fda848fdf29" target="_blank" rel="noopener noreferrer">Is ConocoPhillips (COP) Approaching a Free Cash Flow Inflection?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Cullen Capital Management, LLC, operating under the name Schafer Cullen Capital Management, Inc. (SCCM), has released its “SCCM Enhanced Equity Income Fund” second-quarter investor letter. A copy of t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=10216eb852b97076da688c03512ccab6e2542c0e9362089050d94155b91031d6" target="_blank" rel="noopener noreferrer">UBS Raises PT on ConocoPhillips (COP) to $123 From $116</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips (NYSE:COP) is one of the top most undervalued low volatility stocks to buy now. UBS raised the firm’s price target on ConocoPhillips (NYSE:COP) to $123 from $116 on August 20, keeping a...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e90007774f73f58bda23e8909892c05fb596d2ec180dc1cd91dd0ad9e17d54c5" target="_blank" rel="noopener noreferrer">Phillips 66 (PSX) Dividend Strengthens Despite the Court Ruling Overshadowing Strong Quarter</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">Phillips 66 (NYSE:PSX) is one of the 11 Best Energy Dividend Stocks to Invest in. An unfavorable Supreme Court order follows positive second-quarter results in California. Texas-based company, Phillip...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c908aa69f230e831e104272505c213dd715cf4918f57bd3dcca63cb0939e472f" target="_blank" rel="noopener noreferrer">Does ConocoPhillips Offer Value After Positive Free Cash Flow Projections for 2025?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.53
+                                </span>
+                            </div>
+                            <div class="article-summary">Trying to size up ConocoPhillips can feel like standing at the crossroads of opportunity and uncertainty. Whether you are debating a new buy, holding steady, or even considering trimming your stake, t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b26a21a1b62dcf7fd6c3a458f936f373d724121e85101d5c9253906b13f927d2" target="_blank" rel="noopener noreferrer">Invesco Equity And Income Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Stock selection information technology, communication services and consumer staples contributed to relative performance. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6278d1db38700a33beb788cb7a7455fd85c84fc5b599d23e8c88df74706dca75" target="_blank" rel="noopener noreferrer">BlackRock Commodity Strategies Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The fund posted returns of 2.10%Â (Institutional shares) and 2.01%Â (Investor A shares, without sales charge) for the second quarter of 2025. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ed0ddbb8f137ab15aff7f9714aad23eb1fd86bcf26edbe53e5c6ef32124a0b9c" target="_blank" rel="noopener noreferrer">Sempra and EQT Sign 20-Year LNG Supply Deal for Port Arthur Phase 2</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.91
+                                </span>
+                            </div>
+                            <div class="article-summary">Sempra Infrastructure and EQT Corporation have signed a 20-year sales and purchase agreement for 2 million tonnes per annum of LNG from the Port Arthur LNG Phase 2 project in Texas....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=875236a5418e59ca4aa9dcec43ce6abfe78d3e9757d2da3358d9e2c4e855953a" target="_blank" rel="noopener noreferrer">Is the Current Oil Price Favorable for COP's Upstream Business?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips' upstream strength and low-cost shale assets gain from oil prices above $60, boosting profitability and supporting valuation....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=652b05969114bded59d7becd4722f52376f9a9fe9c102111b66e695d3ba62fc3" target="_blank" rel="noopener noreferrer">Can Ongoing Debt Reduction Boost the Prospects of Occidental Stock?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">OXY's $7.5 billion debt cut, lower interest costs and asset sales boost flexibility and support growth prospects in energy and low-carbon projects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a6cf7676da81f9402cff3dc0a51607a4e9afe82d3cdaaafa2554097d523eab22" target="_blank" rel="noopener noreferrer">ConocoPhillips' Resilient Free Cash Flows Build Long-Term Value</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">COP delivers $4.7B in Q2 operating cash flow and eyes stronger free cash flow generation ahead to fuel long-term value....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=981a00043be9094934b16d45cd20f2cfd4155c4672c163d2a33e321de48583ab" target="_blank" rel="noopener noreferrer">2 Dividend Stocks Worth Adding More of Right Now</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">These dividend stocks offer higher yields and steadily rising payouts....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f8900ef62f45e237e7275543af6b1a56f14b483883a658d067b5ecb6d3a5ac2c" target="_blank" rel="noopener noreferrer">ConocoPhillips' Marathon Oil Takeover: Is it Unlocking Superior Value?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">COP's Marathon Oil takeover is delivering bigger gains than expected, with annual cost savings now seen topping $1 billion....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fe0726dc338f5681fdbeb2de0b0fc7dd87461b8a2af6260edaf24f43c1335e9a" target="_blank" rel="noopener noreferrer">ConocoPhillips, EOG Showdown: LNG Growth Story or Shale Drilling Stock?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">COP bets on LNG megaprojects and Marathon Oil synergies, while EOG doubles down on shale land and dividend growth....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2daefd1183bfb4062f56763afade4b3600afee084c05f991a36bf0aa79336675" target="_blank" rel="noopener noreferrer">Piper Sandler Raises PT on ConocoPhillips (COP), Keeps an Overweight Rating</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips (NYSE:COP) is one of the Most Undervalued US Stocks According to Wall Street Analysts. On August 18, Piper Sandler raised the firm’s price target on ConocoPhillips (NYSE:COP) from $123 ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=eb934e89db2076b004f661d04d57ae62191ed932be325069607525dc26908cc7" target="_blank" rel="noopener noreferrer">ConocoPhillips stock underperforms Tuesday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.86
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips stock underperforms Tuesday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d09bb8d337cb0c4c4d421fc1fbdf29c242a66b71b4712b2cd5449a67c434f6f8" target="_blank" rel="noopener noreferrer">Analysts Keep Raising ConocoPhillips Target Prices - Shorting Puts is a Good Play Here</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips' stock has risen since the Aug. 7 release of its Q2 results. Analysts have been upping their price targets. COP stock looks undervalued based on its historical yield. Shorting out-of-th...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ae6110e004dcf5d893d8ce06461af65f3e231a77c1ea6faef1656baab30b7ed0" target="_blank" rel="noopener noreferrer">ConocoPhillips Strikes 20-Year LNG Deal With Sempra's Port Arthur</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">COP secures a 20-year deal to buy 4 MTPA of LNG from Sempra's Port Arthur Phase 2, expanding its global energy footprint....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0b968f8a35f35ca55ed05d4b7b933de7f86eca042a3ce8363f896a546b707d5d" target="_blank" rel="noopener noreferrer">Roth MKM Maintains a Buy Rating on ConocoPhillips (COP), Sets a $108 PT</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips (NYSE:COP) is one of the best cheap strong buy stocks to buy now. In a report released on August 21, Leo Mariani from Roth MKM maintained a Buy rating on ConocoPhillips (NYSE:COP) and s...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fef66037840dcaa7d0d291ec3bd49ea390a64093a52b9cf05e1e99b97cd6475b" target="_blank" rel="noopener noreferrer">ConocoPhillips stock outperforms competitors on strong trading day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips stock outperforms competitors on strong trading day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d2e1a37b59f4c1ad05bf35ae0a743ce054154fc408e911975a9b51888b7b5746" target="_blank" rel="noopener noreferrer">How are energy investors positioned?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-24</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">Investing.com -- Hedge fund sentiment toward North American oil and gas stocks is at its strongest in more than a year, according to UBS....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ea4192a0fd2ff12696db8d1b8348c48dcdddaecda913e8016fb1f6bbf0fa1ef4" target="_blank" rel="noopener noreferrer">ConocoPhillips signs 20-year LNG purchase agreement with Sempra</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">The agreement will bolster ConocoPhillips' ability to deliver natural gas to global markets....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1f5a496b8865c5cfd93d886b4c9a2a928f67e149970e71c630ff77a5e727393f" target="_blank" rel="noopener noreferrer">Is ConocoPhillips a Bullish Bet Despite Volatile Oil Prices?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">COP's low-cost global portfolio helps it stay resilient and generate cash flow even in a challenging oil price environment....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f690af61c896f046b572e7a954d2d57a40b46fc083063ba8c71308e9bc4c5601" target="_blank" rel="noopener noreferrer">Dividend Champion, Contender, And Challenger Highlights: Week Of August 24</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2e79349df5442b559cfe2d4e872d4d397f910aac61ece9af065cb288a4996d4c" target="_blank" rel="noopener noreferrer">M&A Frenzy Reshapes U.S. Oil Patch Into 40 Power Players</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.53
+                                </span>
+                            </div>
+                            <div class="article-summary">U.S. upstream M&A jumped 331% to $206.6B, shrinking the top public E&Ps from 50 to 40....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9db119234433aaa488d4e7469f2f202a9be3ca715cb557a13404a594e9a8f0e8" target="_blank" rel="noopener noreferrer">RBC Capital Maintains a Buy on ConocoPhillips (COP), Sets a $113 PT</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips (NYSE:COP) is one of the best stocks to invest in for the long term. In a report released on August 13, Scott Hanold from RBC Capital maintained a Buy rating on ConocoPhillips (NYSE:COP...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=97ceb15aa312d4954b714f2502af0d3f8bea14c7c61b8a2795749bfcb73049f3" target="_blank" rel="noopener noreferrer">ConocoPhillips Signs 20-Year LNG Contract With Sempra</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.87
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips Signs 20-Year LNG Contract With Sempra...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f4d47887589bd235b05588501102757c84eae65e3fcfd6e22b9c5eea34d65eea" target="_blank" rel="noopener noreferrer">How Investors May Respond To ConocoPhillips (COP) Higher Revenue and Output Amid Lower Oil Prices</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    -0.17
+                                </span>
+                            </div>
+                            <div class="article-summary">In August 2025, ConocoPhillips reported second quarter results showing increased revenues to US$14.74 billion and higher production, but lower net income and earnings per share compared to the previou...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0a9880e0039e75ad9e6bfc3e22ec661f04fa91818a5a6beb621dcac80840db77" target="_blank" rel="noopener noreferrer">Sempra and ConocoPhillips Extend Partnership with Offtake Agreement for Port Arthur LNG Phase 2</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Sempra (NYSE: SRE) today announced that its subsidiary, Sempra Infrastructure, and ConocoPhillips (NYSE: COP) have signed a definitive 20-year sale and purchase agreement (SPA) for 4 million tonnes pe...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=50b005dd8b0fd3c1f8db79bbedca7643739c7c66447ff3d2759815fcb0a508c2" target="_blank" rel="noopener noreferrer">ConocoPhillips further expands LNG business with additional Gulf Coast offtake agreement</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">HOUSTON, August 21, 2025--ConocoPhillips has signed a long-term sales and purchase agreement to purchase 4 MTPA of LNG from the Port Arthur LNG Phase 2 project....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=346f4104444c7835c17ac098cf54aa8671907c6fd81f6c8cf6e42cd99f65a7d1" target="_blank" rel="noopener noreferrer">Sector Update: Energy Stocks Lean Lower Premarket Thursday</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.91
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks were leaning lower premarket Thursday, with the Energy Select Sector SPDR Fund (XLE) d...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=773d0ec1c875a07324e38918c8bd2d90dd30eccb610bd72e328f9ffc1e614b6d" target="_blank" rel="noopener noreferrer">SCHD: Moving Like Zombie Molasses</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Schwab U.S. Dividend Equity ETF offers stable, growing dividends and tends to have lower risk than broader market indices. Click to read why SCHD is a Buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cd18b996d3324b142a1e711f446cf4b78b4d7ff776234e4380d1b71c5d3c6faa" target="_blank" rel="noopener noreferrer">Sector Update: Energy Stocks Rise Thursday Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.86
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks were higher Thursday afternoon, with the NYSE Energy Sector Index and the Energy Selec...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f6252f75f29a922f10b553a6920718cbf8009696f8ea382e84ec28fbc1459222" target="_blank" rel="noopener noreferrer">Sector Update: Energy Stocks Rise Late Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.84
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks advanced late Thursday afternoon, with the NYSE Energy Sector Index and the Energy Sel...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=46f319cd8421060c3441235f82e29e09c0402ff9fd48d54d3bd4d8693e9d7063" target="_blank" rel="noopener noreferrer">Hartford Balanced Income Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.50
+                                </span>
+                            </div>
+                            <div class="article-summary">Global fixed-income markets posted positive total returns in Q2 2025, as measured by the Bloomberg Global Aggregate Index hedged to US dollars. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=381c402ae09feab1af4a67f9383b1b69726638e9fd2b7638b98b032f2d145159" target="_blank" rel="noopener noreferrer">ConocoPhillips: Load Up While The Market Ignores (Rating Upgrade)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips stock is undervalued despite strong LNG strategies, synergies from Marathon Oil integration, and an improved outlook. Learn more on COP stock here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cd265eedbb66cc28dcbb336bf7d36c33f13049505c858c1f26250063c0ec9b24" target="_blank" rel="noopener noreferrer">Halliburton Secures Well Stimulation Contract for North Sea Project</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">HAL lands a five-year deal with COP to deliver advanced well stimulation services in the North Sea....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0ae90b76ed52d1e79aa1b22feeed5be23af227cd70bdf8da5a15bacbc7968b00" target="_blank" rel="noopener noreferrer">Upstream Oil, Gas Operators Eye Reinvestment Opportunities With Tax Savings Boost</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    -0.02
+                                </span>
+                            </div>
+                            <div class="article-summary">US oil and natural gas exploration and production companies may see a windfall from recently passed...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6bff69194c99ab29d52d23e8050276c7c28ab93ee7a8c2e320d2fd8ef6d8c030" target="_blank" rel="noopener noreferrer">Talos Appoints New Executives</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Talos Energy Inc. said it has appointed Zachary Dailey as the company's CFO, succeeds Gregory Babcock, who will step down as interim CFO....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ae7218b6af043fb0f3a589df663fc7a2367cb45eadc26f86a7ded4dd5898e385" target="_blank" rel="noopener noreferrer">US oil and gas M&A activity tripled last year, report says</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">NEW YORK (Reuters) -Mergers and acquisitions in the U.S. oil and gas sector tripled last year despite softer commodity prices as energy companies boosted spending to improve efficiency and profits, ac...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=509b294a9e587cf3b36b8c351224f3f20bca7bd680d28a6e769b9cafb5c140e0" target="_blank" rel="noopener noreferrer">Gold Reserve Provides Update on Briefing Regarding Adjournment of Sale Hearing</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">PEMBROKE, Bermuda, August 18, 2025--Gold Reserve Ltd. (TSX.V: GRZ) (BSX: GRZ.BH) (OTCQX: GDRZF) ("Gold Reserve" or the "Company") announces that pursuant to the schedule set by the U.S. District Court...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b3c32d98e50c9586f952bac23098eba035e2f1de73495829b7ea4f10cb7d76cd" target="_blank" rel="noopener noreferrer">Halliburton to Provide Well Stimulation Services for ConocoPhillips</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The contract spans five years and includes three optional extension periods....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=abdcfc7414c024b4a1ef96ab2faac9bbdfb29f442859ed22402764565c78c6b5" target="_blank" rel="noopener noreferrer">Columbia Dividend Income Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Columbia Threadneedle Investments reports Q2 underperformance for its Dividend Income Fund amid tech and healthcare headwinds. See how quality stocks remain central.
+...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7a865bbec5d170a5d82c6363be61eaa656dc410f688ea1b66984b2ae81751aa7" target="_blank" rel="noopener noreferrer">SCHD Vs. VIG: Which One Is Better?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">SCHD offers higher income and diversification but faces growth limits, while VIG favors total return and dividend growth. Learn why SCHD ETF is a buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e7a4c26035ee223d72d0971cdaa7928d4b847f47bd2ba927c958f08166d43fff" target="_blank" rel="noopener noreferrer">ConocoPhillips: The Knife Is Done Falling (Ratings Upgrade)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.40
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips is a buy with strong FCF growth, Marathon Oil synergies, and major project upside, despite oil price risks. See why COP stock is upgraded to buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4ae8fad63f961a9da1c15e0c8a48372ab2c981874a44ef188e415d60acb3f9ba" target="_blank" rel="noopener noreferrer">ConocoPhillips (COP) Nearing Deal to Divest Oklahoma Assets to Stone Ridge Energy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.30
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips (NYSE:COP) is one of the top stocks sold by hedge funds. On July 11, RBC Capital trimmed the price target on COP from $115 to $113, while reaffirming an Outperform rating on the shares....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7fde82595cc3c38a7e684874129336513f2021c2f4e9d9a6cbb119f4e40468bf" target="_blank" rel="noopener noreferrer">ConocoPhillips: Bargain Buy Before LNG Growth Heats Up</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips shines with strategic growth, cost synergies, and strong shareholder returns....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8040af8fd46ac54647ab29b9d8098e802b7870e9a3b074bd36c13c1e544c6f9e" target="_blank" rel="noopener noreferrer">Upstream A&D Market Reawakens After Quarter of Uncertainty, Chaos</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.73
+                                </span>
+                            </div>
+                            <div class="article-summary">The quarter-long chill driven by price swings and tariff uncertainty is over, with experts anticipating more deals in the second half of the year....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b85c74185d6f457ffb0d40af74f38cb4e4ee5169235fea56d3d0b02279ec43d9" target="_blank" rel="noopener noreferrer">Weak Statutory Earnings May Not Tell The Whole Story For ConocoPhillips (NYSE:COP)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.02
+                                </span>
+                            </div>
+                            <div class="article-summary">NYSE:COP 1 Year Share Price vs Fair Value Explore ConocoPhillips's Fair Values from the Community and select yours......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b2f7fd341d16cc27c0afa88218b1466fabf4878c2dd5b8d2c58f97940a427e85" target="_blank" rel="noopener noreferrer">Halliburton secures North Sea well stimulation services deal</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">The contract is aimed at enhancing well performance and reservoir productivity in the North Sea....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=17a7e7beec07b54ae940bd0840d5f92e333a378fd2ac0878419c8130cc5e1371" target="_blank" rel="noopener noreferrer">ConocoPhillips' Major Capital Spending Expected to Drop by at Least $1 Billion in 2026 as Peak Likely This Year, RBC Says</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.12
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips (COP) is likely to see the peak of its major capital spending at $3 billion this year...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9791f2a5a43126a9499c7ff18d4f4a3de50b38ad14e813962c305822d68bb1a3" target="_blank" rel="noopener noreferrer">How ConocoPhillips Is Maximizing Value in the U.S. Lower 48</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">COP is boosting Lower 48 output through efficiency gains, leveraging low-cost shale assets and a deep drilling inventory....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a52a422c74f7508838e026d531afa14c74eac8f9c49af54da34709daa4ef21e3" target="_blank" rel="noopener noreferrer">Sector Update: Energy Stocks Decline Late Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks retreated late Thursday afternoon, with the NYSE Energy Sector Index dropping 0.4% and...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=05da60ba0b03c21a0094a8a4416a5bdc8d6cf564465a3d1a93f9a146c6b58230" target="_blank" rel="noopener noreferrer">Talos Energy Supports Corporate Strategy With Key Additions to Executive Leadership Team</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.77
+                                </span>
+                            </div>
+                            <div class="article-summary">Talos Energy Inc. ("Talos" or the "Company") (NYSE: TALO) today announced key additions to the Company's executive leadership team in support of its corporate strategy to further drive the Company's o...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=327e73924e8f5f6648cf87434234d607a4db47b088e6979a89029a4bf927b20a" target="_blank" rel="noopener noreferrer">ConocoPhillips Awards Halliburton Multi-Year Well Stimulation Services Contract in the North Sea</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">HOUSTON, August 13, 2025--ConocoPhillips Skandinavia AS (ConocoPhillips) awarded Halliburton (NYSE: HAL) a contract to deliver comprehensive well stimulation services to improve well performance and r...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=435ecce64067bd4ea561d76fb007c0b6e9f12a007bbae17afb7cec01cbc005af" target="_blank" rel="noopener noreferrer">Sector Update: Energy Stocks Rise Premarket Wednesday</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks were rising premarket Wednesday, with the Energy Select Sector SPDR Fund (XLE) 0.2% hi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3cbd6b00d942f1aa68bdaa37266c8bc455c3839ff8d9ecebe29fe183cb8ce83f" target="_blank" rel="noopener noreferrer">What Are Wall Street Analysts’ Target Price for Phillips 66 Stock?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.52
+                                </span>
+                            </div>
+                            <div class="article-summary">Phillips 66 stock has significantly underperformed the broader market over the past year, but analysts seem to be moderately bullish about its prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=193472a460cf95df748593d03d26d3c6879cdbc2b3a444fc873ab401e175edbd" target="_blank" rel="noopener noreferrer">ConocoPhillips stock underperforms Wednesday when compared to competitors despite daily gains</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.77
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips stock underperforms Wednesday when compared to competitors despite daily gains...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=290bc14391c6aa4f131034fbc895658148b6cc8324eaa595fc5ca8fda40754d1" target="_blank" rel="noopener noreferrer">Building A $50,000 Dividend Portfolio: Enhancing SCHD's Income With August's Top High-Yield Stocks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Build a $50k dividend portfolio with SCHD at the core, boosted by high-yield picks & growth stocks....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5074a021617159e9d3d2697b9915d7056e4f73e84a56bab2f4b0c7765fde36e1" target="_blank" rel="noopener noreferrer">Despite Lower Crude Prices, These Top Oil Stocks See Massive Free Cash Flow Gushers Ahead</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Growth initiatives will fuel lots of free cash flow from these oil companies in the coming years....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3bc4647ceb8c0101409ed33fbecf3e0b6db89322ab9a6afd06d85e80e59b723f" target="_blank" rel="noopener noreferrer">Q2 in the Rearview: Is COP a Smart Hold Stock or a Hot Chase?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips tops Q2 earnings estimates, boosts Marathon Oil resource outlook and eyes $2B in annual savings after full integration....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2fad248e927e9d195e9634e377b58f689af2570118f70db9d0287eb75f148e17" target="_blank" rel="noopener noreferrer">ConocoPhillips stock rises Tuesday, still underperforms market</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.76
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips stock rises Tuesday, still underperforms market...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3e9db83ed52b83fbc19ad4e5cf3a9a1393c8171260c9002444e7fa4e3d2e307e" target="_blank" rel="noopener noreferrer">ConocoPhillips (NYSE:COP) Is Due To Pay A Dividend Of $0.78</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips ( NYSE:COP ) has announced that it will pay a dividend of $0.78 per share on the 2nd of September. This......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b49720bde1a06ee349811b564a54c53e10ba24c542cac6db360915ca60b81905" target="_blank" rel="noopener noreferrer">APA Q2 Earnings Shine With Beat on Both Top and Bottom Lines</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.90
+                                </span>
+                            </div>
+                            <div class="article-summary">APA tops Q2 forecasts with stronger production, cost cuts. and shareholder returns despite softer oil prices....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b7edfac9ad32e004f574b183f4ed29dfb4051b4ec3222270a5bbfa792758177a" target="_blank" rel="noopener noreferrer">ConocoPhillips Second Quarter 2025 Earnings: EPS Beats Expectations, Revenues Lag</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.01
+                                </span>
+                            </div>
+                            <div class="article-summary">NYSE:COP 1 Year Share Price vs Fair Value Explore ConocoPhillips's Fair Values from the Community and select yours......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e9dde0be3e9c7edcc68fc9bce5951677a5ebb9247eb1fd21f8fade3db1768f8f" target="_blank" rel="noopener noreferrer">Tracking Christopher Davis' Davis Selected Advisers 13F Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6b799924df311e3d370a5e010c51d908501e88ac7a9579186cb0a0168fd0aa76" target="_blank" rel="noopener noreferrer">FINCRAFT GROUP LLP NOMINATES EXPERIENCED DIRECTOR TO BOARD OF TETHYS PETROLEUM LIMITED</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Fincraft Group LLP ("Fincraft"), one of the largest shareholders of Tethys Petroleum Limited ("Tethys"), holding approximately 26.95% of the company, announced that it has submitted an amendment to th...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bc472356e061baa3383b53272177b1b81f208072aeb3afe717974cdfe10a3fca" target="_blank" rel="noopener noreferrer">This Oil Stock Is Now On Track to Produce an Extra $7 Billion in Surplus Cash by 2029</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.34
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips has turned its oil pumps into cash printers....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d25f8b3b637fa1f696c8ed2663e0ba9c84bddfb80738da77aa60ea94f6a364b1" target="_blank" rel="noopener noreferrer">Raymond James Lifted PT on ConocoPhillips (COP) Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips (NYSE:COP) is one of the Most Undervalued Long Term Stocks to Buy According to Hedge Funds. On July 22, Raymond James lifted the price objective on the company’s stock to $117 from $109...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bd2c5b00d20af468135aae6fa08c81aa9d1f440bef4a3990a6875b007764dcc8" target="_blank" rel="noopener noreferrer">ConocoPhillips (COP) Q2 2025 Earnings Call Highlights: Surpassing Production Targets and ...</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips (COP) exceeds production guidance, raises asset sales target, and outlines significant cost and margin improvements....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f0bb3dc8adb7c05d0271b875380cdaa108f53314a044c5dfd8fc72b61cfaead7" target="_blank" rel="noopener noreferrer">Stone Ridge acquires ConocoPhillips’ Oklahoma energy assets for $1.3bn</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">This latest acquisition by Stone Ridge Energy is its second major investment this year....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fa1d5ee129fc72ce80fe2ecfe445db48ccd8ad2470e4537907cc637243025234" target="_blank" rel="noopener noreferrer">Gold Reserve Provides Update on Responses to Objections to the Special Master’s Final Recommendation in the CITGO Sale Process</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">PEMBROKE, Bermuda, August 08, 2025--Gold Reserve Ltd. (TSX.V: GRZ) (BSX: GRZ.BH) (OTCQX: GDRZF) ("Gold Reserve" or the "Company") announces that, pursuant to the schedule set by the U.S. District Cour...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=274f57dff4f5474533763710037186a520a0f4893f5f8219d94c52310cae0dd4" target="_blank" rel="noopener noreferrer">Multiple Headwinds Hit ConocoPhillips (COP) in Q2</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.13
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamond Hill Capital, an investment management company, released its “Large Cap Fund” first-quarter 2025 investor letter. A copy of the letter can be downloaded here. After a significant decline in Ap...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=20b0693b02b35b81684e52bfb6307d64a157cee4011f9f486aec0979ac865bff" target="_blank" rel="noopener noreferrer">ConocoPhillips Produces Lower FCF and Investors are Bored - But is COP Stock Too Cheap?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.85
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips produced lower FCF, and investors seemed bored with the company, despite claims that it would boost free cash flow. Nevertheless, COP stock still looks too cheap here, based on its hist...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f8de1551e1702f5bc5d9e15e13a3d4c29dad6c9952766d7242057dc785d50236" target="_blank" rel="noopener noreferrer">Can ConocoPhillips' Strategic Divestments Support Long-Term Growth?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.89
+                                </span>
+                            </div>
+                            <div class="article-summary">COP's $1.3B Anadarko Basin sale advances the firm's divestment plan, sharpening focus on high-return core assets....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a457c9b1acdb9e6dc20073653cbc10d7869c29a4d5d1caa82b63ea954fd32998" target="_blank" rel="noopener noreferrer">ConocoPhillips (COP) Reports Q2 Earnings Drop, Reaffirms 2025 Production and Dividend</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    -0.02
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips (COP) reported mixed financial results for the second quarter of 2025, showing growth in sales and revenue but a drop in net income and earnings per share. Despite the mixed earnings, t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d3328f7322da5e3893bf572815a85939fa978cabae6f64d3ced8fdd259c3dc94" target="_blank" rel="noopener noreferrer">Dividend Champion, Contender, And Challenger Highlights: Week Of August 10</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">A weekly summary of dividend activity for Dividend Champions, Contenders, and Challengers. Read the full list for the week of August 10, 2025 -- here on Seeking Alpha....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=026797d1fe3c4ce3db8a6d814fa6295b23d4a36fb64a4e6f8635db50da6bb370" target="_blank" rel="noopener noreferrer">Berry Petroleum (BRY) Reports Break-Even Earnings for Q2</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.34
+                                </span>
+                            </div>
+                            <div class="article-summary">Berry Petroleum (BRY) delivered earnings and revenue surprises of -100.00% and -8.02%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=175d6b2850e4521a7e3086d08a1b8e9cd027ff77e01ea44ddbc8718927cb3078" target="_blank" rel="noopener noreferrer">Warner Bros. earnings, Fed talk, jobless claims: What to Watch</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Asking for a Trend host Josh Lipton takes a look at the top stories for investors to watch on Thursday, Aug. 7. In the morning, Eli Lilly (LLY), Toyota (TM), ConocoPhillips (COP), Constellation Energy...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ae344ecced70e2cda893d90790bf5a019e1b642cb7dd3f9151fe58f474a67b0f" target="_blank" rel="noopener noreferrer">Tracking AMG's Yacktman Asset Management Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Yacktman Asset Management's Q2 2025 13F portfolio value dipped slightly to $7.44B. Click here to read more about the portfolio....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5b86d0360846aa882b28bca9481b47fbed5aa17f63ed18d7b94a4e1747d72d32" target="_blank" rel="noopener noreferrer">Oil major ConocoPhillips headlines earnings</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Oil major ConocoPhillips headlines earnings...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=83efe10173af99a4c0b6e698d4c343fd40860efc48aab2bd080185f547262cdf" target="_blank" rel="noopener noreferrer">ConocoPhillips Posts Lower 2Q Earnings as Oil Prices Fall</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips Posts Lower 2Q Earnings as Oil Prices Fall...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=50465c77f5cd1885372ea0085c559e7650165047f6088f6213a4bcf4dd19b97d" target="_blank" rel="noopener noreferrer">What Are Wall Street Analysts' Target Price for ConocoPhillips Stock?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips has underperformed the broader market and its peers this year but analysts maintain high confidence in its future growth potential....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=29849076a5fc8ab047ade0ef83057a0f0231f68d86b8d5ab59748ecaf3a588ea" target="_blank" rel="noopener noreferrer">ConocoPhillips Posts Lower 2Q Earnings as Oil Prices Fall -- Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips Posts Lower 2Q Earnings as Oil Prices Fall -- Update...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8653368fd4aeb9d0defb7c4cd0389148225927011af895d02d325791cd4ab54d" target="_blank" rel="noopener noreferrer">ConocoPhillips announces second-quarter 2025 results and quarterly dividend</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">HOUSTON, August 07, 2025--ConocoPhillips (NYSE: COP) today reported second-quarter 2025 earnings of $2.0 billion, or $1.56 per share....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=aa899becb097b9cc22a9a964f53fa6dab7955c9db6b4c4e28ec71fd8af86955a" target="_blank" rel="noopener noreferrer">ConocoPhillips to sell Anadarko assets for $1.3 billion; profit beats estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips will sell its Anadarko Basin assets for $1.3 billion, the energy producer said on Thursday, after beating Wall Street estimates for second-quarter profit. The asset sale, expected to cl...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=16f5866232105439a963b83c73fea6f93dcdaab290c29c3e911d453af38ba380" target="_blank" rel="noopener noreferrer">ConocoPhillips: Q2 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.23
+                                </span>
+                            </div>
+                            <div class="article-summary">HOUSTON (AP) — ConocoPhillips (COP) on Thursday reported second-quarter earnings of $1.97 billion. The Houston-based company said it had profit of $1.56 per share. Earnings, adjusted for non-recurring...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ab335e9f5c45df39939e76712e8890b1230f6bde44a9b14e64cd9b19ed800538" target="_blank" rel="noopener noreferrer">Stocks Gain Pre-Bell as Trump's Sweeping New Tariffs Take Effect; Investors Assess Apple's $600 Billion US Investment Plan</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.62
+                                </span>
+                            </div>
+                            <div class="article-summary">US equity markets were tracking in the green before the opening bell Thursday as President Donald Tr...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=41bfe51bc7c1b780242e9088b765daeb03b21df50e73deb305312cbb09f83e8d" target="_blank" rel="noopener noreferrer">ConocoPhillips tops Q2 earnings expectations, shares rise</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">Investing.com -- ConocoPhillips (NYSE:COP) on Thursday reported second-quarter 2025 adjusted earnings of $1.42 per share, exceeding analyst expectations of $1.38 per share, as the oil and gas producer...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f0ef19ce392eea696c69ecd4b0e28bad52f047a20254bb84f9f6a373eebafb3d" target="_blank" rel="noopener noreferrer">ConocoPhillips Posts Lower Earnings as Oil Prices Fall</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips’s second-quarter earnings fell, hurt by lower prices that were slightly offset by higher production....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cf49da8fae342949292724a5f8c539ed71996ad357142e507c71da1f8dd355a6" target="_blank" rel="noopener noreferrer">Earnings in Focus: Market Movers</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Ramzan takes a look at Eli Lilly (LLY), ConocoPhilips (COP) and Warner Bros. (WBD) as U.S. markets prepare to open....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8d7a3d7de75a026c0462b09b2d2d6f4aa03faff1d3d32f44333b62d90e42f8ac" target="_blank" rel="noopener noreferrer">ConocoPhillips (COP) Tops Q2 Earnings Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips (COP) delivered earnings and revenue surprises of +4.41% and -1.25%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f03ea0b98c179fc7a21b102aa31bbcc8b509398dbc166a33c55554c274b9f3d7" target="_blank" rel="noopener noreferrer">ConocoPhillips 2025 Q2 - Results - Earnings Call Presentation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The following slide deck was published by ConocoPhillips in conjunction with their 2025 Q2 earnings call....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=622bb48423be77a35498f258bb489a59e2a5529b2cbe22991214af41ea4c8bc1" target="_blank" rel="noopener noreferrer">ConocoPhillips (COP) Reports Q2 Earnings: What Key Metrics Have to Say</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The headline numbers for ConocoPhillips (COP) give insight into how the company performed in the quarter ended June 2025, but it may be worthwhile to compare some of its key metrics to Wall Street est...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bfc0ca31b6c74d7cc84c8e3e30913e5f1e00a3ae05b37a1e0ce5939810eb27f1" target="_blank" rel="noopener noreferrer">ConocoPhillips Q2 Earnings Beat Estimates, Revenues Improve Y/Y</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">COP beats on Q2 earnings as higher oil output lifts revenues despite weaker prices and rising expenses....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0b00a6185d1f0a6c04efa1bfe7fa7ab624a08c46c03db5185cc768f9981a9491" target="_blank" rel="noopener noreferrer">Sector Update: Energy Stocks Mixed Late Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks were mixed late Thursday afternoon, with the NYSE Energy Sector Index down 0.1% and th...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7485fa3e4c1441f292db482638c5fd0f4c00cb95366dfce270b957d420be748d" target="_blank" rel="noopener noreferrer">ConocoPhillips (COP) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f8608e14d16595bdb50d59c9824ee0465e51de25c709e88300d77942340f425b" target="_blank" rel="noopener noreferrer">Janus Henderson Mid Cap Value Managed Account Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Janus Henderson Mid Cap Value Managed Account returned 3.20% (gross) and the Russell MidcapÂ® Value Index returned 5.35%. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b620c64c4e9da87fd11ce1a453cfffc150ab660883d882530f4d0f171e0691a8" target="_blank" rel="noopener noreferrer">UBS Raises ConocoPhillips (COP) Price Target, Keeps Buy Rating</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.88
+                                </span>
+                            </div>
+                            <div class="article-summary">ConocoPhillips (NYSE:COP) is one of the 12 Best American Energy Stocks to Buy Right Now. On July 11, UBS increased its price target for ConocoPhillips (NYSE:COP) from $111 to $115 while keeping a Buy ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d174c964af3d02afe8dd5fe6b3ed332832314c74a4e8c9e300693f11850fd09c" target="_blank" rel="noopener noreferrer">Exxon Mobil: Ignore Quarterly Noise And Focus On What Matters</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.45
+                                </span>
+                            </div>
+                            <div class="article-summary">Exxon Mobil's share price has been resilient over the past year once we consider the drop in upstream earnings. Find out why XOM stock is a Hold....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=123d3e4b143db7ed25a0d9c91937605383e0ab08354b1a261b038d09c1a5e96c" target="_blank" rel="noopener noreferrer">Tidewater (TDW) Beats Q2 Earnings and Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">Tidewater (TDW) delivered earnings and revenue surprises of +339.29% and +7.50%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=73e0b441808e0482367f2f78983c0965fbc728b9e051201510d25a5366c37ff3" target="_blank" rel="noopener noreferrer">The Earnings Party Hits A Wall: Strong Q2 Profits Can't Overcome Macro Fears</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.22
+                                </span>
+                            </div>
+                            <div class="article-summary">As we enter the second week of peak earnings season for Q2, S&P 500 EPS growth continues to improve, now at 10.3% YoY....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bc49ec13cab3ef87b4d547a132da3f85345374f2f614cfeb9f7b8ed5f2b2cbbd" target="_blank" rel="noopener noreferrer">SCHD: Wouldn't Call It Dead Money</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7c61c0db9eabc4adc165f725c075c4e2e7693ea0a038a4b6db17deb7b352dbbc" target="_blank" rel="noopener noreferrer">Janus Henderson Mid Cap Value Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=48763251281b1ba18912a05a0ef859a3f8b40875d20dff35540619ee115f19e6" target="_blank" rel="noopener noreferrer">ConocoPhillips' Q2 Earnings on Deck: Remain Invested in the Stock?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.59
+                                </span>
+                            </div>
+                            <div class="article-summary">COP expects Q2 earnings of $1.36 per share, down 31% year over year, despite a forecasted 21% rise in output....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=653012221bdfbcfb6b61d2becb9baaa94af8c6aae46e9e9e0c1213ccc5f11ef1" target="_blank" rel="noopener noreferrer">SCHD ETF Alternative Strategy: 14.66% CAGR After Nearly 3 Years</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.27
+                                </span>
+                            </div>
+                            <div class="article-summary">My 4-Factor Dividend Growth Portfolio aims for a 12%+ long-term CAGR by blending SCHDâs methodology. Learn more about the portfolio here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e15b9d2ed4950c09d3b70c8ad54a6959ce3dbdf33da3f931b77c42e1498c60b5" target="_blank" rel="noopener noreferrer">Coastal Bend LNG selects ConocoPhillips’ Optimized Cascade® Process technology</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.33
+                                </span>
+                            </div>
+                            <div class="article-summary">HOUSTON, August 04, 2025--Today, Coastal Bend LNG announced it has selected ConocoPhillips’ Optimized Cascade® Process liquefaction technology for its planned natural gas liquefaction and export facil...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=00f5597fd509970a0aa122ae34451d3f2c148ce5ac685713d4231e5e774389a4" target="_blank" rel="noopener noreferrer">Central Bank Outlook Lifts Wall Street Pre-Bell; Asia, Europe Up</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.72
+                                </span>
+                            </div>
+                            <div class="article-summary">Wall Street futures pointed moderately higher pre-bell Monday as traders weighed odds that the Feder...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bc019820820da5dd432ce13bac4a7f9c33062e6bd66834b83708388cad3e4882" target="_blank" rel="noopener noreferrer">Insights Into ConocoPhillips (COP) Q2: Wall Street Projections for Key Metrics</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Besides Wall Street's top-and-bottom-line estimates for ConocoPhillips (COP), review projections for some of its key metrics to gain a deeper understanding of how the company might have fared during t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=70f59260e9b7058e80bbaada2393a2721ad6afe72ff4056000cce8a604d3cd61" target="_blank" rel="noopener noreferrer">Wall Street Week Ahead</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-03</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Get market insights: Jobs report fallout, earnings highlights from Disney & AMD, and income investing strategies with Seeking Alpha's expert webinars....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0bfdf8612462e8d57b88eb80a79f6a12bf075baec06386daffa11cc7ad2fba63" target="_blank" rel="noopener noreferrer">Job market concerns take center stage as earnings season rolls on: What to watch this week</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">Concerns over US economic growth have taken center stage despite a solid corporate earnings season from S&P 500 companies....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

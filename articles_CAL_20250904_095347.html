@@ -1,0 +1,599 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Caleres Inc. (CAL) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Caleres Inc. (CAL)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">21</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">7</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">2</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.14</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1dd481f487a4aceaa7a6dd2983318d7245e39a6fedc99faa98abb7152c8c3878" target="_blank" rel="noopener noreferrer">Earnings To Watch: Caleres (CAL) Reports Q2 Results Tomorrow</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Footwear company Caleres (NYSE:CAL) will be reporting earnings this Thursday before market hours. Here’s what to expect....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d81c8012af3f2d4de297653e93a37492111b1e7d4d33f051e19e017c18565932" target="_blank" rel="noopener noreferrer">Caleres (NYSE:CAL) Is Due To Pay A Dividend Of $0.07</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Caleres, Inc.'s ( NYSE:CAL ) investors are due to receive a payment of $0.07 per share on 26th of September. This......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4a2dcc44fa81afc089042d2d0a3ada965afe4ccf93e4ee3cdc16ef940ad48583" target="_blank" rel="noopener noreferrer">Is XYZ Stock a Buy, Hold or Sell After Its 30% Three-Month Rally?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">Block's 30% rally highlights margin gains and Cash App growth, but competition and valuation leave XYZ stock a nuanced hold....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5a53c43dd1df363f387cb93be633988b03ffc41b9b6c926ce797280c909a8c36" target="_blank" rel="noopener noreferrer">Caleres Declares Regular Quarterly Dividend</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ST. LOUIS, August 28, 2025--Caleres (NYSE: CAL), a market-leading portfolio of consumer-driven footwear brands, today announced that its Board of Directors has declared a regular quarterly cash divide...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ab256110100b7066feb9dbd2d5a7b73484159fc839d42e224963e54293f99bd0" target="_blank" rel="noopener noreferrer">Caleres (CAL) Stock Is Up, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of footwear company Caleres (NYSE:CAL) jumped 3.1% in the afternoon session after Kohl's reported strong second-quarter earnings....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fab4163fede733cf1e39e5278a1d8c16b4687d6798a6e78caabc8681b52d8aa2" target="_blank" rel="noopener noreferrer">Block's Ecosystem Expansion: Will Partnerships Boost Profitability?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">XYZ expands with Purdys, Caleres, and Uncle Sharkii partnerships, boosting growth as gross profit climbs 14% in Q2 2025....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1c5b522cf2fe65e8f2af81f4fe838c8404c5a071f10e486eb16c86d38c3b3be2" target="_blank" rel="noopener noreferrer">3 Consumer Stocks That Concern Us</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.33
+                                </span>
+                            </div>
+                            <div class="article-summary">Consumer discretionary businesses are levered to the highs and lows of economic cycles. Over the past six months, it seems like demand trends may be working against their favor as the industry’s retur...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=49561492b288bd71993f677c9f4aad6fc474fd3ea5f94d00ec6ebf61a3dc3911" target="_blank" rel="noopener noreferrer">Caleres names new head of HR</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Kathleen Welter will oversee human resources for the company’s portfolio of brands, including Famous Footwear, Allen Edmonds and the newly acquired Stuart Weitzman....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e501a5c7f96ba6b5882614f977dd31aa1b08021577101671c26eb287e5650207" target="_blank" rel="noopener noreferrer">Cash App Afterpay and Caleres Step Into Fall with Expanded Partnership</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.84
+                                </span>
+                            </div>
+                            <div class="article-summary">DISTRIBUTED-WORK-MODEL/SAN FRANCISCO, August 19, 2025--Cash App Afterpay, a leader in "Buy Now, Pay Later" payments, today announced an extensive partnership with Caleres, bringing flexible payments t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=21494a5a5c72ea2763f0c63dca53adc2c278f25c103668d3cc3284836728156f" target="_blank" rel="noopener noreferrer">Why Caleres (CAL) Stock Is Up Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of footwear company Caleres (NYSE:CAL) jumped 3.3% in the morning session after the company announced an expanded partnership with Cash App's Afterpay service....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=96680e16270139dd500a29bb624f3025e3668c4f9f7c7099e710d754f3d0cff0" target="_blank" rel="noopener noreferrer">Caleres to Announce Second Quarter 2025 Results on September 4</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ST. LOUIS, August 18, 2025--Caleres (NYSE: CAL), a market-leading portfolio of consumer-driven footwear brands, will release its second quarter 2025 financial results before market open on Thursday, S...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bd451588a0b6178492d19bf97a5ba9b592c77f1bae540a8dfc9485a03820b39e" target="_blank" rel="noopener noreferrer">Caleres Announces Kathleen Welter as Chief Human Resources Officer</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ST. LOUIS, August 15, 2025--Caleres (NYSE: CAL) today announced Kathleen Welter has joined the company as chief human resources officer. Welter will oversee all human resources functions for the compa...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2369c707124b79135919cc5901213a2e7abd442d64ff2afedf04029be43d173e" target="_blank" rel="noopener noreferrer">Caleres (CAL): Buy, Sell, or Hold Post Q1 Earnings?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Over the past six months, Caleres’s stock price fell to $15.14. Shareholders have lost 12.6% of their capital, which is disappointing considering the S&P 500 has climbed by 5.8%. This was partly due t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=59c64b7cf4e26bd646c8b25bbef654c6cb3fbf54cb95d8b238a85f1a7235d0d8" target="_blank" rel="noopener noreferrer">Birkenstock (BIRK) Q3 Earnings Top Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Birkenstock (BIRK) delivered earnings and revenue surprises of +4.48% and -2.56%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=42bef26b4f7ce022104203abed9bec738da986e80bf6347669e5de622024cda6" target="_blank" rel="noopener noreferrer">Tapestry Completes Sale of Stuart Weitzman Brand to Caleres</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Tapestry Inc. (NYSE:TPR) is one of the best performing S&P 500 stocks to buy now. On August 4, Tapestry announced the completion of the sale of its Stuart Weitzman brand to Caleres. The sale was first...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c07bc9e322e2fcd059692ab8554ac8745021402c0c19911eacdf73ddabe4c2c1" target="_blank" rel="noopener noreferrer">Purple, United Airlines, Genesco, Caleres, and VF Corp Shares Skyrocket, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.46
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks jumped in the afternoon session after the latest Consumer Price Index (CPI) report showed inflation holding steady, bolstering investor optimism for a potential interest rate cut by...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=26d13e73ea15e66cfb01c662e63abde1a6a74f554069ab037ae51250d22454f5" target="_blank" rel="noopener noreferrer">1 Small-Cap Stock for Long-Term Investors and 2 We Turn Down</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.44
+                                </span>
+                            </div>
+                            <div class="article-summary">Small-cap stocks can be incredibly lucrative investments because their lack of analyst coverage leads to frequent mispricings. However, these businesses (and their stock prices) often stay small becau...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=aa30f23b6fb17f9d9cc34794ef3988a27aaf23b6012fd8a92d8c3a3a5338d0db" target="_blank" rel="noopener noreferrer">Tapestry sells footwear brand Stuart Weitzman to Caleres</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Jonathan Lelonek, who joined Stuart Weitzman in 2012, has been named the brand’s president....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=500eaf066286c38184f362e0954b5d0f1d9952e1223b7bf2e096de8bc416328c" target="_blank" rel="noopener noreferrer">EXCLUSIVE: Caleres Elevates Brian Costello To Lead Famous Footwear</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The executive is Famous Footwear's new division president, following a short stint as its chief merchant....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c21e3a598b54b30af634254eecac63b0e9128b7968522f8ec2bbb375744b6ea8" target="_blank" rel="noopener noreferrer">Brian Costello Named Division President of Famous Footwear</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ST. LOUIS, August 05, 2025--Caleres (NYSE: CAL), a market-leading portfolio of consumer-driven footwear brands, today announced Brian Costello has been named division president of Famous Footwear effe...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b08e8a98cde4e51be53d003871582837f5b66d14d9f7769da7aabb647ecf5462" target="_blank" rel="noopener noreferrer">Vionic Names Gabby Reece as First-Ever Well-Being Ambassador</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ST. LOUIS, August 05, 2025--Vionic, the footwear brand rooted in biomechanics and the science of movement and a lead brand in the Caleres (NYSE: CAL) portfolio, introduces its first-ever well-being am...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

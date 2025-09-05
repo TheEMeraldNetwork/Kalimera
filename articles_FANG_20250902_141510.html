@@ -1,0 +1,1208 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>DIAMONDBLACK ENERGY INC. (FANG) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">DIAMONDBLACK ENERGY INC. (FANG)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">59</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">21</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">18</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">-0.02</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b19d861e07d56169acccbf0bff6f07e1ef3c380ac04965073de027e6927bf6a3" target="_blank" rel="noopener noreferrer">Companies Reap Cash Savings From Trump’s New Tax Law</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.79
+                                </span>
+                            </div>
+                            <div class="article-summary">The law accelerates or expands deductions for corporate research, interest payments and equipment purchases.  Verizon Communications  which paid $5.6 billion in cash income taxes in 2024, said it is l...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ac465d14a1579ad5af259e974b895bf3e3eb5c240c707b4754c0ade2c747eede" target="_blank" rel="noopener noreferrer">My $100K Model Portfolio For One Of The Market's Biggest Opportunities</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.29
+                                </span>
+                            </div>
+                            <div class="article-summary">Policymakers shift from fighting inflation to fueling a broader economic upswing. See why I'm doubling down on my cyclical recovery and higher-for-longer thesis....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=140cd4e1cbec303194185fbd97a73c1a6dcedcef48eec7805e13afe695b0ab3c" target="_blank" rel="noopener noreferrer">My #1 Contrarian Bet: Why I'm Betting Big On The Market's Most Undervalued Sector</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Smart money is quietly accumulating energy stocks despite recent underperformance. Read why I'm investing heavily in quality energy names....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d8aa62dbc2ce7f52177e238cd7114b23d5edba61b57fa81b7ce9e6be99dcf63f" target="_blank" rel="noopener noreferrer">Raymond James Reiterates a Buy on Diamondback Energy (FANG), Keeps the PT</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy, Inc. (NASDAQ:FANG) is one of the Most Undervalued US Stocks According to Wall Street Analysts. On August 20, Raymond James reiterated a Buy rating on Diamondback Energy, Inc. (NASD...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ea655fafbb4c92a99ed37cfe9429bc0adfc8fdc6ed647e543b7d00c5c183aaae" target="_blank" rel="noopener noreferrer">Piper Sandler Remains Bullish on Diamondback Energy (FANG)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy, Inc. (NASDAQ:FANG) is one of the best cheap strong buy stocks to buy now. On August 22, Piper Sandler analyst Mark Lear maintained a Buy rating on Diamondback Energy, Inc. (NASDAQ:...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4202919ae3ec1d90adb29ac7e32d9ef1732e307968b48b093b6b2fd11def845a" target="_blank" rel="noopener noreferrer">Market Chatter: EPIC Crude Pipeline Could be Valued at $3 Billion in Possible Sale</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">EPIC Crude pipeline's owners are exploring a potential sale that may value the Texas oil transport n...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e9e077918fd1189fff40611af33314e7f85a4dbfd8da9cdd75a91cd22de135cc" target="_blank" rel="noopener noreferrer">Will Diamondback Energy's (FANG) Raised 2025 Production Outlook Redefine Its Growth Trajectory?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-24</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Earlier this week, Diamondback Energy announced an upward revision to its third quarter 2025 production guidance, now expecting oil output between 494,000 and 504,000 barrels per day and total net pro...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f48c62b2d67672ad5d75c9bdad68df71ed1c0564d8b07e95462622c26ad36a5c" target="_blank" rel="noopener noreferrer">Diamondback Energy Inc. stock outperforms competitors on strong trading day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy Inc. stock outperforms competitors on strong trading day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2e79349df5442b559cfe2d4e872d4d397f910aac61ece9af065cb288a4996d4c" target="_blank" rel="noopener noreferrer">M&A Frenzy Reshapes U.S. Oil Patch Into 40 Power Players</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.53
+                                </span>
+                            </div>
+                            <div class="article-summary">U.S. upstream M&A jumped 331% to $206.6B, shrinking the top public E&Ps from 50 to 40....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0743602253aba8ee79e53d45577cfb99c9f558eb43be14cda817a7e728b256d2" target="_blank" rel="noopener noreferrer">Does Diamondback Energy Offer Opportunity After Year-To-Date Drop and $26B Endeavor Deal?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.88
+                                </span>
+                            </div>
+                            <div class="article-summary">Here is the revised article text with em dashes removed and the formatting improved: If you are watching Diamondback Energy and wondering whether its recent movements are a reason to buy, hold, or sel...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f1b5ce54dea1d3b037a5bf7e28603a0b3ca839e3e3a46985816762541b5a1a54" target="_blank" rel="noopener noreferrer">Should You Hold Diamondback Energy (FANG) for the Long Term?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.40
+                                </span>
+                            </div>
+                            <div class="article-summary">Artisan Partners, an investment management company, released its “Artisan Value Fund” second-quarter 2025 investor letter. A copy of the letter can be downloaded here. Equity markets faced significant...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b9a709904f3af50842cf72bfd4bb18b2633207d76128247a17b38382bfe7fbc1" target="_blank" rel="noopener noreferrer">Viper Energy Closes Sitio Deal, Raises Q3 Production Outlook</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.83
+                                </span>
+                            </div>
+                            <div class="article-summary">VNOM completes Sitio merger, boosting Q3 oil output outlook and positioning itself as a minerals and royalties leader....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8f04e8f4acd3839cdef8283c1a1713d842b3e8ef436809ab54259cb210aa419f" target="_blank" rel="noopener noreferrer">Acquisitions Drive Oil Output Surge, Strengthening Outlook for Viper Energy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Viper Energy, Inc. (NASDAQ:VNOM) is one of the 11 Best Dividend Stocks with a Consistent 3-Year Payout History. The company’s Q2 earnings exceeded expectations following major acquisitions. Viper Ener...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=48946102874298431058710b1f73ff09947f69e75b61c99709373128e50e7012" target="_blank" rel="noopener noreferrer">2 Of The Best Dividend Combos I've Ever Found</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.26
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover how to build resilient portfolios by pairing stocks that balance growth, income, and stability....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c70e542a0c7745f8797a8fa649101b6b24db8836a039c7fdc28f92d1d28f719a" target="_blank" rel="noopener noreferrer">Diamondback Energy, Inc.’s Subsidiary Viper Energy, Inc. Closes Acquisition of Sitio Royalties</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">MIDLAND, Texas, Aug. 19, 2025 (GLOBE NEWSWIRE) -- Diamondback Energy, Inc. (NASDAQ: FANG) (“Diamondback” or the “Company”) today announced that its publicly traded subsidiary, Viper Energy, Inc. (NASD...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cb156f6e61d7bfa35d7639b0d37b1400037be3938113585a9c8811497f7ce432" target="_blank" rel="noopener noreferrer">Viper Energy, Inc., a Subsidiary of Diamondback Energy, Inc., Has Completed Its Acquisition of Sitio Royalties Corp. In All-Equity Transaction</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.26
+                                </span>
+                            </div>
+                            <div class="article-summary">MIDLAND, Texas, Aug. 19, 2025 (GLOBE NEWSWIRE) -- Viper Energy, Inc. (NASDAQ:VNOM) (“Viper” or the “Company”), a subsidiary of Diamondback Energy, Inc. (NASDAQ:FANG) (“Diamondback”), today announced t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=af7b51bbb43c9c57986a96afa79aa3696f2699f9af3a3df27abdf7bfe500bd4d" target="_blank" rel="noopener noreferrer">Sector Update: Energy Stocks Decline Pre-Bell Tuesday</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks were declining pre-bell Tuesday, with the Energy Select Sector SPDR Fund (XLE) down 0....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ae7218b6af043fb0f3a589df663fc7a2367cb45eadc26f86a7ded4dd5898e385" target="_blank" rel="noopener noreferrer">US oil and gas M&A activity tripled last year, report says</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">NEW YORK (Reuters) -Mergers and acquisitions in the U.S. oil and gas sector tripled last year despite softer commodity prices as energy companies boosted spending to improve efficiency and profits, ac...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=411c656080af568fa4596453387bbdce54357fdc4f1808ebb3b2004864fa02f4" target="_blank" rel="noopener noreferrer">What Are Wall Street Analysts' Target Price for Diamondback Energy Stock?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy has considerably underperformed the broader market over the past year, but analysts are highly optimistic about the stock’s prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5fdc131507806fa0f41cd401551e5f4f962d22947bedbdaeca6f26dff4a6ffa5" target="_blank" rel="noopener noreferrer">Sector Update: Energy Stocks Decline Monday Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Energy stocks were retreating Monday afternoon, with the NYSE Energy Sector Index and the Energy Sel...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f4963092ae81cbfa166eb7e90d658a61b92f6c191baece2fea9ebb1e134f4470" target="_blank" rel="noopener noreferrer">Trump’s Energy Dominance Runs Into OPEC’s Price Trap</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">The return of previously curtailed oil production by OPEC+ members is killing U.S. shale growth, with industry executives referring to it as a “price war” to the Financial Times....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d5a663d90d1bfa07778857bf2b9899f1630dfed9ebf10c980eea07b25a17dece" target="_blank" rel="noopener noreferrer">Columbia Flexible Capital Income Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Columbia Threadneedle Investments reports a 3.87% Q2 return for its Flexible Capital Income Fund. Explore how convertibles and credit picks drove gains.
+...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9b2a01b624677892059b7a8132b4efbc29a18735cc952241fa7696e5a9f35bc9" target="_blank" rel="noopener noreferrer">Dividend Champion, Contender, And Challenger Highlights: Week Of August 17</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Read our weekly summary of companies that changed their dividends, companies with upcoming ex-dividend dates, and companies with upcoming pay dates. Access the full article here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8040af8fd46ac54647ab29b9d8098e802b7870e9a3b074bd36c13c1e544c6f9e" target="_blank" rel="noopener noreferrer">Upstream A&D Market Reawakens After Quarter of Uncertainty, Chaos</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.73
+                                </span>
+                            </div>
+                            <div class="article-summary">The quarter-long chill driven by price swings and tariff uncertainty is over, with experts anticipating more deals in the second half of the year....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=351fc60ebf6546617be6fae89ea27070a3895ba81c4aad5534ca58e935099fed" target="_blank" rel="noopener noreferrer">Rumors of Shale’s Peak Were Premature</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Despite earlier predictions of a peak, US shale oil production is continuing to grow, driven by efficiency gains and a slower energy transition, though challenges remain....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3fea73aa09f2b858ea40084cf7725e7eb91f943efd96d1c283fa6daa5ef0676a" target="_blank" rel="noopener noreferrer">Oil Be Rich - Some Of My Favorite Energy Investments Everyone Should Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Read about why energy stocks, which are currently out of favor, actually offer unique opportunities for patient investors....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bddacb8478c61ebe765aad887d8f61a53273e4baeb3cd447ab206e9378968710" target="_blank" rel="noopener noreferrer">Artisan Value Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">Our portfolio outperformed the Russell 1000 Value Index in Q2, contributing to our longer-term performance record of adding value versus the index. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1d89dc6e1d08a2e106a1aa13883ad4b7b218e8eb5a3102a8e1d3bc12a6db690b" target="_blank" rel="noopener noreferrer">Diamondback Energy Inc. stock underperforms Wednesday when compared to competitors despite daily gains</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy Inc. stock underperforms Wednesday when compared to competitors despite daily gains...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=eef33bf6181df38ce7627c2446e69e7d50e451454aaffc365890899b9c3836fd" target="_blank" rel="noopener noreferrer">Artisan Value Income Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">Our portfolio generated a positive return in Q2, led by our Dividend Recovery and Dividend Growth holdings. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0b43df3889d2cfc47124b31d5d6f0bc48076e9b792fc885827b2b64b5d20edf3" target="_blank" rel="noopener noreferrer">Diamondback Energy Q2 Earnings Beat Estimates, Revenues Rise Y/Y</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">FANG expects third-quarter 2025 oil production between 485 MBO/d and 495 MBO/d, with cash capital spending at $750-$850 million....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ad68caea8b1a4394beb99db1f3cf71d270583f6ed05955fc27a2fac0ee98612f" target="_blank" rel="noopener noreferrer">Diamondback Energy Inc. stock underperforms Monday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy Inc. stock underperforms Monday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6d8f6829efb68f90953bb74c529e1fa9278e7815399fa7a1101d77aab28e3bcf" target="_blank" rel="noopener noreferrer">Compared to Estimates, Diamondback (FANG) Q2 Earnings: A Look at Key Metrics</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">While the top- and bottom-line numbers for Diamondback (FANG) give a sense of how the business performed in the quarter ended June 2025, it could be worth looking at how some of its key metrics compar...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a1e7e046b32270ca43b9c62a87b37d73c2d7d186d2792795e8c7eda867893444" target="_blank" rel="noopener noreferrer">Ave Maria Rising Dividend Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">For the three months ended June 30, 2025, the total return on the Ave Maria Rising Dividend Fund was -0.12. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f6b8deae4b2ddb8fe6c0a4f23f3cc847179a2e98e59e06fdca146886b413b226" target="_blank" rel="noopener noreferrer">Ave Maria Bond Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">For the three months ended June 30, 2025, the total return on the Ave Maria Bond Fund was 0.70%. Click here to read more....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8c5d5fe752d928b912619b7efc4cff814c3df1a9c1228aa35a500e2e9482ebd7" target="_blank" rel="noopener noreferrer">Here’s Why Diamondback Energy (FANG) Slid in Q2</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.14
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamond Hill Capital, an investment management company, released its “Large Cap Fund” first-quarter 2025 investor letter. A copy of the letter can be downloaded here. After a significant decline in Ap...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2098d845c84b93c46f05908370b83e5d6ad44d5b5d1603b41e81960108643e20" target="_blank" rel="noopener noreferrer">Diamondback Energy Narrows Production Guidance as Net Income Dips in Q2</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">The company said production for the quarter averaged 919,000 barrels of oil equivalent per day....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d3328f7322da5e3893bf572815a85939fa978cabae6f64d3ced8fdd259c3dc94" target="_blank" rel="noopener noreferrer">Dividend Champion, Contender, And Challenger Highlights: Week Of August 10</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">A weekly summary of dividend activity for Dividend Champions, Contenders, and Challengers. Read the full list for the week of August 10, 2025 -- here on Seeking Alpha....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ae344ecced70e2cda893d90790bf5a019e1b642cb7dd3f9151fe58f474a67b0f" target="_blank" rel="noopener noreferrer">Tracking AMG's Yacktman Asset Management Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Yacktman Asset Management's Q2 2025 13F portfolio value dipped slightly to $7.44B. Click here to read more about the portfolio....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9935dae125a366884b6217b1a57cf7d2a9604c76b18677972c854b349a5d5ea8" target="_blank" rel="noopener noreferrer">Diamondback Energy Inc. stock underperforms Thursday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy Inc. stock underperforms Thursday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bd89536687007ab878ce42d1e0362f8ff221a09736e1f96186c6911e27caf887" target="_blank" rel="noopener noreferrer">Diamondback Energy: Long-Term Strategy Again At The Forefront</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The company both grows production and does shareholder returns (dividends and share buybacks). Learn why FANG stock is a Buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=04fcb6915de088cfc113d3f68c44b61ac636422ba564779140f3fa3b3e2550ec" target="_blank" rel="noopener noreferrer">Diamondback Energy Second Quarter 2025 Earnings: Revenues Beat Expectations, EPS Lags</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">NasdaqGS:FANG 1 Year Share Price vs Fair Value Explore Diamondback Energy's Fair Values from the Community and select......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e3ff433a136a73247e9c227591c30d0f249beda58f66e1546bc68847717a0fdc" target="_blank" rel="noopener noreferrer">Diamondback Delivers $1.3 Billion in Q2 Free Cash Flow</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.22
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy generated $1.3 billion in adjusted free cash flow in Q2 2025 and returned over half of that to shareholders through dividends and share repurchases, while also tightening guidance a...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=902ec10230034a2e72fc3cdb80415b64e3c7fa2e099cec2d8c060611bff3e926" target="_blank" rel="noopener noreferrer">Oil Steadies as Trump Threatens India for Taking Russian Crude</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.76
+                                </span>
+                            </div>
+                            <div class="article-summary">(Bloomberg) -- Oil steadied, after a three-day drop, as investors weighed risks to Russian supplies, with US President Donald Trump stepping up a threat to penalize India for buying Moscow’s crude.Mos...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e8187edec35eafca67fbde66fc56c9ffbabe30e114c90e1f4edca2344ffd3e3a" target="_blank" rel="noopener noreferrer">Diamondback Energy, Inc. 2025 Q2 - Results - Earnings Call Presentation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The following slide deck was published by Diamondback Energy, Inc....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f89124783a1498281eb2dad3fe4e113c44dc6669cb870a12ac5c7210047b2ee2" target="_blank" rel="noopener noreferrer">Diamondback Energy, Inc. (FANG) Q2 2025 Earnings Conference Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy, Inc. (NASDAQ:FANG) Q2 2025 Earnings Call August 5, 2025 9:00 AM ETCompany ParticipantsAdam T....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a44f7ed4117ec96ab172b293b4fbbc0aeeb9b74abaeb84f2a2605be1aaa00faa" target="_blank" rel="noopener noreferrer">Diamondback says it should be Permian's 'consolidator of choice' as oil outlook dims</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.28
+                                </span>
+                            </div>
+                            <div class="article-summary">(Reuters) -Shale driller Diamondback Energy said on Tuesday it should remain the Permian Basin's "consolidator of choice" as shale activity slows and the company focuses on shareholder returns followi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=daf1b31bf7aa9f27ee891f7b70c60a68837d84c8fb521c7c917141fd437f4795" target="_blank" rel="noopener noreferrer">Diamondback Energy Inc. stock underperforms Tuesday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy Inc. stock underperforms Tuesday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a7260dc998f42927fd5358abeb5bdec25af3054ffee31304111d164f4e35effa" target="_blank" rel="noopener noreferrer">Diamondback Eyes M&A as Permian's ‘Consolidator of Choice,’ CEO Says</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy CEO Kaes Van’t Hof said the E&P is focused on execution at the highest level while staying patient on acquisitions....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=653012221bdfbcfb6b61d2becb9baaa94af8c6aae46e9e9e0c1213ccc5f11ef1" target="_blank" rel="noopener noreferrer">SCHD ETF Alternative Strategy: 14.66% CAGR After Nearly 3 Years</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.27
+                                </span>
+                            </div>
+                            <div class="article-summary">My 4-Factor Dividend Growth Portfolio aims for a 12%+ long-term CAGR by blending SCHDâs methodology. Learn more about the portfolio here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1efac825bd04508501f6944045448f2a598262d81cda1a0dab3947682abb6c6b" target="_blank" rel="noopener noreferrer">Diamondback Energy: A Lean Machine</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy delivers strong growth, capital efficiency, and shareholder returns despite oil volatility and sector headwinds. See why FANG stock is a buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4302c2d7152f547ebe9decbe865263cd5146255231425acb6410289c00f2b0a3" target="_blank" rel="noopener noreferrer">Diamondback Energy Posts Lower Profit, Warns of Continued Low Oil Production</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy Posts Lower Profit, Warns of Continued Low Oil Production...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=73e3628be0ced442039219df2d1f989783aeb334f561708b296269d0888b33dd" target="_blank" rel="noopener noreferrer">Diamondback Energy Inc. stock rises Monday, still underperforms market</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.73
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy Inc. stock rises Monday, still underperforms market...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cfe60a93675048595f4cec5a0ac08fbbee21ef229a841da1617b24a00253672a" target="_blank" rel="noopener noreferrer">Diamondback Energy Posts Lower Profit, Warns of Continued Low Oil Production -- Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback Energy Posts Lower Profit, Warns of Continued Low Oil Production -- Update...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7f734757b38f8612bfae0726c5d1bb8a5150af74d3311bd96a73de3de7a61411" target="_blank" rel="noopener noreferrer">Diamondback CEO: US Shale Oil Remains Stunted by ‘Macro Uncertainty’</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback CEO Kaes Van’t Hof says Permian shale growth remains stalled as global oil supply rises—including with recent output increases announced by OPEC+....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=778db26a5070e3013dcb10370777147978f140c827c9dcb9c6c05ea993cfa060" target="_blank" rel="noopener noreferrer">Diamondback Energy, Inc. Announces Second Quarter 2025 Financial and Operating Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.51
+                                </span>
+                            </div>
+                            <div class="article-summary">MIDLAND, Texas, Aug. 04, 2025 (GLOBE NEWSWIRE) -- Diamondback Energy, Inc. (NASDAQ: FANG) (“Diamondback” or the “Company”) today announced financial and operating results for the second quarter ended ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=777e219b84bf9d9461c64709d15bb0bd938084d4be90863fa142d1acada3de55" target="_blank" rel="noopener noreferrer">Viper Energy, Inc., a Subsidiary of Diamondback Energy, Inc., Reports Second Quarter 2025 Financial and Operating Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">MIDLAND, Texas, Aug. 04, 2025 (GLOBE NEWSWIRE) -- Viper Energy, Inc., (NASDAQ:VNOM) (“Viper” or the “Company”), a subsidiary of Diamondback Energy, Inc. (NASDAQ:FANG) (“Diamondback”), today announced ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=52ebfd555200aef81fd49c79930c49275e35ea1e5792c803d904071ad0741488" target="_blank" rel="noopener noreferrer">Letter to Stockholders Issued by Diamondback Energy, Inc</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">MIDLAND, Texas, Aug. 04, 2025 (GLOBE NEWSWIRE) -- Diamondback Stockholders, This letter is meant to be a supplement to our earnings release and is being furnished to the Securities and Exchange Commis...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=45d5785f74c44538750dfe66d0cae4b2e3fd461d4fda9d8c8cfa6d24587df24c" target="_blank" rel="noopener noreferrer">Diamondback: Q2 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">MIDLAND, Texas (AP) — Diamondback Energy Inc. FANG) on Monday reported second-quarter earnings of $699 million. The Midland, Texas-based company said it had net income of $2.38 per share....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8bf55effe900d44fe222ba983c2061a2409b713fc140eb871235f55719a4f84f" target="_blank" rel="noopener noreferrer">Diamondback Energy (FANG) Tops Q2 Earnings and Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamondback (FANG) delivered earnings and revenue surprises of +1.52% and +11.82%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

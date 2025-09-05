@@ -1,0 +1,2135 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>CVS Health Corporation (CVS) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">CVS Health Corporation (CVS)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">117</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">54</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">31</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.10</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=82e27aec9fcdaa5c710e100371b609fa13189598ff225b75dbd2de6739b9a04b" target="_blank" rel="noopener noreferrer">Top 10 High-Yield Dividend Stocks For September 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">My watchlist outperformed SPY and VYM since July 1st, offering higher yield and competitive total returns. Check out September's top picks here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4b93a76708cefdceda9897826c5682c805fe4503d84b30e6e920d6e972dc0cf6" target="_blank" rel="noopener noreferrer">Wyoming State Buys European Bank Stocks, Adjusts Healthcare Holdings</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The state of Wyoming initiated a position in two European banks during the second quarter and made changes to its holdings in the broad healthcare sector.  A Form 13-F filed with the U.S. Securities a...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=10eb67724b92d977d001b4e5122a5a06732a53056120a9526265d64a9cd25714" target="_blank" rel="noopener noreferrer">Can CVS Health Corporation's (NYSE:CVS) Weak Financials Pull The Plug On The Stock's Current Momentum On Its Share Price?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.19
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health's (NYSE:CVS) stock is up by a considerable 17% over the past month. We, however wanted to have a closer look......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=340a55be2dc9a38b3c644e851e2d5dc177236f85aca4433a25153a181f7cff9e" target="_blank" rel="noopener noreferrer">Jefferies Reiterates a Buy Rating on CVS Health (CVS) With a PT of $80</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-31</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.45
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health Corporation (NYSE:CVS) is one of the top most undervalued low volatility stocks to buy now. In a report released on August 19, Brian Tanquilut from Jefferies reiterated a Buy rating on CVS ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=19ffe4c0ab84f973823f08a7f7eefbefe3e95dfa9f9c9c8cddedba9cd99544d5" target="_blank" rel="noopener noreferrer">Wall Street Brunch: Crucial Payrolls Report</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-31</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The unemployment rate is seen ticking higher with payrolls up about 80,000. Broadcom earnings give another glimpse on the health of the AI trade. Appeals court rules most of Trumpâs tariffs....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b3130ea4fb763a6c574d4349b206f3ff13f6aaac4a7dd13d9ce66631703c5eeb" target="_blank" rel="noopener noreferrer">Jim Cramer Says CVS “Has Proven to Be a Port in the Storm for Healthcare Investors”</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.90
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health Corporation (NYSE:CVS) is one of the stocks Jim Cramer recently shed light on. Discussing the company’s turnaround efforts during the episode, Cramer stated: “This has been the best perform...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e70d305513ef80d2a88492e24c2452fe8c22d0549406ba1d93d2e07740946721" target="_blank" rel="noopener noreferrer">Market Chatter: CVS Health Defers Offering COVID-19 Vaccines in 16 States</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.87
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health (CVS) is currently holding off on offering COVID-19 vaccines in 16 states due to the "cur...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=812c73b684ae0e524a2c6c6a0158dff1785f91113adafef8cd7372a12dfcb787" target="_blank" rel="noopener noreferrer">CVS Health Corporation (CVS) Is a Trending Stock: Facts to Know Before Betting on It</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Zacks.com users have recently been watching CVS Health (CVS) quite a bit. Thus, it is worth knowing the facts that could determine the stock's prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8cdf1fd5ceff0ae0b4b1f2004f3dd0c5775ff73d88903513470de882c0b19bc1" target="_blank" rel="noopener noreferrer">Update: Market Chatter: CVS Health Defers Offering COVID-19 Vaccines in 16 States</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.24
+                                </span>
+                            </div>
+                            <div class="article-summary">(Updates with spokesperson statement in the fourth and fifth paragraphs.) CVS Health (CVS) is cur...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1e27cf71122ff0355b1d326a087b9d3b9c6da0420bf6c4f8dba99d6e951bd22f" target="_blank" rel="noopener noreferrer">Sector Update: Health Care Stocks Advance Friday Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.72
+                                </span>
+                            </div>
+                            <div class="article-summary">Health care stocks rose Friday afternoon, with the NYSE Health Care Index and the Health Care Select...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d401c27aa240608b6a4853b1219c1fcf47de6d6a689227680af463f953ecae54" target="_blank" rel="noopener noreferrer">Sector Update: Health Care Stocks Higher Late Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Health care stocks rose late Friday afternoon with the NYSE Health Care Index and the Health Care Se...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ff0077fcf9846a97f1a7379588a45e29e96d75c24e762e973724dc59892efd51" target="_blank" rel="noopener noreferrer">CVS Health Insiders Placed Bullish Bets Worth US$2.10m</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">In the last year, multiple insiders have substantially increased their holdings of CVS Health Corporation ( NYSE:CVS......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=80a3b44490a4c531bf4785a44801288598ac55542d5fafa91785143f4c72bee7" target="_blank" rel="noopener noreferrer">Aledade Appoints Two National Health Experts to Board of Directors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">BETHESDA, Md., August 28, 2025--Aledade today announced the appointment of two national health care leaders, Shawn Guertin and Joneigh S. Khaldun, M.D., to its Board of Directors....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9622374136570124133b7c3eea222ee372c1ad715838bd4eedfe28ebd7b958ce" target="_blank" rel="noopener noreferrer">Top Stock Reports for Eli Lilly, Oracle & Procter & Gamble</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Today's Research Daily features new research reports on 16 major stocks, including Eli Lilly, Oracle, and Procter & Gamble, as well as a micro-cap stock, Comstock....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=75b039060c4e10d628a5a79d062a4b291d60883ecc848a78abe73a286b38d272" target="_blank" rel="noopener noreferrer">Aegis Ventures Welcomes Healthcare Leaders John Driscoll and Cris Ross as Venture Partners</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Aegis Ventures today announced the appointment of two of healthcare's most accomplished executives – John Driscoll and Cris Ross – as Venture Partners. Aegis is a NYC-based venture studio that partner...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9fc5d35865b9115b861c2a6f95a24a6a502962296ccbf17774f2f0fc251b1db4" target="_blank" rel="noopener noreferrer">CVS vs. ELV: Which Healthcare Titan Is the Stronger Investment Today?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health advances with Aetna margin recovery, digital investments and cost savings, making it the stronger healthcare bet over Elevance....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a8bdae5018a88e363f8ddcb7159e4f9bd7c2a39b4cb2129b61393b79dbe556fb" target="_blank" rel="noopener noreferrer">CVS vs. HQY: Which Stock Is the Better Value Option?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS vs. HQY: Which Stock Is the Better Value Option?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ccb13cb9668f9e698d7895881ea3b90519948fac4d6f4bccf64852a3a0315460" target="_blank" rel="noopener noreferrer">CVS Health Services' Q2 AOI Falls Despite Sales Gain: More Risk Ahead?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health's Q2 Health Services revenues climb 10%. Yet, AOI slips as cost pressures and Oak Street's rising MBR ail....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=75d9b24c0cd17c7275aa5e8b9b7aa3be07b187254ade510a67a413895da9bcca" target="_blank" rel="noopener noreferrer">GILD Wins Approval for Twice-Yearly HIV Prevention Shot in the EU</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Gilead secures EU approval for twice-yearly HIV prevention shot Yeytuo, backed by strong trial data and expanded market protection....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4d4e6577fa28c86ee7f2c1396ff1c7427fed5f618b6b22480ff28d80b8cd65e8" target="_blank" rel="noopener noreferrer">This Iconic Chain Store Is Closing Down. Which Retailer Could File for Bankruptcy Next?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.91
+                                </span>
+                            </div>
+                            <div class="article-summary">Drugstore Rite Aid has filed for Chapter 11 again, and this time it’s selling off all its assets to the competition. But retail conditions remain challenging for all. Rite Aid might not be the only bi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=638320c4013e8c18f47c802a7de2f3e0726a7af7dac1e8eae884dee0a4d4eeb2" target="_blank" rel="noopener noreferrer">BDJ: This Fund Provides Diversification Benefits Along With A High Yield (Rating Downgrade)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.34
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=560d8dd11c30013905dd10d4b08e3d850c6518b19c1be7e99f1a3cb203c06fce" target="_blank" rel="noopener noreferrer">Karen and Kevin Lynch Commit $5 Million to Advance Leadership and Student Success</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.75
+                                </span>
+                            </div>
+                            <div class="article-summary">BOCA RATON, Fla., August 25, 2025--Lynn University today announced a transformative $5 million gift from Karen and Kevin Lynch to establish the Karen S. Lynch Center for Leadership and Social Impact a...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=685fb2b17828369262e55387ca8db0c586a6f817097ef0537bbd6a46e92a5920" target="_blank" rel="noopener noreferrer">BoldAge PACE Welcomes Healthcare Innovator Brian Clem to Its Board of Directors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">OCEANPORT, N.J., August 25, 2025--Brian Clem Appointed to BoldAge PACE Board of Directors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=97354642529b277ea8e5e77ca450ad8fce52eca26faca94a0450bcbb2ec176e8" target="_blank" rel="noopener noreferrer">Institutional investors control 87% of CVS Health Corporation (NYSE:CVS) and were rewarded last week after stock increased 3.9%</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-23</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Key Insights Significantly high institutional ownership implies CVS Health's stock price is sensitive to their trading......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c3db692d2f52de47026f6150327c386996090a8f3efc6d4a2ac9efccf380bfab" target="_blank" rel="noopener noreferrer">Zacks.com featured highlights StoneCo, CVS Health, Integer and USANA Health Sciences</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.52
+                                </span>
+                            </div>
+                            <div class="article-summary">StoneCo, CVS Health, Integer and USANA Health Sciences stand out as low P/CF value plays with solid growth forecasts in a volatile market....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fa20bc455cdd89891e739480b6d11fb7bd42036f844546c3057db35b9ba816d7" target="_blank" rel="noopener noreferrer">The Zacks Analyst Blog Highlights Health Care Select Sector SPDR, SPDR S&P 500 ETF Trust, UnitedHealth, Regeneron, CVS Health and Novo Nordisk</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">Healthcare stocks trade at a 30-year discount, with XLV showing signs of rebound as Buffett and hedge funds boost exposure....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f66c8bc482809f81faa7b05b71798a070db627c72ae99ab12fcbefcc5133727f" target="_blank" rel="noopener noreferrer">CVS Gains in Pharmacy & Consumer Wellness Despite Reimbursement Woes</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health's Pharmacy & Consumer Wellness unit posts double-digit revenue gains despite ongoing reimbursement headwinds....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a498c619af8f2bed41761b4d2d3b6a62cd6625a5090c7b45ab77ed435996c623" target="_blank" rel="noopener noreferrer">GILD Stock Slips as CVS Health Excludes New HIV Drug Yeztugo</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">Gilead shares slip after CVS refused to add its new HIV drug, Yeztugo, while its Kite unit struck a $350 million deal with Interius BioTherapeutics....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4916545b0c14db8f344e8c15908f0e07a3b24234ce933abe89784eadc6418517" target="_blank" rel="noopener noreferrer">Jim Cramer Believes “TE Connectivity is an Excellent Company”</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.32
+                                </span>
+                            </div>
+                            <div class="article-summary">TE Connectivity plc (NYSE:TEL) is one of the stocks Jim Cramer talked about. During the lightning round, a caller asked for Cramer’s opinion on the company, and he said: “I think TE Connectivity is an...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e63848e550ef812bca0552da187fba5b54b7291fa7137f25c22ab856146c21e4" target="_blank" rel="noopener noreferrer">Market Chatter: CVS Health Won't Cover Gilead's New HIV Prevention Drug Yet</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.33
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health (CVS) has decided not to include Gilead Sciences' (GILD) new HIV prevention drug, Yeztugo...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8eac78ca19ca1997c28d5b3bf4fed8a22e7e5d7268361fc04bf3412e848965f0" target="_blank" rel="noopener noreferrer">CVS Health Stock Runs Hot Once Again, Hitting A New Buy Point</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.76
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health stock offers an above-average dividend yield for investors seeking income and it's run up to a new buy point....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0dde0e0c14733dd4fe1015d8866701fc4f558f2ddbaeaef8d431d5ed86aeaeec" target="_blank" rel="noopener noreferrer">Warren Buffett's Modest Stake a Boost for UnitedHealth, But Work Left to be Done</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.34
+                                </span>
+                            </div>
+                            <div class="article-summary">Berkshire Hathaway's (BRK.A, BRK.B) recent disclosure that it bought $1.6 billion of UnitedHealth Gr...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a116c6757a9c3aed11072c0198bee501deecfdc663cc8314e3efd6f55e4e2c3e" target="_blank" rel="noopener noreferrer">Gilead stock falls after CVS holds off adding HIV prevention shot to plans</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">Investing.com -- Gilead Sciences (NASDAQ:GILD) stock fell 2.7% in pre-market trading Thursday after reports that CVS Health (NYSE:CVS) will not add the company’s new HIV prevention drug, Yeztugo, to i...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=53abbbaf9d6639e507e60b5efeebd270420942ae35f6d48617f05439061fb340" target="_blank" rel="noopener noreferrer">Value Investing: 5 Undervalued Stocks Worth Adding to Your Portfolio</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.45
+                                </span>
+                            </div>
+                            <div class="article-summary">StoneCo, CVS Health, KT, KB Financial and USANA Health stand out as undervalued picks with low P/B ratios and solid growth prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4bc881779c3de61e9ec0223c99188902d719f2054e596f1329f340b0e310734c" target="_blank" rel="noopener noreferrer">Update: Market Chatter: CVS Health Won't Cover Gilead's New HIV Prevention Drug Yet</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.30
+                                </span>
+                            </div>
+                            <div class="article-summary">(Update to add Gilead's comment in the fourth paragraph) CVS Health (CVS) has decided not to incl...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=18d6b5e6c3cf8ba78722e6ada4f4bc990e62f5808d67784bd0ac0d0fe37a7ab1" target="_blank" rel="noopener noreferrer">4 Value Stocks Every Investor Should Hold in Volatile Times</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.34
+                                </span>
+                            </div>
+                            <div class="article-summary">StoneCo, CVS, Integer Holdings and USANA emerge as attractive value stocks with low cash-flow ratios and solid growth outlooks....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6ea5184fc7534f60aa5f43a659c2d6e7645682cc34059adfdfdb6ffb1ee2f1ee" target="_blank" rel="noopener noreferrer">Is This the Right Time to Consider Healthcare ETFs?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">XLV lags SPY by double digits over the past year, but Buffett's UNH bet, hedge fund buys and AI optimism hint at a healthcare revival....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cda0f070c6860ef709e1baabc1cbb555aea5d510916bab4ac6e9f2959c5ab48d" target="_blank" rel="noopener noreferrer">Why Gilead Sciences (GILD) Shares Are Sliding Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of biopharmaceutical company Gilead Sciences (NASDAQ:GILD) fell 3.5% in the morning session after reports that CVS Health will not be adding the company's new HIV prevention drug, Yeztugo, to i...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=be6a70a6aff1c7fca4c0c3fb825b8b94f57db0bf9674ca31f395fafb6eb7f470" target="_blank" rel="noopener noreferrer">Gilead Needs Insurers to Cover New HIV Prevention Shot. CVS Isn’t Paying.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    -0.19
+                                </span>
+                            </div>
+                            <div class="article-summary">The injection, called Yeztugo, is highly effective, but its list price is $28, 218 a year in the U.S....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a3824295118beddb2506986ed766c1505579d6561875e9d98d515969b873db0e" target="_blank" rel="noopener noreferrer">Gilead Topples On A Surprise Setback For Its 99.9% Effective HIV Drug</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>DowJones</span>
+                                <span class="article-sentiment negative">
+                                    -0.50
+                                </span>
+                            </div>
+                            <div class="article-summary">Gilead Topples On A Surprise Setback For Its 99.9% Effective HIV Drug...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=37eac18ea42409c92a18bb44a1de280b1dd229a7477a346d410a8f74f7b451db" target="_blank" rel="noopener noreferrer">Sector Update: Health Care Stocks Mixed Late Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.87
+                                </span>
+                            </div>
+                            <div class="article-summary">Health care stocks were mixed late Thursday afternoon with the NYSE Health Care Index adding 0.1% an...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a56d47d7681bc400f0c87d6bfe460e6d36969bf2fff54e7103ddf81487fd7a04" target="_blank" rel="noopener noreferrer">Retail Sales Show Resilience in July: Sector ETFs in Focus</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.87
+                                </span>
+                            </div>
+                            <div class="article-summary">U.S. retail sales rose 0.5% in July, with strength in autos, furniture, online, clothing and health stores driving gains across sectors. One can tap ETFs like ONLN, XRT, IEDI and IHF....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1adcb4f2d978308989c14e61ebf278a76ad07c9264088905c40cb8ce355719d5" target="_blank" rel="noopener noreferrer">CVS Caremark fined $290M for Medicare fraud</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.89
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS tried and failed to convince the judge to decrease the penalty. The company plans to appeal the ruling....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cbe35b6b61e17bf46b4ec10a838f8af9464e89f027a146b300c7ee9edac4997f" target="_blank" rel="noopener noreferrer">Should You Invest in CVS Health (CVS) Based on Bullish Wall Street Views?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">According to the average brokerage recommendation (ABR), one should invest in CVS Health (CVS). It is debatable whether this highly sought-after metric is effective because Wall Street analysts' recom...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=dcdba9345cddf59df7a603f81d1b2671abd82be78a345d3c5048908af8f7812c" target="_blank" rel="noopener noreferrer">CVS unit must pay $290 million in drug whistleblower lawsuit, judge rules</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.83
+                                </span>
+                            </div>
+                            <div class="article-summary">(Reuters) -A federal judge ordered CVS Health's (CVS)s  benefit manager unit to pay $289.9 million in damages and penalties after it overcharged Medicare for prescription drugs....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ddfda1bee33d58e2bb50f7b9dc3d03499d63ae44c60e504ca5b6a4c5aa75713e" target="_blank" rel="noopener noreferrer">CVS Health's Caremark Unit Ordered to Pay Nearly $290 Million in Medicare Fraud Case</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health's (CVS) Caremark unit has been ordered to pay roughly $289.9 million in a whistleblower c...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=71cabf8abba96cf5ea79dc393a3a519a40e887aab20b53122c1a9145ab8dc8f4" target="_blank" rel="noopener noreferrer">Target: An Ultra-Cheap Stock, But Demand Destruction Is Real</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9105c74d0335c7dea6281a10f8d170300a7aa14bc812a7d4d04bbd15b38d9e72" target="_blank" rel="noopener noreferrer">Sector Update: Health Care Stocks Advance Late Afternoon</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.80
+                                </span>
+                            </div>
+                            <div class="article-summary">Health care stocks rose late Wednesday afternoon, with the NYSE Health Care Index and the Health Car...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1dbe2186d8eaa695508cd6264027cff5f43b332f0c5a2c768a38550418846fa5" target="_blank" rel="noopener noreferrer">Exclusive-CVS holds off adding Gilead’s new HIV prevention shot to drug coverage lists</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">(Reuters) -CVS Health, which runs the largest U.S. pharmacy benefit manager, will not add Gilead Sciences' new HIV prevention drug to its commercial plans for now, a spokesperson told Reuters, despite...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=655eb96db3e0f03d6d68a1ad112eac29691c479b1a0d5c889fa859d753088728" target="_blank" rel="noopener noreferrer">Macquarie Healthcare Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.50
+                                </span>
+                            </div>
+                            <div class="article-summary">For 2Q25, Macquarie Healthcare Fund Institutional Class shares outperformed the Fundâs benchmark, the Russell 3000 Healthcare Index....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=348566cb3d30965fb47e849c902590c00af3f30bed06ac6b910c81803127baab" target="_blank" rel="noopener noreferrer">AI Infra Summit Brings Global AI Leaders to Santa Clara, Sept. 9-11</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The world's top minds in AI infrastructure will gather in Silicon Valley this September 9-11, 2025 for the AI Infra Summit at the Santa Clara Convention Center....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=383d18d04364e62fc2fdec5249a2dfcd74275243ecbe5cc15f1997bc78523dc0" target="_blank" rel="noopener noreferrer">BUBS, VIRAL SWEDISH CANDY BRAND HAS LANDED STATESIDE</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.33
+                                </span>
+                            </div>
+                            <div class="article-summary">BUBS, the iconic Swedish candy brand and social media sensation, today announced its long-awaited arrival in the U.S. Beginning in August 2025, consumers can find the brand's signature foamy and gummy...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=33ce95d231ade407f9f434846d29963a13e4d81b038434a499e5201f591569f8" target="_blank" rel="noopener noreferrer">CVS Health Corp. stock outperforms competitors on strong trading day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health Corp. stock outperforms competitors on strong trading day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4db8c4885ff3c099f5ee2f0bc6b5e34489bd51e5c1d916c7f083e7535bf14442" target="_blank" rel="noopener noreferrer">CVS Health: Outlier In Healthcare Implosion - Further Margin Recovery Ahead</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS has emerged as an outlier during the ongoing implosion observed in the healthcare insurance sector, as they drive improved YoY margins despite the......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0f63c63cf8a9301164f3dbaf32a9edd0769efad4dcdb2ea1bbd5076013027736" target="_blank" rel="noopener noreferrer">Investors Heavily Search CVS Health Corporation (CVS): Here is What You Need to Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Recently, Zacks.com users have been paying close attention to CVS Health (CVS). This makes it worthwhile to examine what the stock has in store....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=776667f3fefe7d25c0145e4f62681d2ebb7a3d300728c25b27d59a5cd24fac16" target="_blank" rel="noopener noreferrer">GoodRx stock soars after striking deal to sell Novo Nordisk's GLP-1s for $499/month</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.69
+                                </span>
+                            </div>
+                            <div class="article-summary">GoodRx is joining the GLP-1 action with an announcement Monday to begin selling both of Novo Nordisk's GLP-1 drugs, Ozempic and Wegovy, at a cash price of $499 per month....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=036c14e7cfdff58869d937eb17c554d7d79620d8f199b51af3d79f5c0a091c55" target="_blank" rel="noopener noreferrer">UBS upgrades CVS, says turnaround in health benefits business gaining traction</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Investing.com -- UBS upgraded CVS Health (NYSE:CVS) to Buy from Neutral and raised its price target to $79, saying recent cost controls and execution in the company’s healthcare benefits arm are begin...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a7df42ab049fd1d79cb49f53444944da3e21f7678834028d906045349e825f79" target="_blank" rel="noopener noreferrer">CVS Health upgraded, Occidental downgraded: Wall Street's top analyst calls</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health upgraded, Occidental downgraded: Wall Street's top analyst calls...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9798f13c23f2558f4d3964935abe0a4a346abe48d62809c9d9ab4b743417f552" target="_blank" rel="noopener noreferrer">Stocks Slightly Lower on Concern Over Progress to End Russian-Ukrainian War</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">The S&P 500 Index ($SPX ) (SPY ) today is down by -0.05%, the Dow Jones Industrials Index ($DOWI ) (DIA ) is down by -0.08%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) is down by -0.17%. September E-min...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=70428dc9655c3450655a857fc15238058acbf8a111f85bfd48fb6cf4b5a4672a" target="_blank" rel="noopener noreferrer">DRAGOS CAPITAL EXPANDS COMMERCIAL REAL ESTATE PLATFORM WITH MAJOR ACQUISITION OF CVS-LEASED PORTFOLIO</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.84
+                                </span>
+                            </div>
+                            <div class="article-summary">Dragos Capital, a privately held firm specializing in high-quality companies and real estate, has acquired 18 CVS-tenanted retail properties as part of its strategic expansion into triple-net (NNN) le...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=806772a5e739ccd2c6fe8449b19e30d2ec3a5369a24108a77bfc891fc1741e2d" target="_blank" rel="noopener noreferrer">CVS insurance policies don't provide opioid coverage, top Delaware court rules</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.27
+                                </span>
+                            </div>
+                            <div class="article-summary">(Reuters) -CVS Health is not entitled to coverage from insurers, including AIG and Chubb, against thousands of lawsuits over its role in the nation's opioid crisis, Delaware's highest court ruled on M...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6996f804e762729a6f3b67b1d5dba9d1b9e05454d4727dbe4a35e8b2259495cd" target="_blank" rel="noopener noreferrer">GoodRx, Meta, CVS: Trending Tickers</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.53
+                                </span>
+                            </div>
+                            <div class="article-summary">GoodRx (GDRX) stock surges on news that the company is partnering with Novo Nordisk (NVO) to offer lower prices on GLP-1 drugs. Meta (META) is reportedly planning its fourth artificial intelligence (A...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b4ac220c0fce91519b80116dc03ba1def3c00dbb001416ae5cf1614c5440d100" target="_blank" rel="noopener noreferrer">The three-year loss for CVS Health (NYSE:CVS) shareholders likely driven by its shrinking earnings</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.18
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health Corporation ( NYSE:CVS ) shareholders should be happy to see the share price up 11% in the last month. But......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b877cf3e675310382b24d7dd579aa94bf2bdc60b6a0817e0adfbad3f3d0dd4fb" target="_blank" rel="noopener noreferrer">CVS Health Corporation (CVS) Is “The Last Man Standing,” Says Jim Cramer</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.49
+                                </span>
+                            </div>
+                            <div class="article-summary">We recently published 12 Latest Stocks On Jim Cramer’s Radar. CVS Health Corporation (NYSE:CVS) is one of the stocks Jim Cramer recently discussed. CVS Health Corporation (NYSE:CVS) is a pharmaceutica...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=304a91749c8146a8b0b289751ae6e4391498eba8fad75210d3b5227e763e200b" target="_blank" rel="noopener noreferrer">IHF: Attractive U.S. Healthcare Valuations Amid Sector's Recovery</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-16</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.71
+                                </span>
+                            </div>
+                            <div class="article-summary">IHF offers exposure to large-cap healthcare, AI-driven growth, and demographic trends, with a recent dip creating a strong entry point. See why IHF ETF is a buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c29153e8ad6f46f6436f83b2dfaf236d7e25f7aa8eca889f427107bde9e575f7" target="_blank" rel="noopener noreferrer">CVS Health: Health Insurers Get Buffett's Stamp Of Approval (Rating Upgrade)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-16</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.81
+                                </span>
+                            </div>
+                            <div class="article-summary">Super investors like Buffett and Michael Bury piled heavily into UnitedHealthcare in Q2, signalling confidence that the sector's business model remains......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1ef1a8c3ef911de2bed16d7d43b685fcf65b5afcc7bdf1093ee645b4120a5589" target="_blank" rel="noopener noreferrer">Healthcare takes the lead on Friday as sector heads for best week since October 2022</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.67
+                                </span>
+                            </div>
+                            <div class="article-summary">Healthcare takes the lead on Friday as sector heads for best week since October 2022...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3f3914e1036c3298fffa0543d8acebce5910406a1a231f6fde2b3831cec2d8ef" target="_blank" rel="noopener noreferrer">Health Insurers Climb as Berkshire Hathaway Takes UnitedHealth Stake</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.70
+                                </span>
+                            </div>
+                            <div class="article-summary">Health Insurers Climb as Berkshire Hathaway Takes UnitedHealth Stake...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=daa5e61c87e8128f38150f34bf52fe9ef87ffd924b6de3ad690c4357f9eefabf" target="_blank" rel="noopener noreferrer">Larry Robbins' Strategic Moves: CVS Health Corp Sees a -6.25% Portfolio Impact</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.23
+                                </span>
+                            </div>
+                            <div class="article-summary">Exploring the Latest 13F Filing from Glenview Capital Management...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5bc92cdf16c26f4673c5f28a953f3f117800d43f11cbb165888a3e84e3e9716f" target="_blank" rel="noopener noreferrer">Tariffs Have Rocked e.l.f. Beauty Shares. Why the Fundamentals Still Look Alluring.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.27
+                                </span>
+                            </div>
+                            <div class="article-summary">The discount seller of cosmetics has taken on the prestige brands and, with online marketing and product development, won. Why the growth should continue....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8985ab81f7f555daf89111ef6d8f6741a8032196751dc4e05b04208e40f5c52d" target="_blank" rel="noopener noreferrer">CVS Health Sells About $4B of Notes</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health Sells About $4B of Notes...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=70b1ab64a15dd2ad0063dba05004c15c3023e35204b48aaadcb318921425d2cb" target="_blank" rel="noopener noreferrer">Why Molina Healthcare (MOH) Stock Is Up Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of healthcare insurance company Molina Healthcare (NYSE:MOH) jumped 4.7% in the afternoon session after news that Warren Buffett's Berkshire Hathaway disclosed a new stake in competitor UnitedH...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5e172a5db4e9f99556af56827b2e66311395d7212b5ae46eff9a023cdbd609c3" target="_blank" rel="noopener noreferrer">As insurers axe Medicare plans, here's what advisors should know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">As major insurers reduce Medicare Advantage benefits and exit markets, retirees face higher costs and limited options. Advisors need to understand the implications for retirement planning....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=51928a2f17c7522c4af4bde0ce8aaa94ab44b03b9c861f173c618ac3426eadae" target="_blank" rel="noopener noreferrer">Market Chatter: Costco Wholesale Chooses Not to Sell Abortion Pill</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.23
+                                </span>
+                            </div>
+                            <div class="article-summary">Costco Wholesale (COST) has chosen not to sell the abortion pill mifepristone at its over 500 pharma...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d939a63a3077bc943502220023991a83279ffea5d01966992347a69b35b40597" target="_blank" rel="noopener noreferrer">CVS Advances Digital Efforts to Simplify Healthcare Experience</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.77
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health commits $20B to build an open health platform, joining tech giants in a push to streamline patient care access nationwide....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=84dde8aba738958bff850b0436c757d89d502f211bb8840f75e5f3ac3100ac54" target="_blank" rel="noopener noreferrer">Why This 1 Value Stock Could Be a Great Addition to Your Portfolio</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Whether you're a value, growth, or momentum investor, finding strong stocks becomes easier with the Zacks Style Scores, a top feature of the Zacks Premium research service....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2be79bb9584a8eefeb91bba45d3e81cbbeb8b646800e13e86d2e4f33870d497b" target="_blank" rel="noopener noreferrer">Kratos, CVS Health upgraded: Wall Street's top analyst calls</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Kratos, CVS Health upgraded: Wall Street's top analyst calls...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ef845ad977f15a2c71154da88b7e4dec2a7a4fc1b8a9b603005fbdd38fbe7128" target="_blank" rel="noopener noreferrer">CVS Stock Is Rising. A Wall Street Upgrade Helps Keep the Momentum Going.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of  CVS Health  were rising Thursday after the company notched an upgrade on Wall Street as it continues a monthslong bull run.  Analysts at Baird upgraded the stock to Outperform from Neutral ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e859334bdc4626df2a75d55306ebd42e982c4f863975a617504f3b6d9746f556" target="_blank" rel="noopener noreferrer">Stocks Fall Back on Hot PPI Report</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">The S&P 500 Index ($SPX ) (SPY ) is down -0.24%, the Dow Jones Industrials Index ($DOWI ) (DIA ) is down -0.36%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) is down -0.11%. September E-mini S&P futures (...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0478473492e0158ecbf832532c4b679f5001e1ff986714ea43ae71d6bf3aa1ba" target="_blank" rel="noopener noreferrer">Stocks Are Mixed After Hot PPI Report</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.83
+                                </span>
+                            </div>
+                            <div class="article-summary">The S&P 500 Index ($SPX ) (SPY ) is down -0.03%, the Dow Jones Industrials Index ($DOWI ) (DIA ) is down -0.20%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) is up +0.05%. September E-mini S&P futures (ES...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2540687f89c3bca120ceedf6105bd656dc72f3147ab36e013500f8b733b5f0b0" target="_blank" rel="noopener noreferrer">The 5 Most Interesting Analyst Questions From CVS Health’s Q2 Earnings Call</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health’s second quarter results surpassed Wall Street’s expectations, with management attributing the outperformance primarily to operational improvements in its Aetna business and continued momen...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9904f01b5b6d2061c3e20e1fbfc7143becdcb042c23de8a2e80237ccfd27864f" target="_blank" rel="noopener noreferrer">CVS Q2 Deep Dive: Pharmacy Strength and Aetna Recovery Drive Guidance Boost</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.79
+                                </span>
+                            </div>
+                            <div class="article-summary">Diversified healthcare company CVS Health (NYSE:CVS) beat Wall Street’s revenue expectations in Q2 CY2025, with sales up 8.4% year on year to $98.92 billion. Its non-GAAP profit of $1.81 per share was...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=642c79a5d7ace207c9d722f9b6e969419b05a47cf1edf5c3505e32f7b283a55b" target="_blank" rel="noopener noreferrer">My Dividend Stock Portfolio: New July Dividend Record - 100 Holdings With 12 Buys</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">See here for more on July's investment insights: record-breaking dividends, high-yield BDCs, and strategies for steady income growth....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c40455b3c7dc21d12a7aff90e473b4d9ee8ec2766a6c97dfae4a7aba4e56c686" target="_blank" rel="noopener noreferrer">Some Investors May Be Willing To Look Past CVS Health's (NYSE:CVS) Soft Earnings</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.69
+                                </span>
+                            </div>
+                            <div class="article-summary">NYSE:CVS 1 Year Share Price vs Fair Value Explore CVS Health's Fair Values from the Community and select yours Soft......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c43f682b546edff03d51993ad7be9c63452e6b07c24299515e88d74f14866313" target="_blank" rel="noopener noreferrer">Davis Opportunity Fund 2025 Semi-Annual Review</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">Davis Opportunity Fund returned 9.50% in the first six months of 2025, outperforming its benchmark. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b9a2fec1538b56611670f35b430a49fecbb8bed3b0a5d2d845afae12bc07a6be" target="_blank" rel="noopener noreferrer">2 Large-Cap Stocks on Our Buy List and 1 We Avoid</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Large-cap stocks have the power to shape entire industries thanks to their size and widespread influence. With such vast footprints, however, finding new areas for growth is much harder than for small...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f9aa0b1fddccfdf07fae81c31118dbece95aca43707302505c5a9d5130a7a294" target="_blank" rel="noopener noreferrer">PL Developments Builds a Smarter, Healthier Supply Chain with Kinaxis</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.85
+                                </span>
+                            </div>
+                            <div class="article-summary">OTTAWA, Ontario, August 12, 2025--Kinaxis® (TSX:KXS), a global leader in end-to-end supply chain orchestration, today announced that PL Developments (PLD), a leading manufacturer and distributer of ov...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d1d4a3c8f36f6f1ad180dc4303d28b035a217c44f0c0db2f6f6857488a4abe18" target="_blank" rel="noopener noreferrer">New .med Domain Names Surpass 40,000 Pre-Orders in July</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.75
+                                </span>
+                            </div>
+                            <div class="article-summary">With consumers struggling to differentiate between credible and unreliable medical information online, Medistry LLC's premium .med Top Level Domain (TLD) is poised to help....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a2b5c1b5e5b762a28e4a39bbf155bd1cbcf8e6cd90c355c15488a5db145a2c12" target="_blank" rel="noopener noreferrer">3 Reasons to Sell CVS and 1 Stock to Buy Instead</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Over the past six months, CVS Health has been a great trade, beating the S&P 500 by 13.8%. Its stock price has climbed to $65.46, representing a healthy 19% increase. This was partly thanks to its sol...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4ebdac1b964c7ac4199fe042a9b7bcd25d1b86c34cb417b56eb0ec088abcb80e" target="_blank" rel="noopener noreferrer">CVS Among 14 Firms to Storm High-Grade Market Before CPI Report</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.26
+                                </span>
+                            </div>
+                            <div class="article-summary">(Bloomberg) -- CVS Health Corp. and a unit of Chevron Corp. are among 14 firms offering US investment-grade bonds Monday, the most in three months, a day before heavily anticipated consumer-price data...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6e80d3c9c931b2508c2e398c038b40c9d2a09af68b609a7637a2a7b7352a7551" target="_blank" rel="noopener noreferrer">CVS or DHR: Which Is the Better Value Stock Right Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS vs. DHR: Which Stock Is the Better Value Option?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9dc2faf0cb8883ece75201fac2ac349cab31ea1fe67e88e95cec32b43aad820b" target="_blank" rel="noopener noreferrer">CVS Health Corp. stock underperforms Monday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health Corp. stock underperforms Monday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e9dde0be3e9c7edcc68fc9bce5951677a5ebb9247eb1fd21f8fade3db1768f8f" target="_blank" rel="noopener noreferrer">Tracking Christopher Davis' Davis Selected Advisers 13F Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9fa6af5be42d0e28c6f717b36380d26e67f288a60cb1c1e9f3f06cf063f9d03f" target="_blank" rel="noopener noreferrer">Police Officer Killed in Atlanta Shooting Near CDC</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.77
+                                </span>
+                            </div>
+                            <div class="article-summary">A police officer was killed while responding to a shooting near the Atlanta campus of the Centers for Disease Control and Prevention, authorities said Friday.  Officers responded to reports of an acti...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e652ef01177522dbfd8be18717a40bc1430b8ea565e2261105fcbf35f9791ca3" target="_blank" rel="noopener noreferrer">From Nvidia's Surge To Apple's Slip: 6 Stocks That Defined Ithaka's Quarter</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Ithaka Group unpacks Q2âs portfolio drivers - from AI surges to tariff shocks. See which stocks moved the needle and what it means for investors....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e45e5530f5bfd3e90caccd953d0aeaf38aabb540a30c2d3150fc2b531a5cd161" target="_blank" rel="noopener noreferrer">Looking for Earnings Beat? Buy These 5 Top-Ranked Stocks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.49
+                                </span>
+                            </div>
+                            <div class="article-summary">Top-ranked stocks Hasbro (HAS), Carnival (CCL), CVS Health (CVS), Newmont (NEM) and SoFi Technologies (SOFI) are likely to beat on the bottom line in their upcoming releases....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=55546b87d6422186d7591158a53206881becf9822360f14c6451cb76496453fc" target="_blank" rel="noopener noreferrer">Is CVS a Smart Buy Now on Strong Q2, Low Valuation & Long-Term Upside?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.81
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS appears well-poised on strong Q2 revenue growth, raised full-year guidance and momentum in key healthcare segments....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1a47ecb01d6735fb975cf5b67e9981c617eb207e6398a17da7f6f1e7bf850a1e" target="_blank" rel="noopener noreferrer">Zacks.com featured highlights StoneCo, CVS Health, KT, KB Financial and USANA Health Sciences</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.43
+                                </span>
+                            </div>
+                            <div class="article-summary">STNE, CVS, KT, KB, and USNA stand out as low P/B stocks with strong EPS growth prospects for August portfolios....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=daf3e8990696ba938d72e19189c5e06ac3e761c57685de1001ac7e2b690ab243" target="_blank" rel="noopener noreferrer">The great Medicare Advantage contraction appears set to continue</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.20
+                                </span>
+                            </div>
+                            <div class="article-summary">Insurers plan to keep sacrificing MA growth for profitability next year, after second quarter results for Humana and CVS showed the success of the strategy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9247d27f284d2c73bcdb0e2e0ee2f9166960832c77c738dffbe572d3f98f6699" target="_blank" rel="noopener noreferrer">Novo Nordisk reports second quarter earnings missing Wall Street estimates on slower GLP-1 sales</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.97
+                                </span>
+                            </div>
+                            <div class="article-summary">Novo Nordisk reported second quarter earnings a week after revising its 2025 outlook down on slower GLP-1 sales....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a4db68a2702dab15bca3d865ece1b6554509b86f79ea6bd6b502eda2e5b7df93" target="_blank" rel="noopener noreferrer">Sonrava Health Welcomes Tony Caskey as President of Clinic Operations for DentalWorks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">ORANGE, Calif., August 06, 2025--Sonrava Health, a national family of dental brands including Western Dental, Brident, DentalWorks, and Perfect Teeth, is pleased to announce the appointment of Tony Ca...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8505dc34bc756ff90e2e6c1b1939543dc8aa9ba5262094ec51611737a76821b2" target="_blank" rel="noopener noreferrer">Novo Nordisk Stock Is Dropping After Earnings. It Got Worse.</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">The drugmaker released its second-quarter earnings report early Wednesday as it vowed to cut costs amid intensifying competition and a cratering stock price....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b48b85f71467ed5b724889f2bc09c0024a46c6fe7bb113514f7eec69ac4c5bf2" target="_blank" rel="noopener noreferrer">CVS Health Corporation (CVS) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health delivers strong Q2 2025 results with diversified growth, boosting...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0ddab3358c4ae4d01a10ecc83ffec0b893420ae0b7706de1289257318859a8f1" target="_blank" rel="noopener noreferrer">CVS Health Corporation 2025 Q2 - Results - Earnings Call Presentation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The following slide deck was published by CVS Health Corporation in conjunction with their 2025 Q2 earnings call....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b839cfd5e4f734003a37dec069d658860afd1522e019e913bccbcfde6377763c" target="_blank" rel="noopener noreferrer">This High-Yield Dividend Stock Is Staging a Comeback. Should You Buy Shares Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health’s blowout Q2 2025 results, boosted earnings guidance, and “Strong Buy” analyst consensus make it a standout comeback story among high-yield dividend stocks....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1cd4842769e13bea7a64665c5161c141d941bc411a180a6156c15311fc8c9f00" target="_blank" rel="noopener noreferrer">Insurance Companies’ Medicare Pullback Is Here</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>DowJones</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Insurance Companies’ Medicare Pullback Is Here...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=68a22d652143139f10420286fac1eab1ce9f5ec0c0a69592b2a2b7e7696dd237" target="_blank" rel="noopener noreferrer">The Medicare Pullback Is Here</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.26
+                                </span>
+                            </div>
+                            <div class="article-summary">Insurers are planning to scale back benefits, trim plans and exit from markets. Investors are cheering....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c4e63993201bd28af028b51f3c816ced99b4eea94a9ad55b3451bc3aebe6efc6" target="_blank" rel="noopener noreferrer">CVS Lifts 2025 Adjusted EPS Forecast Again: What's Driving the Move?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health boosts 2025 EPS guidance again as Health Care Benefits and PBM businesses drive growth....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c867ec2cd2b65aae282c65b19e8344354dc346b82ec9addf817125168a6213e9" target="_blank" rel="noopener noreferrer">Here is What to Know Beyond Why CVS Health Corporation (CVS) is a Trending Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS Health (CVS) has received quite a bit of attention from Zacks.com users lately. Therefore, it is wise to be aware of the facts that can impact the stock's prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0fa494d14d493d6dbdffbde95970186f5a68a791b564578d4b195891731f5c8e" target="_blank" rel="noopener noreferrer">5 Low Price-to-Book Stocks to Add to Your Portfolio in August</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">STNE, CVS, KT, KB and USNA stand out in August for low P/B ratios and strong growth forecasts, making them value stock contenders....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8208320d0ecb05892082fd2171c929b9cba2014e5b17f2bc0088b1cc9c974b61" target="_blank" rel="noopener noreferrer">Debt and China tariffs cause At Home to close 3 NJ locations, one in North Jersey</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">The Texas-based home goods retailer is leaving five NJ stores open as the chain grapples with high debt and dwindling sales....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=98df9e916f0de96cc00f37d04b1d0a984567f933e2e827229817532e8acf05b2" target="_blank" rel="noopener noreferrer">Vibrant Emotional Health Welcomes Three New Members to Board of Directors to Help Advance National Mental Health Access and Innovation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.63
+                                </span>
+                            </div>
+                            <div class="article-summary">Vibrant Emotional Health (Vibrant), one of the nation's leading mental health organizations, is proud to welcome three distinguished leaders, Bethany Baran, Trip Hofer, and Gregory Phalin, to its Boar...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=93447ab12bc6b9e068c76bc74fe00f89a1f7217afc57ff77bcd1c5eeef531878" target="_blank" rel="noopener noreferrer">McKesson Corporation (MCK): A Bull Case Theory</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-05</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">We came across a bullish thesis on McKesson Corporation on The Buyside Guy’s Substack. In this article, we will summarize the bulls’ thesis on MCK. McKesson Corporation’s share was trading at $710.94 ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9712ee381ad80a17d1634e5f229bcc7f96e971f0fb79426b7a14e371833904f1" target="_blank" rel="noopener noreferrer">Zacks Investment Ideas feature highlights: CVS Health, Johnson & Johnson and Tenet Healthcare</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS, JNJ, and Tenet Healthcare shine as defensive picks with strong earnings momentum and attractive valuations....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=898c354f6d01951df2f7b782b1f22cde1986fb5dca64e9e678dd3044db2963e7" target="_blank" rel="noopener noreferrer">Lilly’s Push to $1 Trillion Derailed by Trade Risks and Obesity Drug Speedbumps</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">(Bloomberg) -- A year ago, Eli Lilly & Co. was poised to become the first pharmaceutical company to register a trillion-dollar market valuation. It still hasn’t cracked that ceiling.Most Read from Blo...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=19cdcc847d17bc0efef254d26fe586996536480126613d976ac8d110c520bd89" target="_blank" rel="noopener noreferrer">Is It Worth Investing in CVS Health (CVS) Based on Wall Street's Bullish Views?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">According to the average brokerage recommendation (ABR), one should invest in CVS Health (CVS). It is debatable whether this highly sought-after metric is effective because Wall Street analysts' recom...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=daa79e74cf64fd733c39e9298f60198320403c46b25f614223a907a7f74fa544" target="_blank" rel="noopener noreferrer">4 Value Stocks to Shield Amid Labor Market and Trade Worries</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS, ITGR, ASB and FNB emerge as value picks amid trade tensions and labor market concerns, thanks to strong cash flow metrics....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

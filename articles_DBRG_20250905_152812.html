@@ -1,0 +1,727 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>DIGITALBRIDGE GROUP INC. (DBRG) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">DIGITALBRIDGE GROUP INC. (DBRG)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">29</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">9</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">7</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.09</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bff6af32fdca1c4318e6a01a58e4c4e075158dcd56e483f7808e4f1144558c92" target="_blank" rel="noopener noreferrer">DigitalBridge: Growing AI Demand Keeps It Attractive</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.27
+                                </span>
+                            </div>
+                            <div class="article-summary">DigitalBridge is undervalued in the fast-growing AI-powered digital infrastructure space, with strong Q2 results and long-term upside. See why DBRG stock is a buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ff91d5028d870a290a30c1c57f5069d5103afb35170383d0f123ccfef4387681" target="_blank" rel="noopener noreferrer">Landmark Dividend Appoints Clay Gregory as Chief Strategy Officer</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">EL SEGUNDO, Calif., September 03, 2025--Landmark Dividend LLC ("Landmark") today announced the appointment of Clay Gregory as Chief Strategy Officer, effective August 25, 2025. Gregory joins Landmark ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d6a4047ba0df8eb4fa3196d62e2a1be185d7468738477228e39fa0f950dabd92" target="_blank" rel="noopener noreferrer">DigitalBridge Group, Inc. (DBRG) Presents At Citi's 2025 Global Technology, Media And Telecommunications Conference Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Discover how DigitalBridge is leading digital infrastructure investments, capitalizing on AI,...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=202d825c7e7335a885048d02f4aabc6ad339363c329b7b49c4b45a0b32a30f9f" target="_blank" rel="noopener noreferrer">DigitalBridge Group, Inc. (DBRG) Presents At Barclays 39th Annual CEO Energy-Power Conference 2025 Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Explore DigitalBridge's insights on AI-driven data center energy demands, grid challenges...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ccb0172a81d0dfc1a3bafb146ede5ed3ae4794fe063c9d71ae7931d5327f5f21" target="_blank" rel="noopener noreferrer">Spotting Winners: DigitalBridge (NYSE:DBRG) And Specialty Finance Stocks In Q1</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.33
+                                </span>
+                            </div>
+                            <div class="article-summary">Looking back on specialty finance stocks’ Q1 earnings, we examine this quarter’s best and worst performers, including DigitalBridge (NYSE:DBRG) and its peers....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fd5414045e475ba106e11bca26e7fb9bbc9713164c17bb6d916280035104f7d0" target="_blank" rel="noopener noreferrer">DigitalBridge to Participate in Upcoming Investor and Industry Conferences in September 2025</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">BOCA RATON, Fla., September 02, 2025--DigitalBridge Group, Inc. ("DigitalBridge" or the "Company") (NYSE: DBRG), a leading global alternative asset manager dedicated to investing in digital infrastruc...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=605b497c9a25492fff443a018655540f8b49bdd54dcd877b6b4fc762c3d5b856" target="_blank" rel="noopener noreferrer">Specialty Finance Stocks Q1 Teardown: DigitalBridge (NYSE:DBRG) Vs The Rest</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.89
+                                </span>
+                            </div>
+                            <div class="article-summary">Looking back on specialty finance stocks’ Q1 earnings, we examine this quarter’s best and worst performers, including DigitalBridge (NYSE:DBRG) and its peers....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9bf00cd38f505790a355ded1e72cfd2355539d3be6036e6bb7295533f998dcad" target="_blank" rel="noopener noreferrer">JPMorgan’s (JPM) Competitive Edge Continues to be Driven by Scale and Diversification</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.77
+                                </span>
+                            </div>
+                            <div class="article-summary">JPMorgan Chase & Co. (NYSE:JPM) is one of the top stocks to buy and hold forever. Over the years, JPMorgan has gone from strength to strength with its significant scale advantage and entrenched positi...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0a5842fbe70df80129a810270d1a975d78ff5d175f427d75e4e203867504cb5b" target="_blank" rel="noopener noreferrer">Tracking Akre Capital Management Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Akre Capital's Q2 2025 portfolio update: see more on shifts in top holdings, new stakes, and their disciplined strategy focusing on high-growth names....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=43f7ffc9c620705cbae70a525b4629340e903b34f1694f1118b14d8e5ad9c0a7" target="_blank" rel="noopener noreferrer">JPMorgan (JPM) and MUFG Eye $22B Loan for Texas AI-Driven Data Hub</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-23</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.78
+                                </span>
+                            </div>
+                            <div class="article-summary">JPMorgan Chase & Co. (NYSE:JPM) is one of the best stocks to buy according to billionaire Ken Fisher. On August 20, JPMorgan Chase and Mitsubishi UFJ Financial Group entered talks to underwrite a $22 ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=209db690f3578f92de2b14e6439e6ec4820402d21fc7dad9887d3d8eb70af14c" target="_blank" rel="noopener noreferrer">Q1 Earnings Highs And Lows: DigitalBridge (NYSE:DBRG) Vs The Rest Of The Specialty Finance Stocks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">The end of an earnings season can be a great time to discover new stocks and assess how companies are handling the current business environment. Let’s take a look at how DigitalBridge (NYSE:DBRG) and ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=95a273b914af228ca486316c6b8089de6628cd42bf9a0a427e599d2b077297bf" target="_blank" rel="noopener noreferrer">DigitalBridge, Navient, Northwest Bancshares, Keysight, and Interface Stocks Trade Up, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.44
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks jumped in the afternoon session after the major indices rebounded, as Fed Chair Jerome Powell delivered dovish remarks at the much-awaited Jackson Hole symposium. Powell suggested t...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=dbab5c3b4842c082a9300af382e1d91bea8d488d25cf4673853af0073cb80cbd" target="_blank" rel="noopener noreferrer">Specialty Finance Stocks Q1 Recap: Benchmarking DigitalBridge (NYSE:DBRG)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.42
+                                </span>
+                            </div>
+                            <div class="article-summary">Quarterly earnings results are a good time to check in on a company’s progress, especially compared to its peers in the same sector. Today we are looking at DigitalBridge (NYSE:DBRG) and the best and ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=917f884915b15ceb83003003e72b3e7562889eb4f34681ad1a7f5db357a97b19" target="_blank" rel="noopener noreferrer">JPMorgan and MUFG near $22bn data centre financing deal in Texas</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.75
+                                </span>
+                            </div>
+                            <div class="article-summary">JPMorgan and Mitsubishi UFJ Financial Group are in talks to underwrite a $22bn loan to build a 1,200 acre data centre campus in Texas for Vantage......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f6496f4fce7193f78e5909c6fea75cd956a84dadd47221bdc408555d71281a02" target="_blank" rel="noopener noreferrer">JPMorgan and MUFG near $22 billion data center financing deal in Texas, FT reports</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">U.S. lender JPMorgan Chase and Japan's Mitsubishi UFJ Financial Group are in talks to underwrite a $22 billion loan for a planned data center in Texas, the Financial Times reported on Wednesday. The c...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=289288fe99909fea43eb65969eb4f7ab882e9d355e8bcede9a1ec50e5b5c23e2" target="_blank" rel="noopener noreferrer">DigitalBridge-Backed Portfolio Company Vantage Data Centers Launches $25 Billion Texas "Frontier" Mega-Campus</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.50
+                                </span>
+                            </div>
+                            <div class="article-summary">BOCA RATON, Fla., August 19, 2025--DigitalBridge Group, Inc. (NYSE: DBRG), a leading global alternative asset manager dedicated to investing in digital infrastructure, today announced its portfolio co...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ad3433710e2d885683d9eb39c58125c2aca6a344ed647718e30daf12e755826a" target="_blank" rel="noopener noreferrer">Vantage Data Centers plans $25 billion AI campus in Texas</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Backed by private equity firm Silver Lake and asset manager DigitalBridge, Vantage said the 1.4-gigawatt campus, dubbed "Frontier", is the largest in its global portfolio.  Chatbots such as OpenAI's C...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ab799444e53bf30925ef295292c4d4398a60af094732e427547aa462d74bb577" target="_blank" rel="noopener noreferrer">Yondr Group appoints John Shingler as new COO</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Yondr Group, a leading global developer, owner and operator of hyperscale data centers, today announced the appointment of John Shingler as Chief Operating Officer (COO), responsible for all data cent...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f119cb186f5172c9f6ee858966c3ea2576621b8515771ce4e0c6c23fa474761a" target="_blank" rel="noopener noreferrer">Partnering to Scale: Akamai and Aptum Team Up to Help Customers Move Faster in the Cloud</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.81
+                                </span>
+                            </div>
+                            <div class="article-summary">Akamai Technologies (NASDAQ: AKAM), the cybersecurity and cloud computing company that powers and protects business online, announced a new partnership with Aptum, a managed hybrid cloud services prov...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4300518d0eb54228e79f42baee5f2ea9cb9cc7e56d413eb5532e3297d1968008" target="_blank" rel="noopener noreferrer">Why Is WideOpenWest (WOW) Stock Rocketing Higher Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.80
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of broadband and telecommunications services provider WideOpenWest (NYSE:WOW) jumped 48.3% in the morning session after the company announced it has entered into a definitive agreement to be ac...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9128f8ec904493f35c6be6a35df16ea7c2c90a038daf71585fd94a750bba027d" target="_blank" rel="noopener noreferrer">WideOpenWest (WOW!), Inc. to be Taken Private by DigitalBridge Group, Inc. and Crestview Partners in $1.5 Billion Transaction</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.33
+                                </span>
+                            </div>
+                            <div class="article-summary">WideOpenWest, Inc. (NYSE: WOW), a leading broadband provider in the United States, announced today it has entered into a definitive agreement under which affiliated investment funds of DigitalBridge I...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=05677f6c275d06e06499a37704c2db2efa8f233dfe38c0dad6d7a60c7388cf68" target="_blank" rel="noopener noreferrer">WideOpenWest’s (NYSE:WOW) Q2 Earnings Results: Revenue In Line With Expectations, Stock Jumps 46.5%</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.21
+                                </span>
+                            </div>
+                            <div class="article-summary">Broadband and telecommunications services provider WideOpenWest (NYSE:WOW) met Wall Street’s revenue expectations in Q2 CY2025, but sales fell by 9.2% year on year to $144.2 million. Its GAAP loss of ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5cd7efeb6993fcdd8490f64b8c1d7be3f3cf7ae70671a4c9c0f1f574bf1e8adf" target="_blank" rel="noopener noreferrer">DigitalBridge Group, Inc. (DBRG) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">DigitalBridge Group, Inc. (NYSE:DBRG) Q2 2025 Earnings Conference Call August 7, 2025 8:00 AM ETCompany ParticipantsMarc Christopher Ganzi - CEO &amp;......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0b549651892368de0f6aa9fb1ea80f10ab424f6b14ec14a8b557f5edd94efe55" target="_blank" rel="noopener noreferrer">Ave Maria Growth Focused Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">For the three months ended June 30, 2025, the total return on the Ave Maria Growth Focused Fund was 15.31%. Click here to read more....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d95a9c132a10e7bc24147144100624b9d3f923f17d0b7ff266f85e9bde8085bc" target="_blank" rel="noopener noreferrer">DigitalBridge CEO on Surging Demand for Data Centers</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.24
+                                </span>
+                            </div>
+                            <div class="article-summary">Marc Ganzi, DigitalBridge CEO, says the company has been running power banks for the last ten years, currently delivering over 21 gigawatts of on-demand power for customers....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4e4936b49734b1f9be9fd1c1fe6c5c1f23b46279fabbff05a1eba90db82f3c8b" target="_blank" rel="noopener noreferrer">DigitalBridge: Q2 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">BOCA RATON, Fla. AP) — DigitalBridge Group, Inc. DBRG) on Thursday reported second-quarter profit of $31.6 million....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f85541e1d2231348fd20f58bc462cb128aa2cc5f9a38ecfa3c4eca1b321486de" target="_blank" rel="noopener noreferrer">DigitalBridge Reports Second Quarter 2025 Financial Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">BOCA RATON, Fla., August 07, 2025--DigitalBridge Group, Inc. ("DigitalBridge" or the "Company") (NYSE: DBRG), a leading global alternative asset manager dedicated to investing in digital infrastructur...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3e18f5334403a3a4fef625af27b74fc45385cb741e2935879b0778d239574d3c" target="_blank" rel="noopener noreferrer">DigitalBridge (DBRG) Reports Q2 Loss, Misses Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">DigitalBridge (DBRG) delivered earnings and revenue surprises of -211.11% and -103.12%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=47c0a8527f1594e10c67f4cf104b5d3e32fae0a1483825ca2cfaa31eed7da89f" target="_blank" rel="noopener noreferrer">DigitalBridge (DBRG) Q2 Earnings: How Key Metrics Compare to Wall Street Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Although the revenue and EPS for DigitalBridge (DBRG) give a sense of how its business performed in the quarter ended June 2025, it might be worth considering how some key metrics compare with Wall St...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

@@ -1,0 +1,551 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>enovix corporation (ENOV) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">enovix corporation (ENOV)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">18</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.15</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8b8f1c864e3235332e7b90393f1afac4820203e60c20f0c277d23180d91b4e2d" target="_blank" rel="noopener noreferrer">Spotting Winners: Enovis (NYSE:ENOV) And Medical Devices & Supplies - Specialty Stocks In Q2</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.22
+                                </span>
+                            </div>
+                            <div class="article-summary">Wrapping up Q2 earnings, we look at the numbers and key takeaways for the medical devices & supplies - specialty stocks, including Enovis (NYSE:ENOV) and its peers....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=15fdb8c49db1d42f54a6037e20e45c2ddf23c6ff00e51671bea9ed0eedd52b59" target="_blank" rel="noopener noreferrer">3 Reasons to Sell ENOV and 1 Stock to Buy Instead</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Over the last six months, Enovis’s shares have sunk to $31.17, producing a disappointing 18.2% loss - a stark contrast to the S&P 500’s 10.3% gain. This might have investors contemplating their next m...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7af24726a68f447b42f8669b55efc4f7010a691d774b6e4c30cc5a403a337b04" target="_blank" rel="noopener noreferrer">Enovis: Healthy Recon Trends Vs. Market Apathy</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Explore Enovis's potential despite market skepticism....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=737784732ef4c46e2ac8a6c01899d4542f97c5a0389e4947af46b01223e635fb" target="_blank" rel="noopener noreferrer">Does Enovis (ENOV) Have the Potential to Rally 77.33% as Wall Street Analysts Expect?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">The average of price targets set by Wall Street analysts indicates a potential upside of 77.3% in Enovis (ENOV). While the effectiveness of this highly sought-after metric is questionable, the positiv...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bd1c0866f7aa58fdeb45d03678c853b5ddd4e96e8b7e8a55adf29f4528e6fca8" target="_blank" rel="noopener noreferrer">Executive Vice President of Strategy & Business Development of Enovis Daniel Pryor Buys 9.3% More Shares</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-16</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">NYSE:ENOV 1 Year Share Price vs Fair Value Explore Enovis's Fair Values from the Community and select yours Potential......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=35400910d1c6ca150ce7116d116ba46737f27266b045484a2eef1041e182e007" target="_blank" rel="noopener noreferrer">The Top 5 Analyst Questions From Enovis’s Q2 Earnings Call</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Enovis delivered a well-received second quarter, with market reaction reflecting positive sentiment following a 10.5% share price increase post-earnings. Management credited strong organic growth and ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bc86deffde9ed64ffb9cd980d094c1ab933c8efb29dc7a5e77a552b3f5d78726" target="_blank" rel="noopener noreferrer">UBS Lowers PT on Enovis Corporation (ENOV) to $57 From $65, Keeps a Buy Rating</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.78
+                                </span>
+                            </div>
+                            <div class="article-summary">Enovis Corporation (NYSE:ENOV) is one of the best medical device stocks to buy according to analysts. On August 8, UBS lowered the firm’s price target on Enovis Corporation (NYSE:ENOV) to $57 from $65...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4b1df888769b5748365a8cb4d7693f612ae2306e8ee41bf2d044a9def01abc03" target="_blank" rel="noopener noreferrer">Tandem Diabetes, Enovis, Dentsply Sirona, Centene, and Molina Healthcare Shares Are Soaring, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks jumped in the afternoon session after markets continued to rally amid growing speculation of an impending interest rate cut by the Federal Reserve. Following a favorable Consumer Pr...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0b21e1fef54ae4c482d9c646d14a90a604d7a25a726e0ea916a83db524acfe0f" target="_blank" rel="noopener noreferrer">ENOV Q2 Deep Dive: New CEO Prioritizes Organic Growth, Margin Expansion, and Product Pipeline</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.78
+                                </span>
+                            </div>
+                            <div class="article-summary">Medical technology company Enovis Corporation (NYSE:ENOV) reported revenue ahead of Wall Street’s expectations in Q2 CY2025, with sales up 7.5% year on year to $564.5 million. The company’s full-year ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6ae36edf187519d5d990965771ded1a7897acb47da5b0781540ca7a70ed28c1d" target="_blank" rel="noopener noreferrer">Moderna, Teleflex, Envista, Enovis, and UnitedHealth Shares Are Soaring, What You Need To Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">A number of stocks jumped in the morning session after positive inflation data fueled hopes for an interest rate cut by the Federal Reserve. The latest Consumer Price Index (CPI) report showed inflati...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e29f0d9f6c2d8bf32dc639cbfb0c65ec7d7be9bf6b737cc8e769685d7f4d2bce" target="_blank" rel="noopener noreferrer">Earnings Release: Here's Why Analysts Cut Their Enovis Corporation (NYSE:ENOV) Price Target To US$53.40</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-09</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.11
+                                </span>
+                            </div>
+                            <div class="article-summary">NYSE:ENOV 1 Year Share Price vs Fair Value Explore Enovis's Fair Values from the Community and select yours It's been a......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9329bedb2525958e3d30d73f9f8c4fa5817d7f5540e96cd9cd1f48a5429b3561" target="_blank" rel="noopener noreferrer">Enovis Corporation (ENOV) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Enovis Corporation (NYSE:ENOV) Q2 2025 Earnings Conference Call August 7, 2025 8:30 AM ETCompany ParticipantsDamien McDonald - CEO &amp; DirectorKyle......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8cd13223403a5712e3ad21d44b897cdb20435a3fec458dc1caadf857272e611d" target="_blank" rel="noopener noreferrer">Enovis to Participate in Upcoming Investor Conferences</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Wilmington, DE, Aug. 08, 2025 (GLOBE NEWSWIRE) -- Enovis™ Corporation (NYSE: ENOV), an innovation-driven, medical technology growth company, today announced that its management team will participate i...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=60e3c51e5d5827deb9f5ed75595bfb13f218786127d805cd527457fb740cf422" target="_blank" rel="noopener noreferrer">Enovis Announces Second Quarter 2025 Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Continued commercial momentum with second-quarter sales growth of 7% on a reported basisSecond-quarter Reconstructive sales grew 11% year-over-year on a reported basis Wilmington, DE, Aug. 07, 2025 (G...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=59ec8daea28d302b14cc82ccbc549c5cc2afbd5767d83687dfae3b0dcc2b3f8e" target="_blank" rel="noopener noreferrer">Enovis: Q2 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">WILMINGTON, Del. AP) — Enovis Corporation (ENOV) on Thursday reported a loss of $36.7 million in its second quarter. On a per-share basis, the Wilmington, Delaware-based company said it had a loss of ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=41522844c498ed0473c65fcda55fbd4d75c746f8ed311e9b4bf1272f8ad22f87" target="_blank" rel="noopener noreferrer">Enovis (ENOV) Beats Q2 Earnings and Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Enovis (ENOV) delivered earnings and revenue surprises of +6.76% and +1.83%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=696cc418e4b8998fb2ba259ba5e7cd5083b558c217bbf86a94131a44dc24c46a" target="_blank" rel="noopener noreferrer">Enovis’s (NYSE:ENOV) Q2 Sales Beat Estimates, Stock Jumps 10.3%</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Medical technology company Enovis Corporation (NYSE:ENOV) reported Q2 CY2025 results exceeding the market’s revenue expectations, with sales up 7.5% year on year to $564.5 million. The company’s full-...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=829aa1e6e4622fdc629d5950bbc4f5a6cb1f05320baa425da44098c98c4d90ce" target="_blank" rel="noopener noreferrer">Enovis Earnings: What To Look For From ENOV</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-06</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Medical technology company Enovis Corporation (NYSE:ENOV) will be reporting earnings this Thursday before market hours. Here’s what to expect....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        
