@@ -1,0 +1,903 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Danaher Corporation (DHR) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Danaher Corporation (DHR)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">40</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">17</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">10</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.04</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3e7e642d76ea71202930b5dbb6a0114190624e47a2e7f1639fc663e8829559b3" target="_blank" rel="noopener noreferrer">Danaher Gains From Business Strength Amid Persisting Headwinds</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.89
+                                </span>
+                            </div>
+                            <div class="article-summary">DHR posts gains in bioprocessing, biotech and diagnostics, while life sciences softness and high debt weigh....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=303454b7dcde8a5c0ee48fbf5723fb0204b16fc7972135a0cc414f9e807ecb06" target="_blank" rel="noopener noreferrer">Is Danaher Stock Underperforming the Dow?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.75
+                                </span>
+                            </div>
+                            <div class="article-summary">Although Danaher has lagged behind the Dow over the past year, analysts remain bullish about the stock’s prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cb30761b267f3e9393dc552fc3052ac7652497f3a51d72a0cbdc85b847e6dc96" target="_blank" rel="noopener noreferrer">PFAS Testing Company Evaluation Report 2025 | Agilent, Thermo Fisher, and Danaher Dominate with Advanced Analytical Solutions, Strategic Acquisitions, and Regulatory-Driven Innovations</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">The PFAS Testing Companies Quadrant delivers a thorough analysis of the global PFAS Testing market, ranking the top 14 companies from over 100 evaluations. With a spotlight on key players like Agilent...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6310569c4276657a4681c0e2da205eef7ecfa5255adbe404f4e05c5f77927e37" target="_blank" rel="noopener noreferrer">mRNA Biotechs - Long-Term Value Risks Abound</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.32
+                                </span>
+                            </div>
+                            <div class="article-summary">mRNA vaccine stocks face challenges post-pandemic. Discover why 'pick-and-shovel' biotech suppliers may offer better investment stability and growth....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1f1c3fa9352e826eca966f2620509e27d8b1c10e29173a12e07fe35d46fa6861" target="_blank" rel="noopener noreferrer">Genedata Advances R&D Efficiency with New Unified Sample Management Solution</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">Genedata, a Danaher company and the leading provider of enterprise software solutions for biopharmaceutical R&D, today announced the release of a new Sample Management module as part of their Genedata...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5293a16b52394c2077bd1d53d5fcb3830092fd3aeae17fd71e196b52eff6f405" target="_blank" rel="noopener noreferrer">Why Is Teladoc (TDOC) Up 4.6% Since Last Earnings Report?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.35
+                                </span>
+                            </div>
+                            <div class="article-summary">Teladoc (TDOC) reported earnings 30 days ago. What's next for the stock? We take a look at earnings estimates for some clues....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ac2104e1ed9ba0e486b696ab18afcfead4e04f222908e20d879f0ee87e95b3b5" target="_blank" rel="noopener noreferrer">Modine Manufacturing Company (MOD): A Bull Case Theory</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">We came across a bullish thesis on Modine Manufacturing Company on Stock Analysis Compilation’s Substack. In this article, we will summarize the bulls’ thesis on MOD. Modine Manufacturing Company’s sh...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0a5842fbe70df80129a810270d1a975d78ff5d175f427d75e4e203867504cb5b" target="_blank" rel="noopener noreferrer">Tracking Akre Capital Management Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Akre Capital's Q2 2025 portfolio update: see more on shifts in top holdings, new stakes, and their disciplined strategy focusing on high-growth names....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7f4372a33a92a51893f2fd1bcb5a2ef1c1d4058a99c1921b1f76a9dcefb6c522" target="_blank" rel="noopener noreferrer">Hospital Filtration Industry Company Benchmark Report 2025 | Danaher, Veolia, and Pentair Lead by Driving Innovation and Sustainability</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.33
+                                </span>
+                            </div>
+                            <div class="article-summary">The Hospital Filtration Companies Quadrant provides an in-depth analysis of the global Hospital Filtration market, focusing on key players, innovations, and industry trends. Evaluating over 100 compan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d3954107782865a906b5d34803a474a6729e821b86fa085c344590a2609d923b" target="_blank" rel="noopener noreferrer">[Latest] Global Chemical Reagents Market Size/Share Worth USD 26.5 Billion by 2034 at a 7.5 CAGR: Custom Market Insights (Analysis, Outlook, Leaders, Report, Trends, Forecast, Segmentation, Growth Rate, Value, SWOT Analysis)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">[220+ Pages Latest Report] According to a market research study published by Custom Market Insights, the demand analysis of Global Chemical Reagents Market size & share revenue was valued at approxima...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=9e75c4391d99792354696903ca48d1b998f81e36055b0ddcf02f3a6351a0314b" target="_blank" rel="noopener noreferrer">Danaher Corp. stock underperforms Monday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Danaher Corp. stock underperforms Monday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0deec883ea4b67eda336d6c31b6e2080255a6feda00500d8cf3be7ebc272549f" target="_blank" rel="noopener noreferrer">Is Danaher Corporation (DHR) a Quality Compounder With Long-Term Revenue Growth?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.76
+                                </span>
+                            </div>
+                            <div class="article-summary">Baron Funds released its “Baron Durable Advantage Fund” second-quarter 2025 investor letter. A copy of the letter can be downloaded here. The fund primarily focuses on investing in securities of large...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7680cf8e51084626414c5f9a9bb10bfc6ccd6f9e8ad5593e64cdb25dc173d769" target="_blank" rel="noopener noreferrer">Qiagen: Diagnostics Vs. Life Sciences Pair Trade Analysis</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">nan...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=300ba1348a15d987e380c64fb3b507b1f2957db88c19acb9cf8c913ccaf1b698" target="_blank" rel="noopener noreferrer">Danaher (DHR) Up 6.8% Since Last Earnings Report: Can It Continue?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Danaher (DHR) reported earnings 30 days ago. What's next for the stock? We take a look at earnings estimates for some clues....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d04e0fabd860ba053a2bf59378b0fa49a71ebbb0b3c8e929ed82b25da8383680" target="_blank" rel="noopener noreferrer">Danaher Corp. stock underperforms Thursday when compared to competitors</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Danaher Corp. stock underperforms Thursday when compared to competitors...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d56b75487b8b434fd73ca54531dce3c1ee0c218d38002fdae2b770fdccc54d03" target="_blank" rel="noopener noreferrer">Macquarie Large Cap Growth Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.50
+                                </span>
+                            </div>
+                            <div class="article-summary">For 2Q25, Macquarie Large Cap Growth Fund Institutional Class shares posted absolute positive returns but underperformed the Fundâs benchmark, the Russell 1000 Growth Index....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8d687214d164edc5e7692c1d339c029a62a8a739a4b76c181302f12397f5b6a8" target="_blank" rel="noopener noreferrer">Danaher Corp. stock underperforms Tuesday when compared to competitors despite daily gains</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-19</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.85
+                                </span>
+                            </div>
+                            <div class="article-summary">Danaher Corp. stock underperforms Tuesday when compared to competitors despite daily gains...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=82a8a295f3094a502ef1bd2401ada0e48d3ba73f740dc8847bcd7d47e627b34e" target="_blank" rel="noopener noreferrer">Danaher (DHR) Just Overtook the 200-Day Moving Average</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">When a stock breaks out above the 200-day simple moving average, good things could be on the horizon. How should investors react?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=15864115a6c895d4c5f1698ffec1e422e4099bb9e0ffca15fa48d99680b80f65" target="_blank" rel="noopener noreferrer">Tracking Al Gore's Generation Investment Management Portfolio - Q2 2025 Update</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">Generation IMâs Q2 2025 portfolio value declined to $15.73B, with 37 positions. Click here to read more about the portfolio's new stakes and increases....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=daaf1deea8ced75a467b27493ef8e6718210ccd62a8816b41314027e3bbda7ed" target="_blank" rel="noopener noreferrer">Atai Capital Management Q2 2025 Letter</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Atai Capital Management reports a 32.8% Q2 gain, reviews key portfolio moves and lessons from past missteps. Read the full letter for insights and strategy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1b7506b1725ca25a3e8e79ccad527a0b6131d22d57072af9e0827cffcf715993" target="_blank" rel="noopener noreferrer">AstroNova: A Textbook Case For Shareholder Activism</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Our AstroNova investment was predicated on the view that this was a low-risk "under-earner". So, what went wrong? Click here to find out. ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=301003138fcb2c69be79a096b9d609dc213c1ab53f775b461850d0861934ee49" target="_blank" rel="noopener noreferrer">Wells Fargo Reduces PT on Danaher Corporation (DHR) to $205; Maintains ‘Equal Weight’ Rating</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    -0.18
+                                </span>
+                            </div>
+                            <div class="article-summary">With a year-to-date decline in share price, along with strong hedge fund interest, Danaher Corporation (NYSE:DHR) secures a place on our list of the 11 Best Rebound Stocks to Buy According to Hedge Fu...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3e4501f5a4c79ca37b1acc02d0272144724791c3eb8cd6af84b9a2be3548d946" target="_blank" rel="noopener noreferrer">Bruker: Former Academia Customer Strength, Now Incredible Weakness</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.80
+                                </span>
+                            </div>
+                            <div class="article-summary">Bruker faces challenges amid NIH funding cuts and academic reliance. Short-term risks are high, but investors may benefit from a recovery. See more on BRKR....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3957ba9b77eb61d5aef8b38876bb10235f54cbbe5704864f8cea3d668462254e" target="_blank" rel="noopener noreferrer">2 Profitable Stocks to Consider Right Now and 1 Facing Headwinds</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-15</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.91
+                                </span>
+                            </div>
+                            <div class="article-summary">While profitability is essential, it doesn’t guarantee long-term success. Some companies that rest on their margins will lose ground as competition intensifies - as Jeff Bezos said, "Your margin is my...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f892debf18bb28d5f4de92b2de0ead36e77ceb9bc730d5f77257082a710ef40e" target="_blank" rel="noopener noreferrer">BNY Mellon Dynamic Value Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">BNY Mellon Dynamic Value Fund (Class A at NAV) returned 5.00% during the second quarter of 2025. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=510df5eb3ec9ca3e81166b5e4bc16ca64840038608c6696048b94c0e888b7a9c" target="_blank" rel="noopener noreferrer">Are Wall Street Analysts Predicting Danaher Stock Will Climb or Sink?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.84
+                                </span>
+                            </div>
+                            <div class="article-summary">After weak long-term price action, are analysts bullish or bearish on Danaher Corp stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b57b95b5e257a8ed46801de29067791825d1741aca966e61fe13f39ff05d5c56" target="_blank" rel="noopener noreferrer">[Latest] US Personalized Medicine Market Size/Share Worth USD 252.93 Billion by 2034 at a 17.32% CAGR: Custom Market Insights (Analysis, Outlook, Leaders, Report, Trends, Forecast, Segmentation, Growth Rate, Value, SWOT Analysis)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">[220+ Pages Latest Report] According to a market research study published by Custom Market Insights, the demand analysis of US Personalized Medicine Market size & share revenue was valued at approxima...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=96315d5ac0ffceae734f10e5c0152ee802184bd253a4a558c9cfff20f090cc5a" target="_blank" rel="noopener noreferrer">Mexico Microcarrier Market Trends and Company Analysis Report 2025-2033 Featuring BD, Thermo Fisher Scientific, Merck, Eppendorf, Danaher, Sartorius, Bio Rad, Corning, Lonza Group, Getinge</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">The Mexico Microcarrier Market is poised for significant growth, projected to reach US$ 77.65 million by 2033 from US$ 39.96 million in 2024, achieving a CAGR of 7.66% from 2025 to 2033. Key drivers i...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=16acc0a5636a83fdea177fe0b8c82b7fce275e73343404759f50859aad796588" target="_blank" rel="noopener noreferrer">Saudi Arabia Clinical Chemistry Analyzer Market Forecast and Company Analysis Report 2025-2033 Featuring Thermo Fisher Scientific, Abbott, Siemens, Danaher, J&J, Sysmex ADR, HORIBA, Hitachi</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">The Saudi Arabia Clinical Chemistry Analyzer Market is set to reach US$ 249.11 million by 2033, growing from US$ 170.98 million in 2024 at a 4.27% CAGR. Market growth is fueled by government healthcar...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=895c024054f5947998af94dd9f8137869558ed8fd26380e567daf60af8ce051c" target="_blank" rel="noopener noreferrer">Danaher Corp. stock outperforms competitors on strong trading day</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Danaher Corp. stock outperforms competitors on strong trading day...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=53a1acc3fe009de9cbf72a697572b4f3ff2f8a04d89b6a6d40418a36dd232935" target="_blank" rel="noopener noreferrer">Is it a Great Time to Invest in Danaher Corp. (DHR)?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.46
+                                </span>
+                            </div>
+                            <div class="article-summary">Parnassus Investments, an investment management firm that focuses on owning a concentrated portfolio of U.S. large cap stocks, released its Parnassus Value Equity Fund second-quarter 2025 investor let...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bd7e53898c1d713d814e527a001f099b8f104ddb804fb0a2fd5341ab3ffb73cb" target="_blank" rel="noopener noreferrer">STD Diagnostic Market Forecast and Company Analysis Report 2025-2033 Featuring Siemens, Abbott, MedMira, QIAGEN, Danaher, F. Hoffmann-La Roche, Diasorin, BioMeriuex, Hologic, Bio-Rad Laboratories</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">The STD Diagnostic Market is projected to reach $17.93 billion by 2033, growing from $9.82 billion in 2024 at a CAGR of 6.92% during 2025-2033. Key growth drivers include increased STD prevalence, tec...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ce113e7af8fa5d242d6f20c9a12809ceb863efdfa055f62c75187b1fceae10ca" target="_blank" rel="noopener noreferrer">Genedata Next-Gen Software to Power GMP-Compliant NGS in Biopharma Manufacturing</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.48
+                                </span>
+                            </div>
+                            <div class="article-summary">Genedata, a Danaher company, and the leading provider of enterprise software solutions for biopharmaceutical R&D, today announced a new release of Genedata Selector®. This end-to-end solution automate...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=62e33dd51d1e8a565c182e6b32f891ee04539bada5fd39fd94618109e4c9018f" target="_blank" rel="noopener noreferrer">Iftekhar Ahmed: The Global Strategist Quietly Transforming Healthcare Leadership</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">With a legacy of global impact, Iftekhar Ahmed brings strategic clarity, cultural fluency, and people-centered leadership to the forefront of healthcare innovation at Danaher. WASHINGTON, DC / ACCESS ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6e80d3c9c931b2508c2e398c038b40c9d2a09af68b609a7637a2a7b7352a7551" target="_blank" rel="noopener noreferrer">CVS or DHR: Which Is the Better Value Stock Right Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">CVS vs. DHR: Which Stock Is the Better Value Option?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cb5ed25640a6ecd310d6e9800b63a4d642c5006335cc918e2aaec265e971e12f" target="_blank" rel="noopener noreferrer">Agilent: A Lean, Focused Play In Life Sciences Tools Amid Tariff Turbulence</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.47
+                                </span>
+                            </div>
+                            <div class="article-summary">Agilent remains a strong life science leader with solid financials and strategic resilience, but near-term headwinds temper upside. See why A stock is a hold....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8df2967993ccaba27de452a17584b35aedf13d852173aca45f61e3cedb8ce6e3" target="_blank" rel="noopener noreferrer">Hologic's Diagnostics Arm Set for Long-Term Upside: What's Behind It?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">HOLX's Diagnostics arm eyes long-term growth with new assays, platform expansion and oncology test adoption despite headwinds....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=98cc9c5f11acaaa602468983a9efab16a892b7985619b0773e3cdb92bc7e23d4" target="_blank" rel="noopener noreferrer">Danaher Corp. stock underperforms Friday when compared to competitors despite daily gains</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>MarketWatch</span>
+                                <span class="article-sentiment negative">
+                                    -0.86
+                                </span>
+                            </div>
+                            <div class="article-summary">Danaher Corp. stock underperforms Friday when compared to competitors despite daily gains...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=bdbadc8a96f7f605a7a5102464b66e16a0712bbde61159e87fc5555b861673ae" target="_blank" rel="noopener noreferrer">Why This 1 Value Stock Could Be a Great Addition to Your Portfolio</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Whether you're a value, growth, or momentum investor, finding strong stocks becomes easier with the Zacks Style Scores, a top feature of the Zacks Premium research service....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c384ce4b6028ab55765fe4386e474bfc60535242c93ca10f772e172fe22d64de" target="_blank" rel="noopener noreferrer">Precipio: Cash Flow Positivity May Remove Going Concern Language</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">Deep Sail Capital highlights Precipioâs path to cash flow positivity and niche growth in cancer diagnostics. See why its turnaround story deserves a closer look....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

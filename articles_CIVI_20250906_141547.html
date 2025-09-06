@@ -1,0 +1,519 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Civitas Resources Inc. (CIVI) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Civitas Resources Inc. (CIVI)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">16</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">-0.03</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4d1fe3a8413ec560e932b60200be3e3e679883916f40b43d46e8ba22851cdea5" target="_blank" rel="noopener noreferrer">U.S. Oil Output Breaks Records: 3 Energy Producers to Watch</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.53
+                                </span>
+                            </div>
+                            <div class="article-summary">U.S. oil hits a record 13.58M barrels per day, spotlighting CHRD, FANG and CIVI as key energy stocks to watch....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cbf787065c94c2361cb8f01b47374eb5b3f38631f5b01cb19e7a75342eeff674" target="_blank" rel="noopener noreferrer">Prairie Operating's Output Soars Fivefold With Drilling Push</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Prairie Operating's Q2 output jumped fivefold as new wells, faster drilling, and innovative designs fueled a surge in production....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=471bbad4efad1e65e272814dd2a8e6ba91d417738670d4782b767a869640887e" target="_blank" rel="noopener noreferrer">Piper Sandler Lowers PT on Civitas Resources (CIVI) to $52 From $54, Keeps an Overweight Rating</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.85
+                                </span>
+                            </div>
+                            <div class="article-summary">Civitas Resources Inc. (NYSE:CIVI) is one of the best high growth low PE stocks to invest in now. On August 21, Piper Sandler lowered the firm’s price target on Civitas Resources Inc. (NYSE:CIVI) to $...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3f518d822fb556976db8e6776884a474fb6972deba653c8a77fca8e7f5775696" target="_blank" rel="noopener noreferrer">Civitas Resources: Say Goodbye To Debt And Hello To Capital Gains</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">CIVI reported a strong second quarter and is guiding for both increasing production and free cash flow in the second half of 2025....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f8897a852347f9e958b7d0991125f7780f929be9694ea4706a1765f62ae99206" target="_blank" rel="noopener noreferrer">TD Cowen Maintains Bullish View on Civitas (CIVI) with a Trimmed Target</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.46
+                                </span>
+                            </div>
+                            <div class="article-summary">Civitas Resources Inc. (NYSE:CIVI) is one of the deep value stocks to buy according to analysts. On August 7, TD Cowen analyst David Deckelbaum reiterated a Buy rating on Civitas Resources, lowering h...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0faeb9c6a737e2de426bfb0ba13be60ad0a8b9a098726f6ea7e664d4943954eb" target="_blank" rel="noopener noreferrer">Asset Sales Support Civitas Debt Reduction Amid Mixed Resources Earnings</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.07
+                                </span>
+                            </div>
+                            <div class="article-summary">Civitas Resources, Inc. (NYSE:CIVI) is one of the 11 Best Dividend Stocks with a Consistent 3-Year Payout History. Mixed Q2 earnings results elicit mixed opinions among the analysts. Colorado-based co...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=429c39772c79ddedad539d8a8b39bd76bccba63f60d753f4efa1a41cd290a189" target="_blank" rel="noopener noreferrer">HdL Companies and Civitas Empower Local Governments to Fund Tourism, Ensure Compliance, and Revitalize Communities</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.75
+                                </span>
+                            </div>
+                            <div class="article-summary">BREA, Calif., August 21, 2025--HdL Companies and Civitas, two leading firms serving local governments nationwide, are aligning their expertise to help public sector leaders build, fund, and manage vib...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8a0a834fbcdcac2d1cfa3cd797a404c1870e6992157af2d79420c31230405c72" target="_blank" rel="noopener noreferrer">Here’s What Pressured Civitas (CIVI) in Q2</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.34
+                                </span>
+                            </div>
+                            <div class="article-summary">Diamond Hill Capital, an investment management company, released its “Small-Mid Cap Fund” second-quarter 2025 investor letter. A copy of the letter can be downloaded here. In Q2, the market surged uni...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f9da1811cfdb59edea56ba24ee8c5e49399e02d1c1b02e1172a92bd2f19d08a8" target="_blank" rel="noopener noreferrer">Civitas Q2 Earnings and Revenues Miss Estimates, Both Fall Y/Y</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.85
+                                </span>
+                            </div>
+                            <div class="article-summary">CIVI's second-quarter earnings and revenues fell short on weaker oil prices, but asset sales, buybacks and debt cuts strengthen its outlook....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f7fbe9a6c75f33560617db9fc3e5400e25cf4f09f66815ebc9df99ca4487601a" target="_blank" rel="noopener noreferrer">Civitas: New Management Will Unlock Value For Patient Shareholders</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.31
+                                </span>
+                            </div>
+                            <div class="article-summary">Civitas Resources, Inc. offers value with low P/E ratios, strong FCF yields, dividends, and buybacks. Click here to find out why CIVI stock is a Buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ca9cfc973afcc8e075d950b5d6885a0568e34843cabcf176f2993e467bc5bf72" target="_blank" rel="noopener noreferrer">Civitas Resources Second Quarter 2025 Earnings: EPS Beats Expectations, Revenues Lag</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.96
+                                </span>
+                            </div>
+                            <div class="article-summary">Civitas Resources ( NYSE:CIVI ) Second Quarter 2025 Results Key Financial Results Revenue: US$1.06b (down 20% from 2Q......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=42e3cc74b2fe96ba1e6c146cc7f8f8ebc58cfaf874e460f41aa37eaadd865c41" target="_blank" rel="noopener noreferrer">After CEO Shake-Up, Civitas Targets Efficiency in Permian, D-J</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Civitas has replaced its CEO while doubling down on its core strategy in the Permian and D-J basins. It’s also testing co-development across multiple Midland Basin benches, ranging from the Middle Spr...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8bd0f78b09b2199b7c32147ad21ecedc02cb04bdee56e89faa90cfc613ebf5bb" target="_blank" rel="noopener noreferrer">Siebert Williams Shank & Co. Remains Bullish on Civitas Resources (CIVI)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.25
+                                </span>
+                            </div>
+                            <div class="article-summary">Civitas Resources Inc. (NYSE:CIVI) is one of the top NYSE stocks with the highest upside potential. On July 25, Siebert Williams Shank & Co. analyst Gabriele Sorbara maintained a Buy rating on Civitas...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1d3b944828a945435118da87f748932be86041d2b3277d54a4722d265e51cd6b" target="_blank" rel="noopener noreferrer">Civitas Resources, Inc. (CIVI) Q2 2025 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Civitas Resources, Inc. (NYSE:CIVI) Q2 2025 Earnings Call August 7, 2025 8:00 AM ETCompany ParticipantsBrad Whitmarsh - Vice President, Investor......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b418ac87206ef6ca59e4d93787720d3dd442e8b13ddea9ec0c19ed4004ea9348" target="_blank" rel="noopener noreferrer">Civitas Resources, Inc. 2025 Q2 - Results - Earnings Call Presentation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The following slide deck was published by Civitas Resources, Inc....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f56cc3da43db560a3b732587153fb8beeb314b2eca74cb8a4bf87e679a924269" target="_blank" rel="noopener noreferrer">Mizuho Securities Maintains a Buy on Civitas Resources (CIVI), Sets a $50 PT</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Civitas Resources Inc. (NYSE:CIVI) is one of the top oversold NYSE stocks to buy now. Mizuho Securities analyst Nitin Kumar CFA maintained a Buy rating on Civitas Resources Inc. (NYSE:CIVI) on July 9,...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        
