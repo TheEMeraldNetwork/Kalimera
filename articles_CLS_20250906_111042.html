@@ -1,0 +1,824 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>CELESTICA INC. (CLS) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">CELESTICA INC. (CLS)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">35</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">21</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">2</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.37</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=73eb54d7aa716cfcde16d2080d890e915c877c8171550b033483fc08da4bdbcb" target="_blank" rel="noopener noreferrer">InfiniBand Switch Sales Surged in 2Q 2025, While Ethernet Maintains Market Lead in AI Back-end Networks, According to Dell'Oro Group</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">According to a recently published report from Dell'Oro Group, the trusted source for market information about the telecommunications, security, networks, and data center industries, InfiniBand switch ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ee25671d70eeb558949be11df6e1496b9bf5deb34342ec52cfc15695fe953feb" target="_blank" rel="noopener noreferrer">JBL Stock Surges 98% in a Year: Is it a Must-Have in Your Portfolio?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Jabil's 98% stock surge, raised 2025 guidance and AI-driven growth highlight its strong long-term potential....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=990d6cd71f504ee32dc9276f5d26ff1b19dc4505448392393dc112eb5485cffc" target="_blank" rel="noopener noreferrer">Celestica Surges 139% in 6 Months: How to Play the Stock</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">CLS skyrockets 139% in six months, fueled by portfolio strength, AI-driven demand, and strategic tech collaborations....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a1f8b829c3d22ce6ca0c53c067d63037b4ff9f92b037d9d31f4b19af7d33f600" target="_blank" rel="noopener noreferrer">Celestica: The AI Infrastructure Goldmine Still Climbing</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Celestica's rally is justified by strong margin expansion, driven by the high-growth, high-margin HPS sub-segment, now 43% of sales and rising....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=501baf77ca225d817f3bf2d22433097d426798921c1f168b5df11ae3df730521" target="_blank" rel="noopener noreferrer">Celestica's Growth Story: Why It Still Makes Sense To Buy Despite High Valuation</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-30</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.45
+                                </span>
+                            </div>
+                            <div class="article-summary">Celesticaâs shift to an ODM model and AI infrastructure focus has driven impressive stock gains, solidifying its market position. Find out why CLS stock is a buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=30da359d703b79f7d1321701808450d4d94bc749f4275ae19cb4a2a41a601cae" target="_blank" rel="noopener noreferrer">Celestica: Forward P/E Mirrors Nvidia (Rating Downgrade)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.45
+                                </span>
+                            </div>
+                            <div class="article-summary">Despite strong fundamentals and earnings beats, Celesticaâs valuation is unjustifiably high, surpassing some of Nvidia's forward P/E. See why CLS stock is sell....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d4ed6825dc98a988541908700a0c007539df9d1b826d3a9898c5a57e23344acd" target="_blank" rel="noopener noreferrer">Wall Street Bulls Look Optimistic About Celestica (CLS): Should You Buy?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The average brokerage recommendation (ABR) for Celestica (CLS) is equivalent to a Buy. The overly optimistic recommendations of Wall Street analysts make the effectiveness of this highly sought-after ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=28ef9a89d86f8e60c97b34b156308ef3a69c60b5546640c1fb020977b1d282be" target="_blank" rel="noopener noreferrer">TSX up 144 Points to New High</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">The Toronto Stock Exchange is up 144 points at midday, with healthcare, up 1.2%, the biggest gainer....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=423ffe64debd4dc47e3cd6073ada80273958bbe7d4d08c4aa788d7859bbe8d57" target="_blank" rel="noopener noreferrer">Celestica (CLS) Sees a More Significant Dip Than Broader Market: Some Facts to Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.54
+                                </span>
+                            </div>
+                            <div class="article-summary">In the closing of the recent trading day, Celestica (CLS) stood at $195.12, denoting a -8.11% move from the preceding trading day....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=53b26090f540b79c441f516cde86ab63db813aadc3be1ac410febe2b8fca96a1" target="_blank" rel="noopener noreferrer">Backstage Pass: Top 4 AI Infrastructure Stocks</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">SA Quant has identified four key AI infrastructure stocks across sectors, which have returned an average of 107% YTD and are positioned to benefit from continued growth in the AI sector....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f0777338cc4a0093d5480e5d3c531058fe93a182a777cdb2174a7fa14f43d293" target="_blank" rel="noopener noreferrer">Zacks.com featured highlights Zurn Elkay Water Solutions, Armstrong World, Ralph Lauren, Celestica and Canadian Natural Resources</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Zurn Elkay, Armstrong World, Ralph Lauren, Celestica and Canadian Natural Resources stand out as top-ranked efficient stocks to buy now....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d865fdd0c21cbb3cfa337812864df1a6a30ed4a9da3712da6bcc008a12802533" target="_blank" rel="noopener noreferrer">Celestica: Expensive Valuations After Triple-Digit Rally</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.20
+                                </span>
+                            </div>
+                            <div class="article-summary">Explore how CLS leverages AI/data center trends, hyperscaler spending, and networking upgrades. Click here to read my most recent analysis of CLS stock....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1daf215e91f40aad72553c7694d1e79bf6a5acc405370202f33bbbf8f5fa580e" target="_blank" rel="noopener noreferrer">Celestica Gains From Robust Cash Flow: Will the Trend Continue?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">CLS' Q2 cash flow jumped on robust HPS sales and disciplined working capital, lifting its 2025 free cash flow outlook....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5e7509ff5fed3dac1abd1853344fa38ee650ed94f0970f9cbd6e76d6be5a8bee" target="_blank" rel="noopener noreferrer">5 Top-Ranked Efficient Stocks to Buy for Solid Gains Amid Volatility</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">Strong efficiency ratios help spotlight ZWS, AWI, RL, CLS and CNQ as the top-ranked stocks for navigating market volatility....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ad9bffd36cfdb333afdd3b53dd4c3191b7d1b470148eb91e7e4d6b5461d4dd96" target="_blank" rel="noopener noreferrer">Why Is Celestica (CLS) Down 1.7% Since Last Earnings Report?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">Celestica (CLS) reported earnings 30 days ago. What's next for the stock? We take a look at earnings estimates for some clues....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7d3236f2d8eaf8107ace75603e483fbce411ae83da186de7de8dec8b46692c04" target="_blank" rel="noopener noreferrer">How Hyperscaler-Fueled Q2 Results at Celestica (TSX:CLS) Have Changed Its Investment Story</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Earlier in August 2025, Celestica reported its strongest second quarter results in more than two years, driven by robust demand from hyperscalers and stable operational performance. Analysts have resp...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e00f78762633a49dcba4a14148e7b85b6b104e7fa9c7e7e9d6522cf75b211c09" target="_blank" rel="noopener noreferrer">JBL Is Betting Big on AI Data Center Market: Will This Drive Growth?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-26</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.45
+                                </span>
+                            </div>
+                            <div class="article-summary">Jabil rides on AI data center demand with portfolio expansions, focus on innovation and collaboration with other industry leaders....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=357625fb574daebfdb3b5dcacd780a6452744a4bc3a66ca22c0b8f751b856413" target="_blank" rel="noopener noreferrer">An excellent week for Clicks Group Limited's (JSE:CLS) institutional owners who own 79% as one-year returns inch higher</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.38
+                                </span>
+                            </div>
+                            <div class="article-summary">Key Insights Significantly high institutional ownership implies Clicks Group's stock price is sensitive to their......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=176c16fa5c777fcc2d5b55d6b287ff72d85f5c32eb6b9d45d30b292e6d8e182a" target="_blank" rel="noopener noreferrer">If You Invested $1000 in Celestica a Decade Ago, This is How Much It'd Be Worth Now</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Investing in certain stocks can pay off in the long run, especially if you hold on for a decade or more....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=426c94b48edacfed8f1f5342d692962063f363248ffb3deeb7e4ff54412b98d3" target="_blank" rel="noopener noreferrer">Celestica, Inc. (CLS) is Attracting Investor Attention: Here is What You Should Know</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Celestica (CLS) has received quite a bit of attention from Zacks.com users lately. Therefore, it is wise to be aware of the facts that can impact the stock's prospects....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1077dd339748d4076d15c5bcadb12500592f56542695d9cf6870a5cc37beaf54" target="_blank" rel="noopener noreferrer">Ubiquiti Q4 Earnings Surpass Estimates, Top Line Surges Y/Y</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">Ubiquiti posts a strong fiscal Q4 with revenues surging year over year, driven by robust Enterprise Technology demand across key regions....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ca0124caa2a5d4c16e85191564064e838666ff9b9afe9500a5417d4395bc5c31" target="_blank" rel="noopener noreferrer">RBC Capital Maintains ‘Outperform’ Rating on Celestica Inc. (CLS) Following Strong Q2 Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-23</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Celestica Inc. (NYSE:CLS) is included in our list of the 10 Unstoppable Canadian Stocks to Buy Now. RBC Capital raised its price target on Celestica Inc. (NYSE:CLS) from $185 to $225 on July 30, 2025,...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=92e5b9919edefaf8ccb9bf817bcc81da5ea6014a12646e0898d11074c65b01c9" target="_blank" rel="noopener noreferrer">Buy These 2 AI-Powered EMS Stocks With Double-Digit Short-Term Upside</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">CLS and JBL are capitalizing on AI-driven demand in the EMS space, with analysts seeing strong short-term price upside for both stocks....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a831af8f0bfe48e1d5e3a8205f9cef2171266c0c7e16b7e01491b1a52c18150d" target="_blank" rel="noopener noreferrer">Is Celestica (CLS) Outperforming Other Computer and Technology Stocks This Year?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    -0.01
+                                </span>
+                            </div>
+                            <div class="article-summary">Here is how Celestica (CLS) and Arlo Technologies (ARLO) have performed compared to their sector so far this year....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=213acedc280dcad01ee4e2b0fa4d99b32c7202bbaa3ffe50b3603363d3c66772" target="_blank" rel="noopener noreferrer">Celestica Stock Pulls Back After A 95% Surge; Is It Actionable Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-21</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.20
+                                </span>
+                            </div>
+                            <div class="article-summary">Celestica is this week's Big Cap 20 stock to watch as it pulls back to the 50-day line.  Celestica provides design, manufacturing and supply-chain solutions to customers in the enterprise, aerospace, ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8c791679053e9402c1c59028a7053a2940fe37bd916ebe4d3a67e29bcea42868" target="_blank" rel="noopener noreferrer">Columbia Acorn Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">Columbia Threadneedleâs Q2 2025 report highlights strong defense and AI-driven picks in a volatile market. See how the Acorn Fund is positioning for growth.
+...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1d7e877268a2936025231650cf01977e7e6278030f01f6649550f48d61fb5c63" target="_blank" rel="noopener noreferrer">Why Lumentum Is A Strong Buy After Fourth Quarter Earnings (Rating Upgrade)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.89
+                                </span>
+                            </div>
+                            <div class="article-summary">Lumentum delivered a strong Q4, beating revenue and EPS estimates, driven by robust cloud and AI demand. Read why I upgraded LITE stock to a Strong Buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e84de94fcf6c095c27aec2d28b9fc1c122762cce1b75f8937f7e7b8fb4ecd319" target="_blank" rel="noopener noreferrer">Is It Worth Investing in Celestica (CLS) Based on Wall Street's Bullish Views?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The average brokerage recommendation (ABR) for Celestica (CLS) is equivalent to a Buy. The overly optimistic recommendations of Wall Street analysts make the effectiveness of this highly sought-after ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=09cafc6783a9982bfd2fcc1dcc8c564230d18c3c304b7fd31f19a162fa618a6b" target="_blank" rel="noopener noreferrer">Jabil Skyrockets 119.6% in a Year: Should You Buy the Stock?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">JBL's 119.6% surge is fueled by AI data center bets, strategic buyouts, and expansion into diverse high-growth markets....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=447211f98f4b71567ea3ac224c36bb5654a333904f0477fa4362fd3893581bfc" target="_blank" rel="noopener noreferrer">Celestica, Inc. (CLS) Is a Trending Stock: Facts to Know Before Betting on It</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Recently, Zacks.com users have been paying close attention to Celestica (CLS). This makes it worthwhile to examine what the stock has in store....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=88231948fc366361825b60464982c7a8394cf08da328b687dbaae6a559008811" target="_blank" rel="noopener noreferrer">Clicks Group (JSE:CLS) Could Become A Multi-Bagger</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">JSE:CLS 1 Year Share Price vs Fair Value Explore Clicks Group's Fair Values from the Community and select yours What......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=695d5181fb86cf09761fccda8550f4e8ee3fab4120ccfa2af6ad9bdf81bf23e6" target="_blank" rel="noopener noreferrer">Here's How Much a $1000 Investment in Celestica Made 10 Years Ago Would Be Worth Today</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Why investing for the long run, especially if you buy certain popular stocks, could reap huge rewards....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=72760e782026d853f7031edb526279768d9543b6861ea296e5e3cb03df8cfda4" target="_blank" rel="noopener noreferrer">Super Micro Computer: Expectations Reset, Upside If Execution Follows (Upgrade)</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.84
+                                </span>
+                            </div>
+                            <div class="article-summary">Super Micro Computer's Q4 earnings were poorly received by the market, with the stock dropping more than 16%. Read why I am upgrading my rating on SMCI to Buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fe04288aa4f8d705676e54fca7766ca503b976b521380ed62445c4d203dbdc87" target="_blank" rel="noopener noreferrer">Why Celestica (CLS) is a Top Momentum Stock for the Long-Term</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Wondering how to pick strong, market-beating stocks for your investment portfolio? Look no further than the Zacks Style Scores....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c5f3e634efef2779a349e83c052afded017e014e829021cdc438fc2d71a1bf59" target="_blank" rel="noopener noreferrer">Celestica (CLS) is an Incredible Growth Stock: 3 Reasons Why</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.79
+                                </span>
+                            </div>
+                            <div class="article-summary">Celestica (CLS) is well positioned to outperform the market, as it exhibits above-average growth in financials....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

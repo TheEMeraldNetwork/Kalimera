@@ -1,0 +1,840 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>HealthEquity Inc. (HQY) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">HealthEquity Inc. (HQY)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">36</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">22</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.34</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=94595f7392fd84fb7c017f762022e3c94123761ca15583b260678057241ba301" target="_blank" rel="noopener noreferrer">HealthEquity: Swing Trading Stock With A Beat And Raise</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment negative">
+                                    -0.43
+                                </span>
+                            </div>
+                            <div class="article-summary">HealthEquity reported strong Q2 results with revenue and earnings beats, but valuation remains stretched. Learn why HQY stock is a Hold....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8b0b82d4f9c40f0c7731eb7c7b47f2702c8235929ddd2b33186506a448f2e24a" target="_blank" rel="noopener noreferrer">HealthEquity Second Quarter 2026 Earnings: Beats Expectations</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">HealthEquity ( NASDAQ:HQY ) Second Quarter 2026 Results Key Financial Results Revenue: US$325.8m (up 8.6% from 2Q......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=e52237150fa479cace6593f7ed0ec94f71af496b8316eb58e84b318579485e19" target="_blank" rel="noopener noreferrer">Here’s What Signals HealthEquity’s (HQY) Future Earnings Power</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-04</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Brown Advisory, an investment management company, released its “Brown Advisory Small-Cap Growth Strategy” second-quarter 2025 investor letter. During the first half of the year, the Brown Advisory Sma...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=29235d03f56647e0b66909e6bf90ab208afefd6ca0b7ce94885a8242c83393d1" target="_blank" rel="noopener noreferrer">Compared to Estimates, HealthEquity (HQY) Q2 Earnings: A Look at Key Metrics</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Although the revenue and EPS for HealthEquity (HQY) give a sense of how its business performed in the quarter ended July 2025, it might be worth considering how some key metrics compare with Wall Stre...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=6bb7c28c4aa83c2b1c06e115b9915ac06a94d6b68689841bcfc4f359d2e6c4c8" target="_blank" rel="noopener noreferrer">HealthEquity Inc (HQY) Q2 2026 Earnings Call Highlights: Record Growth in Revenue and Net Income</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">HealthEquity Inc (HQY) reports a 9% revenue increase and a 67% rise in net income, while expanding HSA assets and achieving significant legislative wins....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f963349cfe88b6b68c46fa492df58052f8d532334203218ae0f404893bc00cbc" target="_blank" rel="noopener noreferrer">Stocks Climb as Alphabet and Apple Rally and Bond Yields Stabilize</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.19
+                                </span>
+                            </div>
+                            <div class="article-summary">The S&P 500 Index ($SPX ) (SPY ) today is up by +0.38%, the Dow Jones Industrials Index ($DOWI ) (DIA ) is down by -0.05%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) is up by +0.46%. September E-mini S&...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=cdd38f71c145f2d2b29d216351b3faa9108e6c341de6d1c260d22ae22e102f2e" target="_blank" rel="noopener noreferrer">Stocks and Bonds Climb as Weak Jobs Bolster Fed Rate Cut Chances</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.11
+                                </span>
+                            </div>
+                            <div class="article-summary">The S&P 500 Index ($SPX ) (SPY ) today is up by +0.56%, the Dow Jones Industrials Index ($DOWI ) (DIA ) is down by -0.19%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) is up by +1.02%. September E-mini S&...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b3147d27fa0a8e950bf133dac47b734f89ac87463e0d7c071ecc99772e8ecb17" target="_blank" rel="noopener noreferrer">HealthEquity Stock Gains as Q2 Earnings Beat Estimates, Revenues Up Y/Y</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.90
+                                </span>
+                            </div>
+                            <div class="article-summary">HQY's Q2 results reflect EPS growth of 25.6% year over year, revenue growth of 8.6% and a 12% increase in HSA. The company also updates its fiscal 2026 guidance....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=19111b64bd6e4bc0a7131b91619f4d0ab320b287535548b16e9dd42fcfb7c42d" target="_blank" rel="noopener noreferrer">HealthEquity Shares Jump After Raising 2026 Outlook</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.78
+                                </span>
+                            </div>
+                            <div class="article-summary">AI momentum, HSA growth and fraud progress lift confidence...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8c7625609b8e899f23569c7d05485c1d380dd12285178fb9f6cc5dd8202734b5" target="_blank" rel="noopener noreferrer">HealthEquity, Inc. (HQY) Q2 2026 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">HealthEquity reports record Q2 2026 earnings, driven by HSA growth, AI-powered fraud...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=54f1aafb09ef8ad160f2863e320c322b2198830b19f9364b680cc5b1d27f9f13" target="_blank" rel="noopener noreferrer">HealthEquity Reports Second Quarter Ended July 31, 2025 Financial Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">Highlights of the second quarter include: Revenue of $325.8 million, an increase of 9% compared to $299.9 million in Q2 FY25.Net income of $59.9 million, an increase of 67% compared to $35.8 million i...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=19993ccc304e3129f205b56d821ad5b938cca6e42add1e1a93dabbcc4d82b6ca" target="_blank" rel="noopener noreferrer">HealthEquity: Fiscal Q2 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">DRAPER, Utah (AP) — HealthEquity Inc. HQY) on Tuesday reported fiscal second-quarter net income of $59.9 million. The Draper, Utah-based company said it had profit of 68 cents per share....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=99d1e1066191b4ce5f34b3ebd14617a99cb1fe10720194832d25ce8f1ad37feb" target="_blank" rel="noopener noreferrer">Healthequity stock climbs on better-than-expected earnings, rosy outlook</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-02</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.94
+                                </span>
+                            </div>
+                            <div class="article-summary">Investing.com -- Shares of Healthequity Inc (NASDAQ:HQY) climbed more than 3% in premarket trading Wednesday after the Draper, Utah-based firm topped Wall Street expectations for its second fiscal qua...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=f45229d6d0e80776cf9c4eb7af343339390b98d9c2d3042099979450c335168b" target="_blank" rel="noopener noreferrer">HealthEquity: Scale Platform With Asset‑Linked Revenues And Thick Incremental Margins</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-31</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.23
+                                </span>
+                            </div>
+                            <div class="article-summary">HealthEquity's recurring, asset-linked revenue model benefits from secular healthcare tailwinds. Read more to see why HQY stock is a Buy....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3ef56e8fe7541daabcb80f384f783887acd9a157b8ebe542c544194b873350c1" target="_blank" rel="noopener noreferrer">What Investors Should Expect From The August 2025 Job Report</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-30</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Nonfarm payroll data shows volatility, with healthcare and defense stocks benefiting from policy shifts. Check out why these sectors offer opportunities amid uncertainty....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8e6bfae16594ec484bd38e9a69f15e98bbff743aa6915fa90b08ceadad3d803d" target="_blank" rel="noopener noreferrer">HealthEquity's AI-Powered Tool Recognized for Innovation in Streamlining Benefits Education</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-29</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.90
+                                </span>
+                            </div>
+                            <div class="article-summary">Industry Leader’s HSAnswers Wins Multiple Awards to Transform Complex Healthcare Benefits Information to Accessible and Reliable Intel For MillionsDRAPER, Utah, Aug. 29, 2025 (GLOBE NEWSWIRE) -- Healt...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0f16b84f5cc08812c609f1fafb2ef3005543c837a906d710bb4d4ac65d6d522b" target="_blank" rel="noopener noreferrer">Baird Small/Mid Cap Growth Equity Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-28</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.32
+                                </span>
+                            </div>
+                            <div class="article-summary">The Baird Small/Mid Cap Growth strategy increased +4.5% in the second quarter, net of fees. Read more here....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=68b205dcbf18ee0f8adf146d798ff7c7583600c1cd895243e7130d95106ce7e0" target="_blank" rel="noopener noreferrer">Countdown to HealthEquity (HQY) Q2 Earnings: A Look at Estimates Beyond Revenue and EPS</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-27</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Get a deeper insight into the potential performance of HealthEquity (HQY) for the quarter ended July 2025 by going beyond Wall Street's top-and-bottom-line estimates and examining the estimates for so...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d903216dab2270c203f0335ad62b924f2143162eee766942b2dfa15613f4bcc5" target="_blank" rel="noopener noreferrer">Are You a Growth Investor? This 1 Stock Could Be the Perfect Pick</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-20</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Whether you're a value, growth, or momentum investor, finding strong stocks becomes easier with the Zacks Style Scores, a top feature of the Zacks Premium research service....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8c791679053e9402c1c59028a7053a2940fe37bd916ebe4d3a67e29bcea42868" target="_blank" rel="noopener noreferrer">Columbia Acorn Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-17</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">Columbia Threadneedleâs Q2 2025 report highlights strong defense and AI-driven picks in a volatile market. See how the Acorn Fund is positioning for growth.
+...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=36fd06e7842566b3e164f5a4047f317d4d70d4a9f05e52fba4c200df20d308b3" target="_blank" rel="noopener noreferrer">Reasons to Hold HealthEquity Stock in Your Portfolio for Now</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">HQY's HSA growth, AI-driven efficiencies, and strong Q1 results fuel optimism despite data security concerns....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=ddcd8f5b507396eae6d8885e19aaf46b6a2357def43a8edb335fc07b1fa5f9a2" target="_blank" rel="noopener noreferrer">RenovoRx, Inc. (RNXT) Reports Q2 Loss, Tops Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">RenovoRx (RNXT) delivered earnings and revenue surprises of 0.00% and +22.32%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=258729ba494d30d1a01e0a52c24f9c0154ba9e0b4741c4f65b98c239e9a94530" target="_blank" rel="noopener noreferrer">Opus Genetics, Inc. (IRD) Reports Q2 Loss, Lags Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">Opus Genetics, Inc. (IRD) delivered earnings and revenue surprises of +52.00% and -12.13%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c33b66e8e119b744847891db5bd66b82597f40a8d2a6c978ff7da9ca478d828c" target="_blank" rel="noopener noreferrer">HealthEquity Community Foundation Expands National Impact with $50,000 in Grants</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.85
+                                </span>
+                            </div>
+                            <div class="article-summary">Funding supports 20 nonprofit organizations focused on physical and mental health, financial literacy, and basic needs as the foundation grows and welcomes a new leaderDRAPER, Utah, Aug. 12, 2025 (GLO...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7195f545bbc738f2ec86552630db1f88ab45ef9687a531ca700b1f346f93f79c" target="_blank" rel="noopener noreferrer">CORRECTION - HealthEquity Community Foundation Expands National Impact with $50,000 in Grants</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.37
+                                </span>
+                            </div>
+                            <div class="article-summary">Funding supports 20 nonprofit organizations focused on physical and mental health, financial literacy, and basic needs as the foundation grows and welcomes a new leaderDRAPER, Utah, Aug. 12, 2025 (GLO...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c36979311a8b8f5a5def98f40dca11160539e4f08b97370d8d99428008a09b00" target="_blank" rel="noopener noreferrer">Wasatch Global Opportunities Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.56
+                                </span>
+                            </div>
+                            <div class="article-summary">The MSCI AC World Small Cap Index gained 12.37%. The Wasatch International Opportunities FundâInvestor Class slightly underperformed its benchmark and was up 12.15%....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2345309873c2ea37c2a9ece7d260cd89bae351437e0be0ca2be88182cee737e7" target="_blank" rel="noopener noreferrer">Wasatch Global Select Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">The Wasatch Global Select FundâInvestor Class gained 11.87%, and slightly outperformed the benchmark MSCI AC (All Country) World Index, which was up 11.53%....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=65081ac71e2dc53479fb36962a1c82334b5cc22035ea89158f706c12eefb2238" target="_blank" rel="noopener noreferrer">Do HealthEquity's (NASDAQ:HQY) Earnings Warrant Your Attention?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">For beginners, it can seem like a good idea (and an exciting prospect) to buy a company that tells a good story to......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b7aa58180ad7ce8e9729675c84d884272a6feba63bf6b55d9f8e4b152124424f" target="_blank" rel="noopener noreferrer">Wasatch Small Cap Growth Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">For the quarter, the Russell 2000Â® Growth Index was up 11.97%, while the Wasatch Small Cap Growth FundâInvestor Class gained 11.83%....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0049774e59c98a96cdd3bd9ec3c3e86ef290580e423b20b32fd85d77e5383a2a" target="_blank" rel="noopener noreferrer">Wasatch Small Cap Value Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.58
+                                </span>
+                            </div>
+                            <div class="article-summary">The Wasatch Small Cap Value Fundâ Investor Class gained 5.72% in the second quarter, outperforming the Russell 2000Â® Value Index, which gained 4.97%....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=3e1f473d4969b03820f4bc910d13ff3065c87a996ec8af1a61373757c9dc7eaf" target="_blank" rel="noopener noreferrer">Wasatch Ultra Growth Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.55
+                                </span>
+                            </div>
+                            <div class="article-summary">The benchmark Russell 2000Â® Growth Index gained 11.97% for the period, while the Wasatch Ultra Growth Fund lagged with a return of 5.71%....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=aa65b09d0c27dfe86110f3582b58a87e6c6834527afc292c1cd47a36adc5db6b" target="_blank" rel="noopener noreferrer">Wasatch U.S. Select Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-08</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">For the quarter, the Russell MidcapÂ® Growth Index was up 18.20%, while the Wasatch U.S. Select FundâInvestor Class gained 8.22%....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=0ddf845ea0bf42bae2db7e0398c27e906aa29cc3a72b18c154f2b07ef1d31618" target="_blank" rel="noopener noreferrer">Wasatch Core Growth Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">For the quarter, the Russell 2000Â® Growth Index was up 11.97%,while the Wasatch Core Growth Fund-Investor Class gained 5.57%....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=fbff9ddb0b90fe54815c2c1fdb7f1427688550f09633c79ef8d766387660e8ba" target="_blank" rel="noopener noreferrer">Wasatch Long/Short Alpha Fund Q2 2025 Commentary</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">For the quarter, the Russell 2500â¢ Index was up 8.59%, while the Wasatch Long/Short Alpha FundâInvestor Class gained 0.45%....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1d8937487eff8b5a68441f48610a9dec312dff47f7f8e6160d7c957b6f9045f1" target="_blank" rel="noopener noreferrer">Biodesix, Inc. (BDSX) Reports Q2 Loss, Tops Revenue Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.39
+                                </span>
+                            </div>
+                            <div class="article-summary">Biodesix (BDSX) delivered earnings and revenue surprises of -14.29% and +7.34%, respectively, for the quarter ended June 2025. Do the numbers hold clues to what lies ahead for the stock?...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=7d86a5f952b8aef60d83bf8e084ec8106b6fbbc61886a38aee4bbe584e1b4aa3" target="_blank" rel="noopener noreferrer">Baron Health Care Fund Q2: Top Contributors, Misses, And Strategic Shifts</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Baron Capital highlights biotech and robotic surgery as key growth drivers in Q2. See which stocks surged, which stumbled, and what it means for investors....</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

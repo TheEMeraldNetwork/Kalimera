@@ -1,0 +1,407 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Motorcar Parts of America Inc. (MPAA) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Motorcar Parts of America Inc. (MPAA)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">9</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.32</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=a672282cd4c23134b4d53478b13abbb1adc9c2f5db4870f1f211c7cef8947f71" target="_blank" rel="noopener noreferrer">Motorcar Parts of America, Inc. Just Reported A Surprise Profit, And Analysts Lifted Their Estimates</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.32
+                                </span>
+                            </div>
+                            <div class="article-summary">NasdaqGS:MPAA 1 Year Share Price vs Fair Value Explore Motorcar Parts of America's Fair Values from the Community and......</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=43306a6391f39e37525a17e70bcc57abe0a00971cd1409fe8375ab8ec1eec63b" target="_blank" rel="noopener noreferrer">US Undiscovered Gems 3 Promising Small Caps with Strong Potential</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-13</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.92
+                                </span>
+                            </div>
+                            <div class="article-summary">As the S&P 500 and Nasdaq reach record highs, driven by optimistic expectations of Federal Reserve rate cuts following a steady inflation report, investors are increasingly looking towards small-cap s...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=db23bbc2265de2d6fdec3168da1c231bd77d75804fe6f112c0ea95982b4ae790" target="_blank" rel="noopener noreferrer">Motorcar Parts: Fiscal Q1 Earnings Snapshot</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.02
+                                </span>
+                            </div>
+                            <div class="article-summary">MPAA) on Monday reported net income of $3 million in its fiscal first quarter. On a per-share basis, the Torrance, California-based company said it had net income of 15 cents. Earnings, adjusted for o...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=337c4c566d8089881c18956bf7aa4494b5dde3f7ba80da79375ee1bb291b49eb" target="_blank" rel="noopener noreferrer">Motorcar Parts of America Inc (MPAA) Q1 2026 Earnings Call Highlights: Record Sales and ...</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.95
+                                </span>
+                            </div>
+                            <div class="article-summary">Motorcar Parts of America Inc (MPAA) reports a robust first quarter with record net sales and strategic expansions, despite ongoing tariff challenges....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c12a23cb86e57874e88e55738d601ca434e742066cf138fd8ecb4adfa221c542" target="_blank" rel="noopener noreferrer">Best Value Stocks to Buy for August 11th</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">MPAA, OPFI and CZFS made it to the Zacks Rank #1 (Strong Buy) value stocks list on August 11, 2025....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=aaa49787500dce2317e611208aa10ef57e87ee5a58cfe921732363d1ba9c12eb" target="_blank" rel="noopener noreferrer">Motorcar Parts of America Reports Fiscal First Quarter Results</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.33
+                                </span>
+                            </div>
+                            <div class="article-summary">LOS ANGELES, August 11, 2025--Motorcar Parts of America, Inc. (Nasdaq: MPAA) today reported results for its fiscal 2026 first quarter -- reflecting record sales and gross profit for a fiscal first qua...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=abe1e49ec1f6d643ed75c609ece133889138934eefadf493ded7e8fb7554927d" target="_blank" rel="noopener noreferrer">Wall Street Lunch: AMC Entertainment Rallies As Audiences Return In Q2</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment positive">
+                                    0.36
+                                </span>
+                            </div>
+                            <div class="article-summary">Shares of former meme darling AMC Entertainment (AMC) are rallying after the theater chain reported a significant beat for revenue in its second-quarter earnings report....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=c8f374a27e8bb2678cbe377075e144cdacea116559905c1d5d3f3613708ecac3" target="_blank" rel="noopener noreferrer">Should Value Investors Buy Motorcar Parts of America (MPAA) Stock?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Here at Zacks, our focus is on the proven Zacks Rank system, which emphasizes earnings estimates and estimate revisions to find great stocks. Nevertheless, we are always paying attention to the latest...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d4beb4c99d7cf5f0301066dfde7e0a51a392eeaf94df4d80d636d46ccc3833b7" target="_blank" rel="noopener noreferrer">Motorcar Parts of America, Inc. (MPAA) Q1 2026 Earnings Call Transcript</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-11</span>
+                                <span>SeekingAlpha</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Motorcar Parts of America, Inc. (NASDAQ:MPAA) Q1 2026 Earnings Conference Call August 11, 2025 1:00 PM ETCompany ParticipantsDavid Lee - Chief Financial......</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        

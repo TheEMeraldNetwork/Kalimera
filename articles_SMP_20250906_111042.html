@@ -1,0 +1,455 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Standard Motor Products Inc. (SMP) - Articles</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                :root {
+                    --primary-color: #000000;
+                    --secondary-color: #666666;
+                    --accent-color: #d5001c;
+                    --text-color: #2c3e50;
+                    --border-color: #e0e0e0;
+                    --hover-color: #f8f9fa;
+                }
+                
+                body { 
+                    font-family: "Porsche Next", "Segoe UI", Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    color: var(--text-color);
+                    background-color: #f5f6fa;
+                    line-height: 1.6;
+                }
+                
+                .header {
+                    background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+                    padding: 25px 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .header::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+                    pointer-events: none;
+                }
+                
+                .header-content {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 0 30px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                
+                .header-title {
+                    font-size: 28px;
+                    font-weight: 300;
+                    color: #fff;
+                    margin: 0;
+                    letter-spacing: 1px;
+                }
+                
+                .back-btn {
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    padding: 10px 20px;
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
+                }
+                
+                .back-btn:hover {
+                    background: rgba(255,255,255,0.2);
+                    transform: translateY(-2px);
+                }
+                
+                .container {
+                    max-width: 1400px;
+                    margin: 40px auto;
+                    padding: 0 30px;
+                }
+                
+                .stats-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                
+                .stat-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    padding: 25px;
+                    text-align: center;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: transform 0.3s ease;
+                }
+                
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .stat-value {
+                    font-size: 32px;
+                    font-weight: 300;
+                    color: var(--primary-color);
+                    margin-bottom: 10px;
+                }
+                
+                .stat-label {
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                
+                .articles-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                    gap: 30px;
+                    margin-top: 40px;
+                }
+                
+                .article-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                }
+                
+                .article-card:hover {
+                    transform: translateY(-5px);
+                }
+                
+                .article-content {
+                    padding: 25px;
+                }
+                
+                .article-title {
+                    font-size: 18px;
+                    font-weight: 400;
+                    margin: 0 0 15px;
+                    line-height: 1.4;
+                }
+                
+                .article-title a {
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                
+                .article-title a:hover {
+                    color: var(--accent-color);
+                }
+                
+                .article-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    margin-bottom: 15px;
+                    font-size: 14px;
+                    color: var(--secondary-color);
+                }
+                
+                .article-sentiment {
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+                
+                .article-sentiment.positive {
+                    background: rgba(40,167,69,0.1);
+                    color: #28a745;
+                }
+                
+                .article-sentiment.negative {
+                    background: rgba(220,53,69,0.1);
+                    color: #dc3545;
+                }
+                
+                .article-sentiment.neutral {
+                    background: rgba(108,117,125,0.1);
+                    color: #6c757d;
+                }
+                
+                .article-summary {
+                    font-size: 14px;
+                    color: var(--text-color);
+                    line-height: 1.6;
+                    margin-top: 15px;
+                    opacity: 0.8;
+                }
+                
+                @media (max-width: 768px) {
+                    .header-content {
+                        padding: 0 20px;
+                    }
+                    
+                    .header-title {
+                        font-size: 20px;
+                    }
+                    
+                    .container {
+                        padding: 0 20px;
+                        margin: 20px auto;
+                    }
+                    
+                    .articles-grid {
+                        grid-template-columns: 1fr;
+                        gap: 20px;
+                    }
+                    
+                    .stat-card {
+                        padding: 20px;
+                    }
+                    
+                    .stat-value {
+                        font-size: 28px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="header-content">
+                    <h1 class="header-title">Standard Motor Products Inc. (SMP)</h1>
+                    <a href="sentiment_report_latest.html" class="back-btn">← Back to Dashboard</a>
+                </div>
+            </div>
+            
+            <div class="container">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Total Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">2</div>
+                        <div class="stat-label">Positive Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Negative Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0.00</div>
+                        <div class="stat-label">Average Sentiment</div>
+                    </div>
+                </div>
+                
+                <div class="articles-grid">
+        
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=2bbda2196c24ddbe977db1d70fbb6b251a7b8b3657507b51a87ff4e9096f1c1d" target="_blank" rel="noopener noreferrer">Zacks Industry Outlook Highlights Dorman Products, Standard Motor Products and Douglas Dynamics</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-03</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.57
+                                </span>
+                            </div>
+                            <div class="article-summary">Despite industry headwinds, Dorman, Standard Motor, and Douglas Dynamics are set to gain from rising demand for auto replacement parts....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card positive">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=4166aba2335add24f9e4a1f0b256e0cf907ff7f00b0580698fc62028bdf81c86" target="_blank" rel="noopener noreferrer">3 Auto Replacement Parts Stocks to Gain From Surging Demand</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-09-01</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment positive">
+                                    0.93
+                                </span>
+                            </div>
+                            <div class="article-summary">DORM, SMP and PLOW are set to benefit as aging U.S. vehicles drive soaring replacement parts demand....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=96d9ca2cb835bb051079f47bfa150171475efc656999865743a16bfe0ce3c6ec" target="_blank" rel="noopener noreferrer">Are Investors Undervaluing Standard Motor Products (SMP) Right Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-25</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Here at Zacks, our focus is on the proven Zacks Rank system, which emphasizes earnings estimates and estimate revisions to find great stocks. Nevertheless, we are always paying attention to the latest...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=15df3e518c4edc3d6d46a14ff47bc6084a7a05814ce77754c6b9841a95bb16eb" target="_blank" rel="noopener noreferrer">Is Standard Motor Products (SMP) Outperforming Other Auto-Tires-Trucks Stocks This Year?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-22</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.59
+                                </span>
+                            </div>
+                            <div class="article-summary">Here is how Standard Motor Products (SMP) and Visteon (VC) have performed compared to their sector so far this year....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=abc94116f780c3c51bdf9c018b124203fd48b0b0f3f5b6d6c92e95bf080f929b" target="_blank" rel="noopener noreferrer">Are You a Momentum Investor? This 1 Stock Could Be the Perfect Pick</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Whether you're a value, growth, or momentum investor, finding strong stocks becomes easier with the Zacks Style Scores, a top feature of the Zacks Premium research service....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=17643a66bd185f4d24bb012948cc0a6f6f437ad62bbe598d90443beda8026b8b" target="_blank" rel="noopener noreferrer">What Makes Standard Motor Products (SMP) a Strong Momentum Stock: Buy Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-18</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Does Standard Motor Products (SMP) have what it takes to be a top stock pick for momentum investors? Let's find out....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=b96776d1a17c0488495e6280539dc10ea5accb4df54642b1c936984acb91acf7" target="_blank" rel="noopener noreferrer">Douglas Dynamics, Inc. (PLOW) Hit a 52 Week High, Can the Run Continue?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-14</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Douglas Dynamics (PLOW) is at a 52-week high, but can investors hope for more gains in the future? We take a look at the company's fundamentals for clues....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=5c92fb44591537eb0ed8a135f4eff4711b2e7672d01a49b857f090700d14aa09" target="_blank" rel="noopener noreferrer">Standard Motor Products (SMP) is a Top-Ranked Growth Stock: Should You Buy?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">The Zacks Style Scores offers investors a way to easily find top-rated stocks based on their investing style. Here's why you should take advantage....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=1987de1e98bb40febd5c92e4f4f6f6ae3750a619a5435394efbde65555c76b51" target="_blank" rel="noopener noreferrer">Strattec to Report Q4 Earnings: What's in Store for the Stock?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-12</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.59
+                                </span>
+                            </div>
+                            <div class="article-summary">STRT's Q4 results arrive on Aug. 14, with forecasts showing modest revenue growth but a sharp earnings drop from last year....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=aeed8e72d4e71d0b4a3eb6294802e1db9818eda871cc4336a616545f346dcc5d" target="_blank" rel="noopener noreferrer">What Makes Standard Motor Products (SMP) a Good Fit for 'Trend Investing'</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">If you are looking for stocks that are well positioned to maintain their recent uptrend, Standard Motor Products (SMP) could be a great choice. It is one of the several stocks that passed through our ...</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card neutral">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=d2532c1f543e9332a0b01326355a887a21b65fc73548b1fb60349dd851932c45" target="_blank" rel="noopener noreferrer">Standard Motor Products, Inc. (SMP) Hit a 52 Week High, Can the Run Continue?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment neutral">
+                                    0.00
+                                </span>
+                            </div>
+                            <div class="article-summary">Standard Motor Products (SMP) is at a 52-week high, but can investors hope for more gains in the future? We take a look at the company's fundamentals for clues....</div>
+                        </div>
+                    </div>
+            
+                    <div class="article-card negative">
+                        <div class="article-content">
+                            <h3 class="article-title">
+                                <a href="https://finnhub.io/api/news?id=8b447a5968afca394e054d9a78e031a3c252ace4875953fef88919f87fdf8c18" target="_blank" rel="noopener noreferrer">Is Standard Motor Products (SMP) Stock Undervalued Right Now?</a>
+                            </h3>
+                            <div class="article-meta">
+                                <span>2025-08-07</span>
+                                <span>Yahoo</span>
+                                <span class="article-sentiment negative">
+                                    -0.29
+                                </span>
+                            </div>
+                            <div class="article-summary">Here at Zacks, our focus is on the proven Zacks Rank system, which emphasizes earnings estimates and estimate revisions to find great stocks. Nevertheless, we are always paying attention to the latest...</div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </body>
+        </html>
+        
